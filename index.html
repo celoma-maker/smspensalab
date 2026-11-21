@@ -1995,41 +1995,83 @@
       riskTimerInterval: null
     };
 
+    const APP_STORAGE_KEY = `pensalab_fatores_humanos_v1`;
+
     async function persistState() {
       const syncEl = document.getElementById(`strip-sync-status`);
       if (syncEl) syncEl.textContent = `Salvando...`;
+
+      let localSaved = false;
+      let apiSaved = false;
+
+      /* GitHub Pages: persistência própria do navegador (fallback principal). */
+      try {
+        window.localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(appState));
+        localSaved = true;
+      } catch (err) {
+        console.error(`Não foi possível salvar no armazenamento local:`, err);
+      }
+
+      /* Em ambientes que oferecem notebookAppApi, mantém também a sincronização nativa. */
       try {
         if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
           await window.notebookAppApi.setAppState(appState);
-        }
-        if (syncEl) {
-          syncEl.textContent = `Salvo localmente`;
-          syncEl.className = `mono-tag mono-tag--green`;
+          apiSaved = true;
         }
       } catch (err) {
-        if (syncEl) {
-          syncEl.textContent = `Aviso ao salvar`;
-          syncEl.className = `mono-tag mono-tag--orange`;
+        console.error(`Falha ao sincronizar com notebookAppApi:`, err);
+      }
+
+      if (syncEl) {
+        if (localSaved || apiSaved) {
+          syncEl.textContent = localSaved ? `Salvo neste navegador` : `Sincronizado`;
+          syncEl.className = `mono-tag mono-tag--green`;
+        } else {
+          syncEl.textContent = `Falha ao salvar`;
+          syncEl.className = `mono-tag mono-tag--red`;
         }
       }
+      return localSaved || apiSaved;
     }
 
     async function loadState() {
+      let savedState = null;
+
+      /* Primeiro tenta recuperar o último estado salvo no próprio navegador. */
+      try {
+        const raw = window.localStorage.getItem(APP_STORAGE_KEY);
+        if (raw) savedState = JSON.parse(raw);
+      } catch (err) {
+        console.error(`Não foi possível recuperar o armazenamento local:`, err);
+      }
+
+      /* Se estiver em um ambiente com API nativa, utiliza também os dados dela. */
       try {
         if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
-          const saved = await window.notebookAppApi.getAppState();
-          if (saved && typeof saved === `object`) {
-            appState = {
-              ...appState,
-              ...saved,
-              participant: { ...getDefaultParticipant(), ...(saved.participant || {}) },
-              adminConfig: { ...appState.adminConfig, ...(saved.adminConfig || {}) },
-              history: Array.isArray(saved.history) ? saved.history : []
-            };
+          const apiState = await window.notebookAppApi.getAppState();
+          if (apiState && typeof apiState === `object`) {
+            savedState = { ...(savedState || {}), ...apiState };
           }
         }
       } catch (err) {
-        /* Fallback cleanly to default state */
+        console.error(`Falha ao carregar estado da API nativa:`, err);
+      }
+
+      if (savedState && typeof savedState === `object`) {
+        appState = {
+          ...appState,
+          ...savedState,
+          participant: { ...getDefaultParticipant(), ...(savedState.participant || {}) },
+          adminConfig: { ...appState.adminConfig, ...(savedState.adminConfig || {}) },
+          completedModules: Array.isArray(savedState.completedModules) ? savedState.completedModules : [],
+          exerciseAnswers: savedState.exerciseAnswers || {},
+          foundHazards: Array.isArray(savedState.foundHazards) ? savedState.foundHazards : [],
+          aptitudeChecklist: Array.isArray(savedState.aptitudeChecklist) ? savedState.aptitudeChecklist : [],
+          caseDecisions: savedState.caseDecisions || {},
+          finalExamAnswers: savedState.finalExamAnswers || {},
+          commitmentsChecked: Array.isArray(savedState.commitmentsChecked) ? savedState.commitmentsChecked : [],
+          history: Array.isArray(savedState.history) ? savedState.history : []
+        };
       }
     }
 
