@@ -1193,12 +1193,30 @@
           <label class="field-label" for="admin-email-input">E-mail do administrador</label>
           <input type="email" id="admin-email-input" class="field-input" placeholder="seu.email@pensalab.com.br" autocomplete="username" required>
         </div>
-        <div class="form-field" style="margin-top:var(--space-md);">
-          <label class="field-label" for="admin-password-input">Senha</label>
-          <input type="password" id="admin-password-input" class="field-input" placeholder="Senha do Supabase" autocomplete="current-password" required>
+        <div id="admin-login-fields">
+          <div class="form-field" style="margin-top:var(--space-md);">
+            <label class="field-label" for="admin-password-input">Senha</label>
+            <input type="password" id="admin-password-input" class="field-input" placeholder="Senha do Supabase" autocomplete="current-password" required>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); margin-top:var(--space-md);">
+            <button type="button" class="btn btn--navy" onclick="unlockAdminPanel()">Entrar no Painel SMS</button>
+            <button type="button" class="btn btn--secondary" onclick="sendAdminPasswordRecovery()">Esqueci minha senha</button>
+          </div>
         </div>
-        <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); margin-top:var(--space-md);">
-          <button type="button" class="btn btn--navy" onclick="unlockAdminPanel()">Entrar no Painel SMS</button>
+        <div id="admin-recovery-panel" style="display:none; margin-top:var(--space-md);">
+          <p style="font-weight:600; margin-bottom:var(--space-sm);">Cadastrar nova senha</p>
+          <div class="form-field">
+            <label class="field-label" for="admin-new-password">Nova senha</label>
+            <input type="password" id="admin-new-password" class="field-input" autocomplete="new-password" minlength="8" placeholder="Mínimo de 8 caracteres">
+          </div>
+          <div class="form-field" style="margin-top:var(--space-sm);">
+            <label class="field-label" for="admin-confirm-password">Confirmar nova senha</label>
+            <input type="password" id="admin-confirm-password" class="field-input" autocomplete="new-password" minlength="8" placeholder="Digite novamente a nova senha">
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); margin-top:var(--space-md);">
+            <button type="button" class="btn btn--navy" onclick="completeAdminPasswordRecovery()">Salvar nova senha</button>
+          </div>
+          <div class="inline-msg" id="admin-recovery-msg"></div>
         </div>
         <div class="inline-msg" id="admin-lock-msg"></div>
       </div>
@@ -1310,6 +1328,29 @@
     const supabaseClient = window.supabase?.createClient
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
       : null;
+    let passwordRecoveryActive = window.location.hash.includes(`type=recovery`) ||
+      new URLSearchParams(window.location.search).get(`type`) === `recovery`;
+
+    if (supabaseClient) {
+      supabaseClient.auth.onAuthStateChange((event) => {
+        if (event === `PASSWORD_RECOVERY`) {
+          passwordRecoveryActive = true;
+          const loginFields = document.getElementById(`admin-login-fields`);
+          const recoveryPanel = document.getElementById(`admin-recovery-panel`);
+          const lockScreen = document.getElementById(`admin-lock-screen`);
+          const dashboard = document.getElementById(`admin-dashboard`);
+          if (lockScreen) lockScreen.style.display = `block`;
+          if (dashboard) dashboard.style.display = `none`;
+          if (loginFields) loginFields.style.display = `none`;
+          if (recoveryPanel) recoveryPanel.style.display = `block`;
+          const msg = document.getElementById(`admin-recovery-msg`);
+          if (msg) {
+            msg.className = `inline-msg inline-msg--ok is-shown`;
+            msg.textContent = `Link validado. Cadastre sua nova senha abaixo.`;
+          }
+        }
+      });
+    }
 
     /* ============================================================
        DATA: 10 MODULES + INTERACTIVE EXERCISES + 10-QUESTION FINAL EXAM
@@ -3661,6 +3702,95 @@
       renderAdminDashboard();
     }
 
+    async function sendAdminPasswordRecovery() {
+      const email = document.getElementById(`admin-email-input`)?.value.trim() || ``;
+      const msg = document.getElementById(`admin-lock-msg`);
+      if (!supabaseClient) {
+        if (msg) {
+          msg.className = `inline-msg inline-msg--err is-shown`;
+          msg.textContent = `Não foi possível conectar ao Supabase. Atualize a página e tente novamente.`;
+        }
+        return;
+      }
+      if (!email) {
+        if (msg) {
+          msg.className = `inline-msg inline-msg--warn is-shown`;
+          msg.textContent = `Informe o e-mail do administrador antes de solicitar a recuperação.`;
+        }
+        return;
+      }
+      if (msg) {
+        msg.className = `inline-msg is-shown`;
+        msg.textContent = `Solicitando e-mail de recuperação...`;
+      }
+      const redirectTo = `${window.location.origin}${window.location.pathname}`;
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo });
+      if (error) {
+        console.error(`Falha ao solicitar recuperação de senha:`, error);
+        if (msg) {
+          msg.className = `inline-msg inline-msg--err is-shown`;
+          msg.textContent = error.message.includes(`rate limit`)
+            ? `O limite de e-mails foi atingido. Aguarde antes de solicitar outro link.`
+            : `Não foi possível enviar o e-mail de recuperação. Confira a configuração do Supabase e tente novamente.`;
+        }
+        return;
+      }
+      if (msg) {
+        msg.className = `inline-msg inline-msg--ok is-shown`;
+        msg.textContent = `Se o e-mail estiver cadastrado, você receberá um link para criar uma nova senha. Confira também o spam.`;
+      }
+    }
+
+    async function completeAdminPasswordRecovery() {
+      const password = document.getElementById(`admin-new-password`)?.value || ``;
+      const confirmation = document.getElementById(`admin-confirm-password`)?.value || ``;
+      const msg = document.getElementById(`admin-recovery-msg`);
+      if (!supabaseClient) return;
+      if (password.length < 8) {
+        if (msg) {
+          msg.className = `inline-msg inline-msg--warn is-shown`;
+          msg.textContent = `A nova senha deve ter pelo menos 8 caracteres.`;
+        }
+        return;
+      }
+      if (password !== confirmation) {
+        if (msg) {
+          msg.className = `inline-msg inline-msg--warn is-shown`;
+          msg.textContent = `As senhas não conferem. Digite novamente.`;
+        }
+        return;
+      }
+      if (msg) {
+        msg.className = `inline-msg is-shown`;
+        msg.textContent = `Salvando nova senha...`;
+      }
+      const { error } = await supabaseClient.auth.updateUser({ password });
+      if (error) {
+        console.error(`Falha ao atualizar senha:`, error);
+        if (msg) {
+          msg.className = `inline-msg inline-msg--err is-shown`;
+          msg.textContent = `Não foi possível atualizar a senha. O link pode ter expirado; solicite uma nova recuperação quando o limite permitir.`;
+        }
+        return;
+      }
+      await supabaseClient.auth.signOut();
+      passwordRecoveryActive = false;
+      const recoveryPanel = document.getElementById(`admin-recovery-panel`);
+      const loginFields = document.getElementById(`admin-login-fields`);
+      const passwordInput = document.getElementById(`admin-password-input`);
+      const newPassword = document.getElementById(`admin-new-password`);
+      const confirmPassword = document.getElementById(`admin-confirm-password`);
+      if (recoveryPanel) recoveryPanel.style.display = `none`;
+      if (loginFields) loginFields.style.display = `block`;
+      if (passwordInput) passwordInput.value = ``;
+      if (newPassword) newPassword.value = ``;
+      if (confirmPassword) confirmPassword.value = ``;
+      if (msg) {
+        msg.className = `inline-msg inline-msg--ok is-shown`;
+        msg.textContent = `Senha atualizada com sucesso. Entre no Painel SMS usando a nova senha.`;
+      }
+    }
+
     async function unlockAdminPanel() {
       const email = document.getElementById(`admin-email-input`)?.value.trim() || ``;
       const password = document.getElementById(`admin-password-input`)?.value || ``;
@@ -3892,9 +4022,17 @@
 
     async function initApp() {
       await loadState();
+      if (passwordRecoveryActive) {
+        const lockScreen = document.getElementById(`admin-lock-screen`);
+        const loginFields = document.getElementById(`admin-login-fields`);
+        const recoveryPanel = document.getElementById(`admin-recovery-panel`);
+        if (lockScreen) lockScreen.style.display = `block`;
+        if (loginFields) loginFields.style.display = `none`;
+        if (recoveryPanel) recoveryPanel.style.display = `block`;
+      }
       if (supabaseClient && !SUPABASE_PUBLISHABLE_KEY.startsWith(`COLE_`)) {
         const { data } = await supabaseClient.auth.getSession();
-        if (data?.session) {
+        if (data?.session && !passwordRecoveryActive) {
           uiTransient.adminUnlocked = true;
           const lockEl = document.getElementById(`admin-lock-screen`);
           const dashEl = document.getElementById(`admin-dashboard`);
