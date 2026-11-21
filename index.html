@@ -995,6 +995,168 @@
       #podcast-mini { right: 12px; left: 12px; bottom: 12px; max-width: none; }
     }
     @media print { .podcast-card, #podcast-mini, #podcast-audio { display: none !important; } }
+
+    /* ========== VÍDEO EM DESTAQUE (POP-UP) ========== */
+    body.modal-open { overflow: hidden; }
+    .video-modal {
+      position: fixed; inset: 0; z-index: 200;
+      display: grid; place-items: center;
+      padding: clamp(.75rem, 2vw, 2rem);
+      visibility: hidden; opacity: 0;
+      transition: opacity var(--dur-short) var(--ease-out), visibility 0s linear var(--dur-short);
+    }
+    .video-modal.is-open { visibility: visible; opacity: 1; transition: opacity var(--dur-short) var(--ease-out); }
+    .video-modal-backdrop {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(700px 500px at 20% 30%, rgb(0 180 216 / .25), transparent 60%),
+        radial-gradient(600px 400px at 90% 90%, rgb(255 122 26 / .2), transparent 60%),
+        rgb(4 12 26 / .82);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .video-modal-dialog {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto minmax(0, 380px);
+      gap: clamp(1.25rem, 2.5vw, 2.25rem);
+      align-items: center;
+      max-height: calc(100vh - 2rem);
+      padding: clamp(1rem, 2vw, 1.75rem);
+      background: linear-gradient(150deg, #0b2545 0%, #0d3768 60%, #134e8c 100%);
+      color: #fff;
+      border: 1px solid rgb(255 255 255 / .14);
+      border-radius: var(--rounded-xl);
+      box-shadow: 0 40px 90px -30px rgb(0 0 0 / .8);
+      transform: translateY(24px) scale(.96);
+      transition: transform var(--dur-long) var(--ease-out);
+    }
+    .video-modal.is-open .video-modal-dialog { transform: none; }
+    .video-modal-close {
+      position: absolute; top: -14px; right: -14px; z-index: 3;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 2px solid rgb(255 255 255 / .9);
+      background: var(--grad-warning); color: #fff;
+      font-size: 1.1rem; font-weight: 800; cursor: pointer;
+      box-shadow: var(--glow-warning);
+      transition: transform var(--dur-micro) var(--ease-out);
+    }
+    .video-modal-close:hover { transform: rotate(90deg) scale(1.05); }
+    .video-modal-media {
+      position: relative;
+      height: min(74vh, 640px);
+      aspect-ratio: 9 / 16;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 0 0 4px rgb(255 255 255 / .08), 0 30px 60px -20px rgb(0 0 0 / .7);
+    }
+    .video-modal-media video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
+    .video-ended-overlay, .video-missing {
+      position: absolute; inset: 0;
+      display: none; flex-direction: column; align-items: center; justify-content: center; gap: .75rem;
+      padding: 1.25rem; text-align: center;
+      background: rgb(6 18 36 / .86); backdrop-filter: blur(4px);
+    }
+    .video-modal.is-ended .video-ended-overlay { display: flex; }
+    .video-modal.is-missing .video-missing { display: flex; }
+    .video-ended-overlay strong { font-family: var(--font-headline); font-size: 1.3rem; }
+    .video-ended-badge { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--grad-positive); font-size: 1.6rem; box-shadow: var(--glow-positive); }
+    .video-missing { font-weight: 600; font-size: .9rem; color: #ffd29e; }
+    .video-missing code { color: #fff; }
+    .video-modal-info .label-mono { color: #ffb37a; }
+    .video-modal-info .section-title { color: #fff; font-size: clamp(1.5rem, 1.2rem + 1.3vw, 2.3rem); font-weight: 900; letter-spacing: -.025em; line-height: 1.05; margin: .4rem 0 .8rem; }
+    .video-modal-info p { color: rgb(255 255 255 / .8); margin: 0 0 1rem; }
+    .video-points { list-style: none; padding: 0; margin: 0 0 1.4rem; display: flex; flex-wrap: wrap; gap: 8px; }
+    .video-points li { padding: .35rem .75rem; border-radius: 99px; font-size: .8rem; font-weight: 600; background: rgb(255 255 255 / .08); border: 1px solid rgb(255 255 255 / .16); }
+    .video-modal-actions { display: flex; flex-direction: column; gap: 10px; }
+    .video-modal-actions .btn--ghost { color: #fff; border-color: rgb(255 255 255 / .3); }
+    .video-modal-actions .btn--ghost:hover { background: rgb(255 255 255 / .1); color: #fff; }
+
+    /* Botão flutuante estilo "story" */
+    #video-teaser {
+      position: fixed; left: 20px; bottom: 20px; z-index: 55;
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 16px 6px 6px;
+      border: 0; border-radius: 999px;
+      background: #fff; color: var(--navy);
+      box-shadow: 0 18px 36px -14px rgb(11 37 69 / .55);
+      cursor: pointer;
+      animation: teaserIn .7s var(--ease-out) 1s both;
+      transition: transform var(--dur-micro) var(--ease-out);
+    }
+    #video-teaser:hover { transform: translateY(-3px); }
+    .video-teaser-ring {
+      position: relative; width: 52px; height: 52px; flex-shrink: 0;
+      border-radius: 50%; padding: 3px;
+      background: conic-gradient(from 0deg, #ff7a1a, #ffb703, #00b4d8, #1565d8, #ff7a1a);
+      animation: spin 6s linear infinite;
+    }
+    #video-teaser.is-seen .video-teaser-ring { background: var(--outline-variant); animation: none; }
+    .video-teaser-ring span {
+      display: block; width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
+      border: 2px solid #fff; background: var(--grad-navy);
+      animation: spin 6s linear infinite reverse;
+    }
+    #video-teaser.is-seen .video-teaser-ring span { animation: none; }
+    .video-teaser-ring img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
+    .video-teaser-ring::after {
+      content: ""; position: absolute; right: -2px; bottom: -2px; width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid #fff;
+      background: var(--grad-warning) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6v12l10-6z' fill='white'/%3E%3C/svg%3E") center / 12px no-repeat;
+    }
+    .video-teaser-text { text-align: left; line-height: 1.2; }
+    .video-teaser-text small { display: block; font-family: var(--font-label); font-size: .64rem; font-weight: 700; letter-spacing: .08em; color: var(--warning); text-transform: uppercase; }
+    .video-teaser-text strong { font-size: .85rem; }
+
+    /* Card do vídeo no Módulo 4 */
+    .video-feature-card {
+      width: 100%; text-align: left; cursor: pointer;
+      display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 1.4rem; align-items: center;
+      padding: clamp(1rem, .9rem + .8vw, 1.4rem);
+      border: 0; border-radius: var(--rounded-lg);
+      background: linear-gradient(120deg, #0b2545 0%, #134e8c 70%, #1565d8 100%);
+      color: #fff;
+      box-shadow: var(--shadow-2);
+      font: inherit;
+      transition: transform var(--dur-short) var(--ease-out);
+    }
+    .video-feature-card:hover { transform: translateY(-3px); }
+    .video-feature-thumb {
+      position: relative; display: block; aspect-ratio: 9 / 16; max-height: 240px;
+      border-radius: 16px; overflow: hidden;
+      background: var(--grad-ocean);
+      box-shadow: 0 0 0 3px rgb(255 255 255 / .15);
+    }
+    .video-feature-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-feature-play {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: 58px; height: 58px; border-radius: 50%;
+      display: grid; place-items: center; padding-left: 3px;
+      background: var(--grad-warning); color: #fff; box-shadow: 0 0 0 8px rgb(255 122 26 / .25);
+      animation: pulse 2s infinite;
+    }
+    .video-feature-time { position: absolute; right: 8px; bottom: 8px; padding: 2px 7px; border-radius: 6px; font-family: var(--font-label); font-size: .7rem; font-weight: 700; background: rgb(0 0 0 / .6); }
+    .video-feature-text { display: flex; flex-direction: column; gap: .45rem; }
+    .video-feature-text .label-mono { color: #ffb37a; margin: 0; }
+    .video-feature-text strong { font-family: var(--font-headline); font-size: clamp(1.2rem, 1rem + .8vw, 1.6rem); font-weight: 900; letter-spacing: -.02em; line-height: 1.1; }
+    .video-feature-text > span:not(.label-mono):not(.video-feature-cta) { color: rgb(255 255 255 / .8); font-size: .93rem; }
+    .video-feature-cta { align-self: flex-start; margin-top: .3rem; padding: .5rem 1rem; border-radius: 10px; font-weight: 700; font-size: .88rem; background: var(--grad-warning); box-shadow: var(--glow-warning); }
+
+    body[data-view="training"] #video-teaser, body[data-view="admin"] #video-teaser { display: none; }
+    @keyframes teaserIn { from { opacity: 0; transform: translateY(30px) scale(.9); } to { opacity: 1; transform: none; } }
+
+    @media (max-width: 760px) {
+      .video-modal { padding: .5rem; align-items: start; overflow-y: auto; }
+      .video-modal-dialog { grid-template-columns: 1fr; max-height: none; margin: 1.25rem 0; padding: 1rem; gap: 1rem; }
+      .video-modal-close { top: -10px; right: -6px; }
+      .video-modal-media { height: auto; width: min(100%, calc(62vh * 9 / 16)); margin: 0 auto; }
+      .video-points { display: none; }
+      .video-feature-card { grid-template-columns: 96px minmax(0, 1fr); gap: .9rem; }
+      .video-feature-text > span:not(.label-mono):not(.video-feature-cta) { display: none; }
+      #video-teaser { left: 12px; bottom: 86px; padding-right: 6px; }
+      .video-teaser-text { display: none; }
+    }
+    @media print { .video-modal, #video-teaser, .video-feature-card { display: none !important; } }
   </style>
 </head>
 <body>
@@ -1460,6 +1622,41 @@
     </section>
 
   </main>
+
+  <!-- Vídeo em destaque: botão flutuante + pop-up -->
+  <button type="button" id="video-teaser" class="no-print" onclick="openVideoModal(true)" aria-label="Assistir ao vídeo Como o Piloto Automático Causa Acidentes">
+    <span class="video-teaser-ring"><span><img src="video-piloto-automatico-capa.jpg" alt="" onerror="this.remove()"></span></span>
+    <span class="video-teaser-text"><small>Vídeo · 1:22</small><strong>Piloto automático</strong></span>
+  </button>
+
+  <div id="video-modal" class="video-modal no-print" role="dialog" aria-modal="true" aria-labelledby="video-modal-title" aria-hidden="true">
+    <div class="video-modal-backdrop" onclick="closeVideoModal()"></div>
+    <div class="video-modal-dialog">
+      <button type="button" class="video-modal-close" onclick="closeVideoModal()" aria-label="Fechar vídeo">✕</button>
+      <div class="video-modal-media">
+        <video id="feature-video" src="video-piloto-automatico.mp4" poster="video-piloto-automatico-capa.jpg" controls playsinline preload="metadata"></video>
+        <div class="video-ended-overlay">
+          <span class="video-ended-badge">✓</span>
+          <strong>Vídeo concluído!</strong>
+          <button type="button" class="btn btn--warning btn--sm" onclick="goToModuleFromVideo(4)">Praticar no Módulo 4 →</button>
+          <button type="button" class="btn btn--ghost btn--sm" style="color:#fff; border-color:rgb(255 255 255 / .3);" onclick="playFeatureVideo()">Assistir de novo</button>
+        </div>
+        <div class="video-missing">Vídeo não encontrado. Envie <code>video-piloto-automatico.mp4</code> para a mesma pasta do <code>index.html</code>.</div>
+      </div>
+      <div class="video-modal-info">
+        <span class="label-mono">Vídeo em destaque · 1:22</span>
+        <h2 id="video-modal-title" class="section-title">Como o Piloto Automático Causa Acidentes</h2>
+        <p>Em pouco mais de um minuto, veja como a pressa e a complacência tiram a mente da tarefa — e por que a rotina é justamente onde mais nos expomos ao risco.</p>
+        <ul class="video-points">
+          <li>Pressa</li><li>Complacência</li><li>Mente longe da tarefa</li><li>Percepção de risco</li>
+        </ul>
+        <div class="video-modal-actions">
+          <button type="button" class="btn btn--warning" onclick="playFeatureVideo()">▶ Assistir agora</button>
+          <button type="button" class="btn btn--ghost" onclick="goToModuleFromVideo(4)">Ir para o Módulo 4 · Percepção de Risco</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Podcast: um único elemento de áudio para todo o curso -->
   <audio id="podcast-audio" preload="metadata" src="podcast-fatores-humanos.m4a"></audio>
@@ -2449,6 +2646,7 @@
 
     function switchView(viewName) {
       appState.currentView = viewName;
+      document.body.dataset.view = viewName;
       const views = [`welcome`, `training`, `report`, `admin`];
       views.forEach((v) => {
         const panel = document.getElementById(`view-${v}`);
@@ -3182,6 +3380,127 @@
       syncPodcastUI();
     }
 
+    /* ============================================================
+       VÍDEO EM DESTAQUE (POP-UP) · "Como o Piloto Automático Causa Acidentes"
+       ============================================================ */
+
+    const FEATURE_VIDEO = {
+      src: `video-piloto-automatico.mp4`,
+      poster: `video-piloto-automatico-capa.jpg`,
+      title: `Como o Piloto Automático Causa Acidentes`,
+      durationLabel: `1:22`
+    };
+    const VIDEO_SEEN_KEY = `pensalab_video_piloto_visto_v1`;
+    let videoModalReturnFocus = null;
+
+    function getFeatureVideo() {
+      return document.getElementById(`feature-video`);
+    }
+
+    function openVideoModal(autoplay) {
+      const modal = document.getElementById(`video-modal`);
+      const video = getFeatureVideo();
+      if (!modal) return;
+      videoModalReturnFocus = document.activeElement;
+      modal.classList.add(`is-open`);
+      modal.setAttribute(`aria-hidden`, `false`);
+      document.body.classList.add(`modal-open`);
+      try { window.localStorage.setItem(VIDEO_SEEN_KEY, `1`); } catch (err) { /* ignora */ }
+      const teaser = document.getElementById(`video-teaser`);
+      if (teaser) teaser.classList.add(`is-seen`);
+      setTimeout(() => {
+        const closeBtn = modal.querySelector(`.video-modal-close`);
+        if (closeBtn) closeBtn.focus();
+      }, 50);
+      if (autoplay && video) playFeatureVideo();
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById(`video-modal`);
+      const video = getFeatureVideo();
+      if (!modal || !modal.classList.contains(`is-open`)) return;
+      if (video) video.pause();
+      modal.classList.remove(`is-open`);
+      modal.setAttribute(`aria-hidden`, `true`);
+      document.body.classList.remove(`modal-open`);
+      if (videoModalReturnFocus && typeof videoModalReturnFocus.focus === `function`) videoModalReturnFocus.focus();
+    }
+
+    function playFeatureVideo() {
+      const video = getFeatureVideo();
+      if (!video) return;
+      const modal = document.getElementById(`video-modal`);
+      if (modal) modal.classList.remove(`is-ended`);
+      if (video.ended) video.currentTime = 0;
+      video.play().catch((err) => console.error(`Não foi possível reproduzir o vídeo:`, err));
+    }
+
+    function goToModuleFromVideo(modId) {
+      closeVideoModal();
+      switchView(`training`);
+      selectModule(modId);
+    }
+
+    function renderVideoFeatureCard() {
+      return `
+        <button type="button" class="video-feature-card" onclick="openVideoModal(true)" aria-label="Assistir ao vídeo ${FEATURE_VIDEO.title}">
+          <span class="video-feature-thumb">
+            <img src="${FEATURE_VIDEO.poster}" alt="" onerror="this.remove()">
+            <span class="video-feature-play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>
+            </span>
+            <span class="video-feature-time">${FEATURE_VIDEO.durationLabel}</span>
+          </span>
+          <span class="video-feature-text">
+            <span class="label-mono">VÍDEO EM DESTAQUE · ${FEATURE_VIDEO.durationLabel}</span>
+            <strong>${FEATURE_VIDEO.title}</strong>
+            <span>Veja em pouco mais de um minuto como a pressa e a complacência tiram a mente da tarefa — e por que a rotina engana nossa percepção de risco.</span>
+            <span class="video-feature-cta">Assistir agora →</span>
+          </span>
+        </button>`;
+    }
+
+    function initFeatureVideo() {
+      const video = getFeatureVideo();
+      const modal = document.getElementById(`video-modal`);
+      const podcast = document.getElementById(`podcast-audio`);
+      if (!video || !modal) return;
+
+      video.addEventListener(`play`, () => {
+        modal.classList.remove(`is-ended`);
+        if (podcast && !podcast.paused) podcast.pause();
+      });
+      video.addEventListener(`ended`, () => modal.classList.add(`is-ended`));
+      video.addEventListener(`error`, () => modal.classList.add(`is-missing`));
+      if (podcast) {
+        podcast.addEventListener(`play`, () => { if (!video.paused) video.pause(); });
+      }
+
+      document.addEventListener(`keydown`, (ev) => {
+        if (ev.key === `Escape` && modal.classList.contains(`is-open`)) closeVideoModal();
+        if (ev.key === `Tab` && modal.classList.contains(`is-open`)) {
+          const focusables = Array.from(modal.querySelectorAll(`button, video, [href]`)).filter((el) => el.offsetParent !== null);
+          if (focusables.length === 0) return;
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+          else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+        }
+      });
+
+      let seen = false;
+      try { seen = window.localStorage.getItem(VIDEO_SEEN_KEY) === `1`; } catch (err) { seen = false; }
+      const teaser = document.getElementById(`video-teaser`);
+      if (teaser && seen) teaser.classList.add(`is-seen`);
+
+      /* Primeira visita neste dispositivo: abre o destaque automaticamente */
+      if (!seen && !passwordRecoveryActive && (appState.currentView || `welcome`) === `welcome`) {
+        setTimeout(() => {
+          if (!document.body.classList.contains(`modal-open`)) openVideoModal(false);
+        }, 1400);
+      }
+    }
+
     function renderModule1Content() {
       const b = BRADLEY_STAGES[uiTransient.bradleyIdx] || BRADLEY_STAGES[0];
       return `
@@ -3368,6 +3687,8 @@
         : `Desafio de 60 segundos`;
 
       return `
+        ${renderVideoFeatureCard()}
+
         <div class="card">
           <span class="label-mono">RISCO PERCEBIDO × RISCO REAL</span>
           <h3 class="subhead-title">Por que nos machucamos mais na rotina?</h3>
@@ -4723,6 +5044,7 @@ async function toggleArchivedParticipants() {
       }
       document.querySelectorAll(`img[data-fallback]`).forEach((img) => { img.parentElement.innerHTML = renderMascotSvg(img.dataset.fallback); });
       initPodcast();
+      initFeatureVideo();
       renderWelcomeView();
       updateProgressStrip();
       switchView(appState.currentView || `welcome`);
