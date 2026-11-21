@@ -1,0 +1,3819 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="carbon">
+  <title>Fatores Humanos – Nós Somos a Solução | SMS Pensalab</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (Carbon enterprise ramp + white/gray reading clarity) */
+      --background: #f3f6fa;
+      --surface-container-low: #f8fafc;
+      --surface-container: #ffffff;
+      --surface-container-high: #e6ecf3;
+
+      /* Ink */
+      --on-surface: #121c27;
+      --on-surface-variant: #475569;
+
+      /* Rules */
+      --outline: #64748b;
+      --outline-variant: #d5dee8;
+
+      /* Accents: Predominant Navy & Blue, Orange Alerts, Green Positive */
+      --navy: #0c2340;
+      --navy-mid: #163a63;
+      --primary: #14539a;
+      --primary-hover: #0e3d73;
+      --on-primary: #ffffff;
+      --primary-container: #e3effc;
+      --on-primary-container: #0c2340;
+
+      --secondary: #475569;
+      --tertiary: #157347;
+      --positive: #157347;
+      --positive-container: #e8f5ee;
+      --on-positive-container: #0d4b2e;
+
+      --warning: #d96200;
+      --warning-container: #fff3e6;
+      --on-warning-container: #8a3c00;
+
+      --error: #c62828;
+      --error-container: #fdeaea;
+      --on-error-container: #7f1d1d;
+      --on-error: #ffffff;
+
+      /* Mascot & SVG palette tokens */
+      --mascot-skin: #f5cfb6;
+      --mascot-skin-shadow: #e2b497;
+      --mascot-hair: #1f2937;
+      --mascot-visor: #dbeafe;
+      --mascot-vest-stripe: #f59e0b;
+
+      /* Data series */
+      --data-1: #14539a;
+      --data-2: #d96200;
+      --data-3: #157347;
+      --data-4: #0c2340;
+      --data-context: #94a3b8;
+
+      /* Focus ring */
+      --focus: #14539a;
+
+      /* Fonts */
+      --font-headline: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-label: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+
+      /* Shape */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 9999px;
+
+      /* Type scale (Tool / Dashboard) */
+      --display-size: clamp(1.625rem, 1.3rem + 1.2vw, 2.25rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.2rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Effects */
+      --shadow-1: 0 2px 6px rgb(12 35 64 / 0.08);
+      --shadow-2: 0 6px 18px rgb(12 35 64 / 0.1);
+      --rule: 1px solid var(--outline-variant);
+      --field-rule: 1px solid var(--outline);
+      --indicator: 3px solid var(--primary);
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+    button, input, select, textarea { font-family: inherit; }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Top Institutional Header */
+    .site-header {
+      background-color: var(--navy);
+      color: var(--on-primary);
+      border-bottom: 4px solid var(--warning);
+    }
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      min-width: 0;
+    }
+    .brand-emblem {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--navy-mid);
+      border: 1px solid var(--primary);
+      border-radius: var(--rounded);
+    }
+    .brand-titles { min-width: 0; }
+    .brand-kicker {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary-container);
+      margin: 0 0 var(--space-xs) 0;
+    }
+    .brand-title {
+      font-family: var(--font-headline);
+      font-size: clamp(1.125rem, 1rem + 0.6vw, 1.45rem);
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.2;
+      color: var(--on-primary);
+    }
+    .brand-sub {
+      font-size: 0.85rem;
+      color: var(--primary-container);
+      margin: var(--space-xs) 0 0 0;
+    }
+
+    .nav-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+    .nav-tab {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--navy-mid);
+      background-color: var(--navy-mid);
+      color: var(--primary-container);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .nav-tab:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+    .nav-tab.is-active {
+      background-color: var(--surface-container);
+      color: var(--navy);
+      border-color: var(--surface-container);
+      font-weight: 600;
+    }
+    .nav-tab--admin {
+      border-color: var(--warning);
+      color: var(--warning-container);
+    }
+    .nav-tab--admin.is-active {
+      background-color: var(--warning);
+      color: var(--on-primary);
+      border-color: var(--warning);
+    }
+
+    /* Progress Status Bar */
+    .progress-strip {
+      background-color: var(--surface-container);
+      border-bottom: var(--rule);
+    }
+    .progress-strip-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-sm) var(--space-lg);
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.2fr) auto;
+      gap: var(--space-md);
+      align-items: center;
+    }
+    .participant-summary {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      min-width: 0;
+    }
+    .mono-tag {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      font-weight: 600;
+    }
+    .mono-tag--green {
+      background-color: var(--positive-container);
+      color: var(--on-positive-container);
+    }
+    .mono-tag--orange {
+      background-color: var(--warning-container);
+      color: var(--on-warning-container);
+    }
+    .mono-tag--red {
+      background-color: var(--error-container);
+      color: var(--on-error-container);
+    }
+    .progress-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .progress-bar-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+    .progress-track {
+      height: 10px;
+      background-color: var(--surface-container-high);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background-color: var(--primary);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+    .progress-fill.is-complete {
+      background-color: var(--positive);
+    }
+    .kpi-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: center;
+    }
+    .kpi-mini {
+      display: flex;
+      flex-direction: column;
+    }
+    .kpi-mini-label {
+      font-family: var(--font-label);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+    }
+    .kpi-mini-val {
+      font-family: var(--font-label);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* Main Container */
+    .main-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-lg);
+    }
+    .main-wrap * { min-width: 0; }
+    .view-panel { display: none; }
+    .view-panel.is-visible { display: block; }
+
+    /* Cards & Layers */
+    .card {
+      background-color: var(--surface-container);
+      border: var(--rule);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-1);
+    }
+    .card--low {
+      background-color: var(--surface-container-low);
+      border: var(--rule);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+    }
+    .card--accent-navy { border-top: 4px solid var(--navy); }
+    .card--accent-blue { border-left: 4px solid var(--primary); }
+    .card--accent-orange {
+      border-left: 4px solid var(--warning);
+      background-color: var(--warning-container);
+      color: var(--on-warning-container);
+    }
+    .card--accent-green {
+      border-left: 4px solid var(--positive);
+      background-color: var(--positive-container);
+      color: var(--on-positive-container);
+    }
+
+    /* Typography helpers */
+    .display-title {
+      font-family: var(--font-headline);
+      font-size: var(--display-size);
+      font-weight: 300;
+      line-height: 1.15;
+      margin: 0 0 var(--space-sm) 0;
+      color: var(--navy);
+    }
+    .display-title strong { font-weight: 700; }
+    .section-title {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 600;
+      line-height: 1.25;
+      margin: 0 0 var(--space-sm) 0;
+      color: var(--navy);
+    }
+    .subhead-title {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 600;
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--navy);
+    }
+    .label-mono {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--on-surface-variant);
+      display: block;
+      margin-bottom: var(--space-xs);
+    }
+    .prose-limit { max-width: 68ch; }
+
+    /* Buttons */
+    .btn {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn--primary {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+    .btn--primary:hover:not(:disabled) { background-color: var(--primary-hover); }
+    .btn--navy {
+      background-color: var(--navy);
+      color: var(--on-primary);
+    }
+    .btn--navy:hover:not(:disabled) { background-color: var(--navy-mid); }
+    .btn--secondary {
+      background-color: var(--surface-container);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    .btn--secondary:hover:not(:disabled) { background-color: var(--primary-container); }
+    .btn--warning {
+      background-color: var(--warning);
+      color: var(--on-primary);
+    }
+    .btn--warning:hover:not(:disabled) { background-color: var(--on-warning-container); }
+    .btn--positive {
+      background-color: var(--positive);
+      color: var(--on-primary);
+    }
+    .btn--ghost {
+      background-color: transparent;
+      color: var(--on-surface-variant);
+      border-color: var(--outline-variant);
+    }
+    .btn--ghost:hover:not(:disabled) {
+      background-color: var(--surface-container-high);
+      color: var(--on-surface);
+    }
+    .btn--sm {
+      min-height: 36px;
+      padding: var(--space-xs) var(--space-md);
+      font-size: 0.85rem;
+    }
+
+    /* Form Controls */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .form-field--full { grid-column: 1 / -1; }
+    .field-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .field-input, .field-select, .field-textarea {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--surface-container-low);
+      border: 1px solid var(--outline);
+      border-bottom: 2px solid var(--navy);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      font-size: 0.95rem;
+      width: 100%;
+    }
+    .field-select { padding-right: var(--space-xl); }
+    .field-textarea { min-height: 88px; resize: vertical; }
+    .field-error {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--error);
+      display: none;
+    }
+    .field-error.is-shown { display: block; }
+
+    /* Welcome Layout */
+    .welcome-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .mascot-guide-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--space-md);
+      align-items: center;
+      background-color: var(--primary-container);
+      border-left: 4px solid var(--navy);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .mascot-guide-card--warning {
+      background-color: var(--warning-container);
+      border-left-color: var(--warning);
+    }
+    .mascot-guide-card--positive {
+      background-color: var(--positive-container);
+      border-left-color: var(--positive);
+    }
+    .mascot-box {
+      width: 84px;
+      height: 92px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mascot-box--lg {
+      width: 112px;
+      height: 122px;
+    }
+    .roadmap-preview {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .roadmap-chip {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm);
+      background-color: var(--surface-container-low);
+      border: var(--rule);
+      border-radius: var(--rounded);
+      font-size: 0.85rem;
+    }
+    .roadmap-num {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: 0.75rem;
+      background-color: var(--navy);
+      color: var(--on-primary);
+      padding: 2px 6px;
+      border-radius: var(--rounded);
+      flex-shrink: 0;
+    }
+
+    /* Training Workspace Layout (Sidebar + Module Canvas) */
+    .training-layout {
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .module-rail {
+      background-color: var(--surface-container);
+      border: var(--rule);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-1);
+    }
+    .module-rail-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      margin-top: var(--space-sm);
+    }
+    .module-nav-btn {
+      width: 100%;
+      min-height: 44px;
+      text-align: left;
+      padding: var(--space-sm) var(--space-sm);
+      border-radius: var(--rounded);
+      border: 1px solid transparent;
+      border-left: 3px solid transparent;
+      background-color: transparent;
+      color: var(--on-surface);
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: var(--space-sm);
+      align-items: center;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .module-nav-btn:hover { background-color: var(--surface-container-low); }
+    .module-nav-btn.is-active {
+      background-color: var(--primary-container);
+      border-left-color: var(--primary);
+      color: var(--navy);
+      font-weight: 600;
+    }
+    .module-nav-num {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--on-surface-variant);
+    }
+    .module-nav-btn.is-active .module-nav-num { color: var(--primary); }
+    .module-nav-title {
+      font-size: 0.85rem;
+      line-height: 1.3;
+    }
+    .module-status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: var(--rounded-full);
+      background-color: var(--outline-variant);
+      flex-shrink: 0;
+    }
+    .module-status-dot.is-done { background-color: var(--positive); }
+    .module-status-dot.is-progress { background-color: var(--warning); }
+
+    .mobile-module-bar {
+      display: none;
+      margin-bottom: var(--space-md);
+    }
+
+    /* Module Canvas Elements */
+    .module-canvas {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+    .module-header-card {
+      background-color: var(--surface-container);
+      border: var(--rule);
+      border-top: 4px solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-1);
+    }
+    .module-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+    .card-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .info-tile {
+      background-color: var(--surface-container-low);
+      border: var(--rule);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+    }
+    .info-tile--blue { border-top: 3px solid var(--primary); }
+    .info-tile--navy { border-top: 3px solid var(--navy); }
+    .info-tile--orange { border-top: 3px solid var(--warning); }
+    .info-tile--green { border-top: 3px solid var(--positive); }
+
+    /* Comparison Table */
+    .comp-table-wrap { overflow-x: auto; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .data-table th {
+      text-align: left;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background-color: var(--surface-container-high);
+      color: var(--navy);
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 2px solid var(--navy);
+    }
+    .data-table td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--rule);
+      vertical-align: top;
+    }
+    .data-table tbody tr:nth-child(even) { background-color: var(--surface-container-low); }
+
+    /* Interactive Explorers (Bradley, States, Traps, 5x5, Stop Work, Cases) */
+    .pill-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .pill-tab {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .pill-tab:hover { border-color: var(--primary); }
+    .pill-tab.is-active {
+      background-color: var(--navy);
+      color: var(--on-primary);
+      border-color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* Interactive Risk Hunt Scene */
+    .risk-scene-wrap {
+      background-color: var(--surface-container-low);
+      border: var(--rule);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+    }
+    .risk-svg-box {
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto;
+      display: block;
+      border: var(--rule);
+      border-radius: var(--rounded);
+      background-color: var(--surface-container);
+    }
+    .hazard-hotspot { cursor: pointer; }
+    .hazard-ring {
+      fill: transparent;
+      stroke: var(--warning);
+      stroke-width: 2.5;
+      stroke-dasharray: 5 3;
+      opacity: 0.65;
+      transition: opacity var(--dur-micro) var(--ease-out);
+    }
+    .hazard-hotspot:hover .hazard-ring { opacity: 1; }
+    .hazard-hotspot.is-found .hazard-ring {
+      stroke: var(--positive);
+      stroke-dasharray: none;
+      fill: var(--positive-container);
+      fill-opacity: 0.35;
+      opacity: 1;
+    }
+
+    /* Interactive Quiz / Exercise Block */
+    .exercise-card {
+      background-color: var(--surface-container);
+      border: var(--rule);
+      border-left: 4px solid var(--navy);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-1);
+    }
+    .exercise-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+    .exercise-options {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .option-btn {
+      width: 100%;
+      min-height: 44px;
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: 0.9375rem;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .option-btn:hover:not(:disabled) {
+      background-color: var(--primary-container);
+      border-color: var(--primary);
+    }
+    .option-btn.is-selected {
+      background-color: var(--primary-container);
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+    .option-btn.is-correct {
+      background-color: var(--positive-container);
+      border-color: var(--positive);
+      color: var(--on-positive-container);
+      font-weight: 600;
+    }
+    .option-btn.is-wrong {
+      background-color: var(--warning-container);
+      border-color: var(--warning);
+      color: var(--on-warning-container);
+    }
+    .option-key {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: 0.8125rem;
+      padding: 2px 7px;
+      border-radius: var(--rounded);
+      background-color: var(--surface-container);
+      border: var(--rule);
+      flex-shrink: 0;
+    }
+    .feedback-box {
+      margin-top: var(--space-md);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      border-left: 4px solid var(--primary);
+      display: none;
+    }
+    .feedback-box.is-shown { display: block; }
+    .feedback-box.is-positive {
+      background-color: var(--positive-container);
+      border-left-color: var(--positive);
+      color: var(--on-positive-container);
+    }
+    .feedback-box.is-alert {
+      background-color: var(--warning-container);
+      border-left-color: var(--warning);
+      color: var(--on-warning-container);
+    }
+
+    /* Checklist rows */
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--surface-container-low);
+      border: var(--rule);
+      border-radius: var(--rounded);
+      cursor: pointer;
+    }
+    .check-row input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--positive);
+      flex-shrink: 0;
+    }
+
+    /* Module Footer Navigation */
+    .module-footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: var(--rule);
+    }
+
+    /* Report Sheet */
+    .report-sheet {
+      background-color: var(--surface-container);
+      border: var(--rule);
+      border-top: 6px solid var(--navy);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-2);
+    }
+    .report-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+      padding-bottom: var(--space-md);
+      border-bottom: 2px solid var(--navy);
+      margin-bottom: var(--space-lg);
+    }
+    .report-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .report-kpi {
+      background-color: var(--surface-container-low);
+      border: var(--rule);
+      border-left: 4px solid var(--primary);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+    }
+    .report-kpi-val {
+      font-family: var(--font-label);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* Admin Dashboard */
+    .admin-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .slider-sync-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 100px;
+      gap: var(--space-md);
+      align-items: end;
+    }
+    .inline-msg {
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: none;
+      margin-top: var(--space-sm);
+    }
+    .inline-msg.is-shown { display: block; }
+    .inline-msg--ok { background-color: var(--positive-container); color: var(--on-positive-container); border-left: 3px solid var(--positive); }
+    .inline-msg--warn { background-color: var(--warning-container); color: var(--on-warning-container); border-left: 3px solid var(--warning); }
+    .inline-msg--err { background-color: var(--error-container); color: var(--on-error-container); border-left: 3px solid var(--error); }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 960px) {
+      .welcome-grid { grid-template-columns: 1fr; }
+      .training-layout { grid-template-columns: 1fr; }
+      .module-rail { display: none; }
+      .mobile-module-bar { display: block; }
+      .progress-strip-inner { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .main-wrap { padding: var(--space-md); }
+      .form-grid { grid-template-columns: 1fr; }
+      .roadmap-preview { grid-template-columns: 1fr; }
+      .header-inner { padding: var(--space-md); }
+      .report-sheet { padding: var(--space-md); }
+      .mascot-guide-card { grid-template-columns: 1fr; }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* Print / Save PDF Styling */
+    @media print {
+      body { background-color: var(--surface-container); }
+      .site-header, .progress-strip, .no-print { display: none !important; }
+      .view-panel { display: none !important; }
+      #view-report { display: block !important; }
+      .main-wrap { max-width: 100%; padding: 0; }
+      .report-sheet { box-shadow: none; border: 1px solid var(--outline); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Institutional Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-block">
+        <div class="brand-emblem" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 3L5 7.5V15.5C5 22.4 9.7 28.4 16 30C22.3 28.4 27 22.4 27 15.5V7.5L16 3Z" fill="var(--primary)" stroke="var(--primary-container)" stroke-width="1.5"/>
+            <path d="M11 16.2L14.5 19.7L21.5 12.5" stroke="var(--warning-container)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <p class="brand-kicker">SMS Pensalab · Treinamento Corporativo</p>
+          <h1 class="brand-title">Fatores Humanos – Nós Somos a Solução</h1>
+          <p class="brand-sub">Instrutor indicado: Marcelo Alves – SMS Pensalab</p>
+        </div>
+      </div>
+      <nav class="nav-actions no-print" aria-label="Navegação principal">
+        <button type="button" class="nav-tab is-active" id="nav-btn-welcome" onclick="switchView('welcome')">Identificação</button>
+        <button type="button" class="nav-tab" id="nav-btn-training" onclick="switchView('training')">Trilha (10 Módulos)</button>
+        <button type="button" class="nav-tab" id="nav-btn-report" onclick="switchView('report')">Relatório &amp; PDF/CSV</button>
+        <button type="button" class="nav-tab nav-tab--admin" id="nav-btn-admin" onclick="switchView('admin')">Painel SMS</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Live Progress Strip -->
+  <section class="progress-strip no-print" aria-label="Resumo de progresso">
+    <div class="progress-strip-inner">
+      <div class="participant-summary">
+        <span class="mono-tag" id="strip-participant-name">Participante não identificado</span>
+        <span class="mono-tag mono-tag--orange" id="strip-sync-status">Salvo localmente</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-meta">
+          <span>CONCLUSÃO DO TREINAMENTO</span>
+          <span id="strip-progress-pct">0%</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="strip-progress-aria">
+          <div class="progress-fill" id="strip-progress-fill"></div>
+        </div>
+      </div>
+      <div class="kpi-inline">
+        <div class="kpi-mini">
+          <span class="kpi-mini-label">Módulos</span>
+          <span class="kpi-mini-val" id="strip-modules-count">0 / 10</span>
+        </div>
+        <div class="kpi-mini">
+          <span class="kpi-mini-label">Acertos / Erros</span>
+          <span class="kpi-mini-val" id="strip-hits-misses">0 / 0</span>
+        </div>
+        <div class="kpi-mini">
+          <span class="kpi-mini-label">Avaliação Final</span>
+          <span class="kpi-mini-val" id="strip-final-grade">—</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="main-wrap">
+
+    <!-- ==================== VIEW 1: TELA INICIAL / IDENTIFICAÇÃO ==================== -->
+    <section id="view-welcome" class="view-panel is-visible" aria-labelledby="welcome-heading">
+      <div id="resume-banner" class="card card--accent-green" style="display:none; margin-bottom: var(--space-lg);">
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-md);">
+          <div>
+            <span class="label-mono" style="color:var(--on-positive-container);">SESSÃO ANTERIOR ENCONTRADA</span>
+            <p style="margin:0; font-weight:600;" id="resume-banner-text">Você já possui progresso salvo.</p>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+            <button type="button" class="btn btn--positive" onclick="continueSavedTraining()">Continuar Treinamento</button>
+            <button type="button" class="btn btn--secondary" onclick="startNewParticipantFlow()">Iniciar Novo Participante</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="welcome-grid">
+        <!-- Left Column: Mascot & Program Overview -->
+        <div class="card card--accent-navy">
+          <div class="mascot-guide-card">
+            <div class="mascot-box" id="welcome-mascot-slot"></div>
+            <div>
+              <span class="label-mono">GUIA SMS PENSALAB</span>
+              <h2 class="subhead-title" style="margin-bottom:var(--space-xs);">Olá! Eu sou o Guardião SMS Pensalab.</h2>
+              <p style="margin:0; font-size:0.9375rem;">Vou acompanhar você nos 10 módulos deste treinamento. A segurança começa nas pessoas, nas decisões e nas condições de trabalho.</p>
+            </div>
+          </div>
+
+          <h2 class="display-title" id="welcome-heading">Fatores Humanos: <strong>Nós Somos a Solução</strong></h2>
+          <p class="prose-limit">Capacitação corporativa interativa de SMS da Pensalab baseada nos treinamentos conduzidos por <strong>Marcelo Alves – SMS Pensalab</strong>. Em quase todo acidente existe uma pessoa envolvida, mas quase nunca a causa é apenas a pessoa.</p>
+
+          <div class="card--low card--accent-orange" style="margin-top:var(--space-md);">
+            <span class="label-mono" style="color:var(--on-warning-container);">AVISO SOBRE ARMAZENAMENTO LOCAL</span>
+            <p style="margin:0; font-size:0.875rem;">Seu progresso, respostas e notas são salvos localmente no dispositivo/sessão para evitar perda durante o treinamento. <strong>O armazenamento local não substitui um banco de dados corporativo centralizado</strong> — ao concluir, exporte seu relatório em PDF ou CSV e envie ao SMS.</p>
+          </div>
+
+          <h3 class="subhead-title" style="margin-top:var(--space-lg);">Jornada em 10 Módulos</h3>
+          <div class="roadmap-preview" id="welcome-roadmap-list"></div>
+        </div>
+
+        <!-- Right Column: Participant Registration Form -->
+        <div class="card card--accent-blue">
+          <span class="label-mono">ETAPA 1 · IDENTIFICAÇÃO DO PARTICIPANTE</span>
+          <h2 class="section-title">Registro para Início do Treinamento</h2>
+          <p style="color:var(--on-surface-variant); margin-top:0;">Preencha seus dados para personalizar a trilha, o relatório individual e o histórico de conclusão.</p>
+
+          <form id="participant-form" onsubmit="handleParticipantSubmit(event)" novalidate>
+            <div class="form-grid">
+              <div class="form-field form-field--full">
+                <label class="field-label" for="input-fullname">Nome completo *</label>
+                <input type="text" id="input-fullname" class="field-input" placeholder="Ex.: Ana Paula Ferreira" required>
+                <span class="field-error" id="err-fullname">Informe seu nome completo para emissão do relatório.</span>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="input-role">Cargo *</label>
+                <input type="text" id="input-role" class="field-input" placeholder="Ex.: Técnico de Campo / Analista" required>
+                <span class="field-error" id="err-role">Informe seu cargo atual.</span>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="input-dept">Departamento *</label>
+                <select id="input-dept" class="field-select" required>
+                  <option value="">Selecione o departamento</option>
+                  <option value="Assistência Técnica / Campo">Assistência Técnica / Campo</option>
+                  <option value="Laboratório / Ensaios">Laboratório / Ensaios</option>
+                  <option value="Almoxarifado / Logística">Almoxarifado / Logística</option>
+                  <option value="Engenharia / Projetos">Engenharia / Projetos</option>
+                  <option value="SMS / Qualidade">SMS / Qualidade</option>
+                  <option value="Operações / Oficina">Operações / Oficina</option>
+                  <option value="Administrativo / Comercial">Administrativo / Comercial</option>
+                </select>
+                <span class="field-error" id="err-dept">Selecione um departamento.</span>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="input-unit">Unidade *</label>
+                <select id="input-unit" class="field-select" required>
+                  <option value="">Selecione a unidade</option>
+                  <option value="Matriz São Paulo">Matriz São Paulo</option>
+                  <option value="Base Macaé – RJ">Base Macaé – RJ</option>
+                  <option value="Base Rio de Janeiro – RJ">Base Rio de Janeiro – RJ</option>
+                  <option value="Base Vitória – ES">Base Vitória – ES</option>
+                  <option value="Atendimento em Cliente / Offshore">Atendimento em Cliente / Offshore</option>
+                  <option value="Outra Unidade">Outra Unidade</option>
+                </select>
+                <span class="field-error" id="err-unit">Selecione sua unidade de atuação.</span>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label" for="input-date">Data do treinamento *</label>
+                <input type="date" id="input-date" class="field-input" required>
+                <span class="field-error" id="err-date">Informe a data do treinamento.</span>
+              </div>
+
+              <div class="form-field form-field--full">
+                <label class="field-label" for="input-instructor">Instrutor responsável</label>
+                <input type="text" id="input-instructor" class="field-input" value="Marcelo Alves – SMS Pensalab" readonly>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:var(--space-md); align-items:center; margin-top:var(--space-lg);">
+              <button type="submit" class="btn btn--primary">Salvar Identificação e Iniciar Trilha</button>
+              <button type="button" class="btn btn--ghost" onclick="resetCurrentProgressBtn(this)">Limpar dados atuais</button>
+            </div>
+            <div class="inline-msg" id="welcome-form-msg"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: TRILHA DE TREINAMENTO (10 MÓDULOS) ==================== -->
+    <section id="view-training" class="view-panel" aria-label="Trilha de treinamento em 10 módulos">
+      <div class="mobile-module-bar card--low">
+        <label class="field-label" for="mobile-module-select">Selecionar módulo do treinamento</label>
+        <select id="mobile-module-select" class="field-select" style="margin-top:var(--space-xs);" onchange="selectModule(Number(this.value))"></select>
+      </div>
+
+      <div class="training-layout">
+        <!-- Left Sidebar Module Navigation -->
+        <aside class="module-rail no-print" aria-label="Lista de módulos">
+          <span class="label-mono">TRILHA DO TREINAMENTO</span>
+          <h2 class="subhead-title" style="margin-bottom:var(--space-xs);">10 Módulos SMS</h2>
+          <p style="font-size:0.8125rem; color:var(--on-surface-variant); margin:0 0 var(--space-sm) 0;">Clique em qualquer módulo para estudar e responder aos exercícios.</p>
+          <div class="module-rail-list" id="module-rail-list"></div>
+        </aside>
+
+        <!-- Active Module Canvas -->
+        <div class="module-canvas" id="module-canvas"></div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: RELATÓRIO INDIVIDUAL E EXPORTAÇÃO ==================== -->
+    <section id="view-report" class="view-panel" aria-label="Relatório individual e exportação">
+      <div class="card no-print" style="margin-bottom:var(--space-lg); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-md);">
+        <div>
+          <span class="label-mono">DOCUMENTAÇÃO DE TREINAMENTO</span>
+          <h2 class="section-title" style="margin:0;">Relatório Individual e Exportação</h2>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+          <button type="button" class="btn btn--primary" onclick="printReportPdf()">Imprimir / Salvar em PDF</button>
+          <button type="button" class="btn btn--secondary" onclick="exportIndividualCsv()">Exportar CSV Individual</button>
+          <button type="button" class="btn btn--positive" onclick="saveCurrentToAdminHistory(true)">Registrar no Histórico SMS</button>
+        </div>
+      </div>
+      <div class="inline-msg" id="report-action-msg" style="margin-bottom:var(--space-md);"></div>
+
+      <div class="report-sheet" id="report-sheet-container"></div>
+    </section>
+
+    <!-- ==================== VIEW 4: PAINEL ADMINISTRATIVO SMS ==================== -->
+    <section id="view-admin" class="view-panel" aria-label="Painel Administrativo SMS">
+      <!-- Auth Gate -->
+      <div id="admin-lock-screen" class="card card--accent-navy" style="max-width:520px; margin:var(--space-xl) auto;">
+        <span class="label-mono">ÁREA RESTRITA · GESTÃO SMS</span>
+        <h2 class="section-title">Painel Administrativo SMS Pensalab</h2>
+        <p style="color:var(--on-surface-variant);">Informe o código de acesso SMS para consultar participantes, resultados, histórico de treinamentos e configurar a nota mínima de aprovação.</p>
+        <div class="form-field" style="margin-top:var(--space-md);">
+          <label class="field-label" for="admin-pin-input">Código de acesso SMS</label>
+          <input type="password" id="admin-pin-input" class="field-input" placeholder="Digite o código SMS">
+          <span style="font-size:0.8125rem; color:var(--on-surface-variant);">Código padrão de facilitação SMS: <strong style="font-family:var(--font-label);">SMS2026</strong></span>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); margin-top:var(--space-md);">
+          <button type="button" class="btn btn--navy" onclick="unlockAdminPanel()">Acessar Painel SMS</button>
+          <button type="button" class="btn btn--ghost" onclick="fillDemoAdminPin()">Preencher código padrão</button>
+        </div>
+        <div class="inline-msg" id="admin-lock-msg"></div>
+      </div>
+
+      <!-- Unlocked Admin Dashboard -->
+      <div id="admin-dashboard" style="display:none;">
+        <div class="card card--accent-navy" style="margin-bottom:var(--space-lg); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-md);">
+          <div>
+            <span class="label-mono">PAINEL ADMINISTRATIVO SMS · MARCELO ALVES</span>
+            <h2 class="section-title" style="margin:0;">Gestão de Treinamentos — Fatores Humanos</h2>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+            <button type="button" class="btn btn--primary btn--sm" onclick="exportAllHistoryCsv()">Exportar Histórico Geral (CSV)</button>
+            <button type="button" class="btn btn--ghost btn--sm" onclick="lockAdminPanel()">Bloquear Painel</button>
+          </div>
+        </div>
+
+        <div class="admin-kpi-grid" id="admin-kpi-grid"></div>
+
+        <div class="card-grid-2" style="margin-bottom:var(--space-lg);">
+          <!-- Config Passing Score -->
+          <div class="card">
+            <span class="label-mono">CONFIGURAÇÃO DA AVALIAÇÃO</span>
+            <h3 class="subhead-title">Nota Mínima para Aprovação</h3>
+            <p style="font-size:0.875rem; color:var(--on-surface-variant);">Define o percentual mínimo na Avaliação Final (Módulo 10) para status APROVADO.</p>
+            <div class="slider-sync-row" style="margin-top:var(--space-md);">
+              <div class="form-field">
+                <label class="field-label" for="admin-min-score-slider">Ajustar nota mínima (%)</label>
+                <input type="range" id="admin-min-score-slider" min="50" max="100" step="5" value="70" oninput="syncMinScoreFromSlider(this.value)">
+              </div>
+              <div class="form-field">
+                <label class="field-label" for="admin-min-score-number">Valor (%)</label>
+                <input type="number" id="admin-min-score-number" class="field-input" min="50" max="100" step="5" value="70" oninput="syncMinScoreFromNumber(this.value)">
+              </div>
+            </div>
+            <div class="inline-msg inline-msg--ok is-shown" id="admin-score-msg" style="margin-top:var(--space-md);">Nota mínima atual configurada: 70%</div>
+          </div>
+
+          <!-- Change PIN & Quick Actions -->
+          <div class="card">
+            <span class="label-mono">SEGURANÇA E MANUTENÇÃO</span>
+            <h3 class="subhead-title">Código de Acesso e Registros</h3>
+            <div class="form-field" style="margin-top:var(--space-sm);">
+              <label class="field-label" for="admin-new-pin">Alterar código de acesso SMS</label>
+              <div style="display:flex; gap:var(--space-sm); align-items:end;">
+                <input type="text" id="admin-new-pin" class="field-input" placeholder="Novo código (mín. 4 caracteres)">
+                <button type="button" class="btn btn--secondary" onclick="updateAdminPin()">Atualizar</button>
+              </div>
+            </div>
+            <div class="inline-msg" id="admin-pin-msg"></div>
+            <div style="margin-top:var(--space-md); padding-top:var(--space-md); border-top:var(--rule); display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+              <button type="button" class="btn btn--ghost btn--sm" onclick="clearAdminHistory(this)">Limpar todo o histórico</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Participant History Table -->
+        <div class="card">
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:var(--space-md); margin-bottom:var(--space-md);">
+            <div>
+              <span class="label-mono">REGISTROS SALVOS LOCALMENTE</span>
+              <h3 class="subhead-title" style="margin:0;">Histórico de Participantes e Resultados</h3>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); align-items:end;">
+              <div class="form-field">
+                <label class="field-label" for="admin-search">Buscar participante / unidade</label>
+                <input type="text" id="admin-search" class="field-input" placeholder="Nome, cargo ou unidade" oninput="renderAdminDashboard()">
+              </div>
+              <div class="form-field">
+                <label class="field-label" for="admin-filter-status">Status</label>
+                <select id="admin-filter-status" class="field-select" onchange="renderAdminDashboard()">
+                  <option value="all">Todos</option>
+                  <option value="approved">Aprovados</option>
+                  <option value="review">Em Reforço</option>
+                  <option value="pending">Em Andamento</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="comp-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Participante</th>
+                  <th>Cargo / Depto</th>
+                  <th>Unidade</th>
+                  <th>Data</th>
+                  <th>Conclusão</th>
+                  <th>Acertos / Erros</th>
+                  <th>Nota Final</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="admin-history-tbody"></tbody>
+            </table>
+          </div>
+          <div id="admin-empty-state" class="card--low" style="margin-top:var(--space-md); text-align:center; display:none;">
+            <p style="margin:0; color:var(--on-surface-variant);">Nenhum registro salvo no histórico ainda. Quando participantes preencherem a identificação e concluírem o treinamento (ou clicarem em "Registrar no Histórico SMS"), os resultados aparecerão aqui.</p>
+          </div>
+          <div id="admin-detail-drawer" class="card--low card--accent-blue" style="margin-top:var(--space-md); display:none;"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <api-shim></api-shim>
+
+  <script>
+    /* ============================================================
+       DATA: 10 MODULES + INTERACTIVE EXERCISES + 10-QUESTION FINAL EXAM
+       ============================================================ */
+
+    const MODULES = [
+      {
+        id: 1,
+        code: `01`,
+        duration: `15 min`,
+        title: `Introdução aos Fatores Humanos`,
+        objective: `Compreender por que falar de Fatores Humanos, os quatro pilares de interação e a evolução da Cultura de Segurança na Curva de Bradley.`,
+        mascotTip: `Em quase todo acidente existe uma pessoa envolvida, mas quase nunca a causa é só a pessoa. Olhe para as interações ao redor!`,
+        exercises: [
+          {
+            id: `m1_q1`,
+            type: `Múltipla Escolha`,
+            prompt: `O que são Fatores Humanos no ambiente de trabalho da Pensalab?`,
+            options: [
+              `Apenas falhas de atenção e erros individuais dos colaboradores.`,
+              `A interação entre pessoas, equipamentos, procedimentos, ambiente e organização.`,
+              `Somente o uso correto de Equipamentos de Proteção Individual (EPI).`
+            ],
+            correctIndex: 1,
+            explanation: `Correto! Fatores Humanos abrangem a interação contínua entre pessoas (conhecimento, atenção, estado), equipamentos, ambiente físico e organização (processos, comunicação, recursos e liderança).`
+          },
+          {
+            id: `m1_q2`,
+            type: `Mito ou Verdade`,
+            prompt: `Mito ou Verdade: Na visão moderna de Fatores Humanos, a pergunta principal após um desvio deve ser "quem errou?" para aplicar punição imediata.`,
+            options: [
+              `Verdade — identificar e punir o culpado resolve o problema na raiz.`,
+              `Mito — além de entender a ação individual, precisamos perguntar "o que levou ao erro?" no sistema.`
+            ],
+            correctIndex: 1,
+            explanation: `Mito! A visão antiga buscava apenas culpados ("quem errou?"). A abordagem de Fatores Humanos investiga o que tornou o erro possível (recursos, pressão, comunicação, procedimentos) para criar segurança no sistema.`
+          }
+        ]
+      },
+      {
+        id: 2,
+        code: `02`,
+        duration: `08 min`,
+        title: `O Ser Humano e o Erro`,
+        objective: `Diferenciar erro humano (falha ativa) de falha organizacional (latente) e reconhecer os perigos da frase "é rapidinho".`,
+        mascotTip: `Errar não é falta de caráter — é uma característica humana que os sistemas precisam prever e proteger.`,
+        exercises: [
+          {
+            id: `m2_q1`,
+            type: `Verdadeiro ou Falso`,
+            prompt: `Verdadeiro ou Falso: Profissionais muito experientes estão imunes a cometer erros em atividades que já conhecem bem.`,
+            options: [
+              `Verdadeiro — a experiência elimina a possibilidade de erro.`,
+              `Falso — a experiência ajuda, mas não elimina o erro, especialmente quando há mudanças ou piloto automático.`
+            ],
+            correctIndex: 1,
+            explanation: `Falso! Até profissionais experientes cometem erros quando enfrentam pressão de tempo, interrupções, fadiga, falta de recursos ou mudanças não percebidas no equipamento.`
+          },
+          {
+            id: `m2_q2`,
+            type: `Múltipla Escolha`,
+            prompt: `Um técnico inverte dois cabos na ligação de um equipamento (ação na ponta), mas os cabos não tinham identificação e o desenho estava desatualizado. Como classificamos esses dois fatores?`,
+            options: [
+              `Inverter os cabos é falha ativa (erro humano); cabos sem identificação e desenho desatualizado são falhas latentes (organizacionais).`,
+              `Ambos são exclusivamente culpa do técnico da ponta.`,
+              `Apenas a falta de desenho conta; inverter cabos não é erro.`
+            ],
+            correctIndex: 0,
+            explanation: `Exato! O erro na ponta tem efeito imediato (falha ativa), enquanto condições escondidas no processo, documentação ou recursos são falhas latentes que precisam ser corrigidas pela organização.`
+          }
+        ]
+      },
+      {
+        id: 3,
+        code: `03`,
+        duration: `12 min`,
+        title: `Fatores que Levam ao Erro`,
+        objective: `Identificar os 4 estados internos (pressa, frustração, cansaço, complacência) e os demais fatores contribuintes na rotina da Pensalab.`,
+        mascotTip: `Antes de iniciar uma tarefa crítica, pare e se pergunte: estou acelerando? Estou reagindo por frustração? Estou no automático?`,
+        exercises: [
+          {
+            id: `m3_q1`,
+            type: `O que você faria?`,
+            prompt: `Durante uma montagem na bancada, uma peça não encaixa corretamente. Você sente irritação crescente (frustração) e pensa em forçar com um martelo para terminar logo. O que você faria?`,
+            options: [
+              `Forçar com o martelo com cuidado para não perder o ritmo.`,
+              `Parar por 30 segundos, reconhecer o estado de frustração, verificar a causa do não encaixe e pedir apoio ou revisão técnica.`
+            ],
+            correctIndex: 1,
+            explanation: `Excelente decisão! A frustração torna as decisões reativas e leva a improvisos e à linha de fogo. Reconhecer o estado interno e pausar evita danos ao equipamento e lesões.`
+          },
+          {
+            id: `m3_q2`,
+            type: `Múltipla Escolha`,
+            prompt: `Quais são os 4 estados internos clássicos que levam a erros críticos (olhos/mente longe da tarefa, linha de fogo, perda de firmeza)?`,
+            options: [
+              `Fome, sede, frio e calor.`,
+              `Pressa, frustração, cansaço e complacência.`,
+              `Foco, atenção, calma e planejamento.`
+            ],
+            correctIndex: 1,
+            explanation: `Correto! Pressa, frustração, cansaço e complacência são os 4 estados que aumentam drasticamente a chance de tirar os olhos/mente da tarefa ou entrar na linha de fogo.`
+          }
+        ]
+      },
+      {
+        id: 4,
+        code: `04`,
+        duration: `15 min`,
+        title: `Percepção de Risco`,
+        objective: `Superar o piloto automático nas tarefas de rotina, aplicar o método O.P.I.C. e identificar riscos ocultos no ambiente de trabalho.`,
+        mascotTip: `Nos machucamos mais na rotina! Familiaridade não é sinônimo de segurança. Faça o desafio "Encontre o Risco" abaixo!`,
+        exercises: [
+          {
+            id: `m4_q1`,
+            type: `Mito ou Verdade`,
+            prompt: `Mito ou Verdade: A maioria dos incidentes no trabalho acontece em tarefas extremamente raras e complexas, quase nunca em atividades rotineiras.`,
+            options: [
+              `Verdade — tarefas de rotina são sempre seguras porque já dominamos o passo a passo.`,
+              `Mito — a maior parte dos incidentes acontece em tarefas de rotina, quando o cérebro entra no piloto automático.`
+            ],
+            correctIndex: 1,
+            explanation: `Mito! Dados operacionais (como o levantamento da SBM Offshore citado no treinamento) mostram que tarefas muito frequentes concentram mais incidentes porque a atenção cai e pequenos atalhos viram hábito.`
+          },
+          {
+            id: `m4_q2`,
+            type: `Múltipla Escolha`,
+            prompt: `No método O.P.I.C. de percepção de risco antes de agir, o que significa a letra "P"?`,
+            options: [
+              `Pressa: acelerar para concluir antes do prazo.`,
+              `Pergunte: o que mudou desde a última vez?`,
+              `Pular etapas conhecidas para ganhar tempo.`
+            ],
+            correctIndex: 1,
+            explanation: `Isso mesmo! O.P.I.C. significa: Olhe (área, energias, pessoas), Pergunte (o que mudou?), Imagine (o que pode dar errado?) e Confirme (os controles estão prontos?).`
+          }
+        ]
+      },
+      {
+        id: 5,
+        code: `05`,
+        duration: `10 min`,
+        title: `Armadilhas para Erros`,
+        objective: `Reconhecer condições do ambiente, ferramentas e informações que induzem ao erro e saber como desarmá-las.`,
+        mascotTip: `Se uma condição favorece o erro — como frascos sem rótulo ou comandos idênticos — não basta pedir "mais atenção": precisamos desarmar a armadilha!`,
+        exercises: [
+          {
+            id: `m5_q1`,
+            type: `Múltipla Escolha`,
+            prompt: `No laboratório, dois frascos com produtos químicos diferentes têm cor e formato idênticos e um está com o rótulo apagado. O que isso representa?`,
+            options: [
+              `Apenas falta de memória de quem trabalha no setor.`,
+              `Uma armadilha para erro — condição do ambiente que torna o erro muito mais provável.`,
+              `Uma situação normal que não precisa ser corrigida.`
+            ],
+            correctIndex: 1,
+            explanation: `Correto! Embalagens semelhantes ou sem identificação são armadilhas clássicas. O desarme exige rotulagem clara, FISPQ disponível, identificação por cor e nunca reaproveitar embalagens.`
+          },
+          {
+            id: `m5_q2`,
+            type: `Múltipla Escolha`,
+            prompt: `Qual é a melhor pergunta para identificar armadilhas para erros no seu posto de trabalho antes de começar?`,
+            options: [
+              `"Quem será culpado se algo der errado hoje?"`,
+              `"Onde eu ou um colega novo poderia se confundir aqui?"`,
+              `"Como posso fazer mais rápido mesmo sem o manual?"`
+            ],
+            correctIndex: 1,
+            explanation: `Exato! Pensar onde você ou um colega recém-chegado poderia se confundir revela imediatamente falhas de identificação, 5S, ferramentas ou procedimentos desatualizados.`
+          }
+        ]
+      },
+      {
+        id: 6,
+        code: `06`,
+        duration: `08 min`,
+        title: `Fadiga e Aptidão para o Trabalho`,
+        objective: `Identificar sinais de fadiga, compreender que fadiga não é falha moral e usar o checklist de aptidão antes de tarefas críticas.`,
+        mascotTip: `Fadiga tem efeitos semelhantes aos do álcool no desempenho. Avisar o líder quando não está apto é atitude profissional, não fraqueza!`,
+        exercises: [
+          {
+            id: `m6_q1`,
+            type: `Verdadeiro ou Falso`,
+            prompt: `Verdadeiro ou Falso: Tomar duas xícaras de café forte ou energético cura a fadiga e devolve 100% dos reflexos para trabalhos energizados.`,
+            options: [
+              `Verdadeiro — cafeína elimina totalmente os efeitos da falta de sono.`,
+              `Falso — estimulantes mascaram o cansaço por pouco tempo; a única cura para a fadiga é dormir.`
+            ],
+            correctIndex: 1,
+            explanation: `Falso! A única cura real para a fadiga é o sono reparador. Em estado de exaustão ou lendo a mesma linha várias vezes, deve-se avisar o líder e não executar tarefas críticas.`
+          },
+          {
+            id: `m6_q2`,
+            type: `Mito ou Verdade`,
+            prompt: `Mito ou Verdade: Se você está com sono atrasado e reflexos lentos após uma viagem de madrugada, avisar seu líder antes de começar demonstra profissionalismo.`,
+            options: [
+              `Verdade — comunicar limitações permite ajustar, dividir ou reprogramar a tarefa com segurança.`,
+              `Mito — o colaborador deve esconder o cansaço para não parecer fraco.`
+            ],
+            correctIndex: 0,
+            explanation: `Verdade! Reconhecer limitações físicas ou mentais e comunicar o líder é um dever de segurança e autocuidado profissional.`
+          }
+        ]
+      },
+      {
+        id: 7,
+        code: `07`,
+        duration: `12 min`,
+        title: `Técnicas para Evitar Erros`,
+        objective: `Aplicar o Passo Atrás 5×5, os 5 hábitos preventivos e a abordagem respeitosa de colegas com perguntas abertas.`,
+        mascotTip: `Recue 5 passos, invista 5 minutos revendo mentalmente cada etapa e confirme seus recursos antes de pôr a mão na tarefa!`,
+        exercises: [
+          {
+            id: `m7_q1`,
+            type: `Múltipla Escolha`,
+            prompt: `Na técnica do Passo Atrás 5×5, o que o colaborador faz antes de iniciar uma atividade ou quando algo muda?`,
+            options: [
+              `Recua 5 passos e investe 5 minutos observando o cenário, revendo etapas, riscos, mudanças e recursos.`,
+              `Trabalha 5 horas seguidas e descansa 5 minutos no final do turno.`,
+              `Preenche 5 formulários diferentes sem olhar o equipamento.`
+            ],
+            correctIndex: 0,
+            explanation: `Correto! O 5×5 é uma pausa estruturada para observar o ambiente, antecipar o que pode dar errado e confirmar ferramentas, EPIs, permissões e informações.`
+          },
+          {
+            id: `m7_q2`,
+            type: `O que você faria?`,
+            prompt: `Você vê um colega prestes a abrir um painel sem verificar a ausência de tensão. Qual abordagem é mais efetiva segundo a técnica de intervenção em 5 passos?`,
+            options: [
+              `Gritar de longe: "Você não sabe que isso é proibido?!"`,
+              `Aproximar-se com respeito, conectar-se com calma e usar uma pergunta aberta: "O que pode acontecer se abrirmos agora sem testar a tensão?"`
+            ],
+            correctIndex: 1,
+            explanation: `Excelente! Perguntas fechadas ou acusatórias geram defensiva. Perguntas abertas feitas com respeito ("Qual o pior resultado possível?") geram reflexão e compromisso mútuo.`
+          }
+        ]
+      },
+      {
+        id: 8,
+        code: `08`,
+        duration: `08 min`,
+        title: `Stop Work`,
+        objective: `Exercer o direito e dever de parar atividades inseguras e executar o fluxo de 5 passos até a retomada segura e reporte.`,
+        mascotTip: `Qualquer pessoa pode e deve acionar o Stop Work diante de risco não previsto ou condição insegura. Só retomamos após corrigir e informar a todos!`,
+        exercises: [
+          {
+            id: `m8_q1`,
+            type: `Verdadeiro ou Falso`,
+            prompt: `Verdadeiro ou Falso: Apenas o técnico de SMS ou o supervisor do cliente têm autorização para acionar o Stop Work.`,
+            options: [
+              `Verdadeiro — colaboradores da operação precisam esperar o SMS chegar.`,
+              `Falso — parar uma atividade diante de condição insegura é um direito e dever de qualquer pessoa.`
+            ],
+            correctIndex: 1,
+            explanation: `Falso! O Stop Work pertence a todos: estagiários, técnicos, analistas, líderes e terceiros podem e devem parar diante de defeito, falta de proteção, dúvida ou mudança de cenário.`
+          },
+          {
+            id: `m8_q2`,
+            type: `O que você faria?`,
+            prompt: `Você acionou o Stop Work porque encontrou uma mangueira danificada no local de trabalho. Qual é a sequência correta antes de retomar?`,
+            options: [
+              `Esperar 10 minutos e retomar se o prazo estiver apertado.`,
+              `Parar e deixar a área segura, Comunicar o responsável/SMS, Avaliar o risco real, Corrigir a condição e Retomar somente com condições seguras confirmadas e reporte feito.`
+            ],
+            correctIndex: 1,
+            explanation: `Perfeito! Os 5 passos (Parar → Comunicar → Avaliar → Corrigir → Retomar) mais o reporte garantem que o problema seja eliminado na raiz e gere aprendizado.`
+          }
+        ]
+      },
+      {
+        id: 9,
+        code: `09`,
+        duration: `20 min`,
+        title: `Casos Práticos Pensalab`,
+        objective: `Analisar 6 situações reais da rotina Pensalab (campo, laboratório e oficina) integrando risco, fator humano, decisão segura e papel da equipe/liderança.`,
+        mascotTip: `Escolha o que você faria em cada um dos 6 casos Pensalab e depois compare com a análise completa sugerida pelo SMS!`,
+        exercises: [] /* Handled by interactive 6-case simulator inside Module 9 */
+      },
+      {
+        id: 10,
+        code: `10`,
+        duration: `13 min`,
+        title: `Quiz Final, Compromisso e Encerramento`,
+        objective: `Consolidar todo o aprendizado na Avaliação Final Abrangente, registrar seu Compromisso Individual com a Segurança e gerar seu relatório.`,
+        mascotTip: `Chegamos à etapa final! Responda à Avaliação Final com calma, registre sua atitude de segurança para amanhã e emita seu relatório!`,
+        exercises: [] /* Handled by Comprehensive Final Exam + Commitment + Mascot Closing inside Module 10 */
+      }
+    ];
+
+    const BRADLEY_STAGES = [
+      {
+        stage: `1. Patológica`,
+        quote: `"Tudo bem, desde que ninguém veja."`,
+        belief: `Zero acidente é impossível.`,
+        detail: `A segurança só importa quando há fiscalização. Desvios são ignorados e a cultura é baseada em sorte ou ocultação de incidentes.`
+      },
+      {
+        stage: `2. Reativa`,
+        quote: `"Acidentes não dependem de nós."`,
+        belief: `Agimos muito… depois que o acidente acontece.`,
+        detail: `Medidas surgem apenas como reação a ocorrências graves, geralmente buscando um culpado imediato em vez de corrigir falhas latentes.`
+      },
+      {
+        stage: `3. Calculativa`,
+        quote: `"Faça exatamente o que mandamos."`,
+        belief: `Zero é uma visão. Base na supervisão e regras.`,
+        detail: `Existem procedimentos, auditorias e checklists, mas a equipe ainda depende fortemente da cobrança do líder ou do SMS para cumpri-los.`
+      },
+      {
+        stage: `4. Proativa`,
+        quote: `"Eu sou dono da minha segurança."`,
+        belief: `Zero é a meta.`,
+        detail: `Cada profissional antecipa riscos antes de começar (5×5, O.P.I.C.), cuida dos próprios recursos e interrompe o trabalho se não houver condição segura.`
+      },
+      {
+        stage: `5. Generativa`,
+        quote: `"Cuidamos uns dos outros todos os dias."`,
+        belief: `Zero é uma expectativa compartilhada.`,
+        detail: `Cultura de equipe madura: todos intervêm com respeito quando veem um colega em risco, reportam quase acidentes sem medo e aprendem continuamente.`
+      }
+    ];
+
+    const CRITICAL_STATES = [
+      {
+        name: `Pressa`,
+        question: `Estou acelerando e pulando etapas?`,
+        appear: `Pular verificações, testes finais ou bloqueios para cumprir prazo, horário de voo ou meta.`,
+        example: `Técnico em cliente encerra o atendimento sem refazer o teste funcional para não perder o voo.`
+      },
+      {
+        name: `Frustração`,
+        question: `Estou reagindo no impulso?`,
+        appear: `Irritação diante de atraso, peça que não encaixa ou problema repetido que leva a improvisar.`,
+        example: `A peça não encaixa na bancada de montagem e o colaborador força com o martelo.`
+      },
+      {
+        name: `Cansaço`,
+        question: `Estou concentrado ou no limite físico?`,
+        appear: `Sono insuficiente, jornada longa ou viagem noturna reduzindo reflexos e leitura de detalhes.`,
+        example: `Técnico viaja de madrugada e começa intervenção elétrica imediatamente ao chegar.`
+      },
+      {
+        name: `Complacência`,
+        question: `Estou no piloto automático por excesso de rotina?`,
+        appear: `Confiar que "sempre fiz assim e nunca deu nada", dispensando EPI ou análise de risco.`,
+        example: `Manuseio de solvente no laboratório sem óculos porque "é só um pouquinho".`
+      }
+    ];
+
+    const OTHER_FACTORS = [
+      { factor: `Distração`, appear: `Celular, conversa ou interrupção durante etapa crítica`, example: `No almoxarifado, uma ligação no meio da separação faz trocar o item ou o lote.` },
+      { factor: `Falta de comunicação`, appear: `Informação incompleta ou não confirmada`, example: `Na troca de turno, ninguém avisa que o equipamento estava bloqueado para manutenção.` },
+      { factor: `Falta de conhecimento`, appear: `Sem treinamento ou experiência na tarefa`, example: `Colaborador opera um modelo novo de equipamento sem ter recebido capacitação.` },
+      { factor: `Falta de recursos`, appear: `Sem ferramenta, EPI, manual ou informação`, example: `A equipe chega ao cliente sem as ferramentas isoladas exigidas para o serviço elétrico.` },
+      { factor: `Excesso de confiança`, appear: `Superestimar a própria habilidade`, example: `Profissional experiente dispensa a análise de risco "porque já fez isso mil vezes".` },
+      { factor: `Pressão por produtividade`, appear: `Prazo e meta acima da segurança`, example: `O cliente cobra a liberação e a equipe trabalha sem isolar a área.` }
+    ];
+
+    const RISK_HUNT_HAZARDS = [
+      {
+        id: `h_cable`,
+        title: `Cabos soltos no corredor`,
+        control: `Organizar e passar cabos por passagem protegida ou aérea, mantendo rotas de circulação livres (5S).`
+      },
+      {
+        id: `h_bottle`,
+        title: `Frasco de solvente sem rótulo e aberto`,
+        control: `Nunca utilizar produto sem identificação; manter rótulo legível, FISPQ acessível e frasco tampado.`
+      },
+      {
+        id: `h_pliers`,
+        title: `Alicate com isolação trincada na bancada`,
+        control: `Retirar imediatamente de uso, sinalizar ferramenta danificada e substituir por ferramenta inspecionada.`
+      },
+      {
+        id: `h_panel`,
+        title: `Painel elétrico aberto sem bloqueio/etiquetagem`,
+        control: `Aplicar bloqueio e etiquetagem (LOTO), testar ausência de tensão e isolar a área antes da intervenção.`
+      },
+      {
+        id: `h_ppe`,
+        title: `Operação química sem óculos de segurança`,
+        control: `Utilizar EPI obrigatório (óculos de segurança e luvas compatíveis) mesmo em tarefas rápidas ("só um pouquinho").`
+      }
+    ];
+
+    const ERROR_TRAPS_PENSALAB = [
+      { trap: `Equipamentos e frascos parecidos`, disarm: `Identificação por cor, etiqueta padronizada e armazenamento em locais separados.` },
+      { trap: `Procedimento desatualizado`, disarm: `Revisar após mudanças técnicas junto com quem executa a tarefa na prática.` },
+      { trap: `Ferramenta inadequada`, disarm: `Kit padrão por tipo de serviço e checklist obrigatório antes de sair para campo.` },
+      { trap: `Produto sem identificação`, disarm: `Rótulo completo e FISPQ sempre presentes; nunca reaproveitar embalagens.` },
+      { trap: `Informação incompleta`, disarm: `Ordem de Serviço (OS) completa, briefing prévio e confirmação "repita o que entendeu".` },
+      { trap: `Ambiente desorganizado`, disarm: `Aplicar 5S, manter corredores livres e lugar definido para cada item.` },
+      { trap: `Falta de treinamento`, disarm: `Respeitar matriz de treinamento; ninguém executa atividade nova sem capacitação.` },
+      { trap: `Interrupções na tarefa`, disarm: `Evitar interromper tarefas críticas; se interrompido, retomar sempre um passo antes.` }
+    ];
+
+    const PENSALAB_CASES = [
+      {
+        id: `case_1`,
+        title: `Caso 1 · Pressa no atendimento ao cliente`,
+        situation: `O técnico precisa concluir o atendimento em cliente até as 17h para pegar o voo de volta. Ainda falta o teste funcional e parte do painel segue energizada. O cliente pede urgência na liberação.`,
+        question: `O que você faria nessa situação?`,
+        options: [
+          `Encerrar o atendimento sem o teste funcional para não perder o voo.`,
+          `Aplicar o 5×5, não sacrificar o teste funcional nem o bloqueio, comunicar líder e cliente e remarcar o voo se preciso.`
+        ],
+        correctIndex: 1,
+        analysis: {
+          risk: `Choque elétrico e equipamento liberado com falha oculta.`,
+          factor: `Pressa, pressão por prazo e urgência do cliente.`,
+          consequence: `Lesão grave, acidente no cliente e retrabalho.`,
+          decision: `Aplicar Passo Atrás 5×5, executar o bloqueio e o teste completo; avisar líder e cliente para replanejar o retorno.`,
+          teamLeadership: `Planejar logística com folga e apoiar a remarcação sem constranger o técnico.`
+        }
+      },
+      {
+        id: `case_2`,
+        title: `Caso 2 · Equipamento que ninguém ensinou`,
+        situation: `Chegou um modelo novo de equipamento ao laboratório. Sem treinamento formal nem leitura do manual, um colaborador decide operá-lo dizendo: "Parece igual ao antigo".`,
+        question: `Qual a decisão segura diante desse equipamento novo?`,
+        options: [
+          `Operar aos poucos testando os botões, já que parece igual ao modelo anterior.`,
+          `Não operar. Solicitar treinamento e manual do fabricante; acionar Stop Work se alguém insistir.`
+        ],
+        correctIndex: 1,
+        analysis: {
+          risk: `Operação incorreta, exposição a energia ou produto químico.`,
+          factor: `Falta de conhecimento/treinamento e excesso de confiança.`,
+          consequence: `Lesão ao operador, dano ao ativo novo e ensaio inválido.`,
+          decision: `Não operar até receber capacitação registrada e consultar procedimentos.`,
+          teamLeadership: `Liberar uso do equipamento novo somente após treinamento e registro na matriz.`
+        }
+      },
+      {
+        id: `case_3`,
+        title: `Caso 3 · A ferramenta danificada`,
+        situation: `Ao preparar o serviço, o profissional nota que a isolação do alicate está trincada. Um colega ao lado comenta: "Dá para usar hoje, é rapidinho".`,
+        question: `Como agir diante da ferramenta com isolação trincada?`,
+        options: [
+          `Usar com cuidado extra só nessa tarefa rápida para não atrasar.`,
+          `Retirar de uso imediatamente, identificar como defeituosa, comunicar conforme procedimento e buscar ferramenta adequada.`
+        ],
+        correctIndex: 1,
+        analysis: {
+          risk: `Choque elétrico e corte nas mãos.`,
+          factor: `Complacência ("é rapidinho"), pressão do grupo e falta de recurso reserva.`,
+          consequence: `Choque elétrico, queimadura e afastamento.`,
+          decision: `Retirar de uso, sinalizar e não iniciar a atividade sem a ferramenta isolada íntegra.`,
+          teamLeadership: `Inspeção periódica, ferramenta reserva no kit e cultura em que ninguém pressiona o colega.`
+        }
+      },
+      {
+        id: `case_4`,
+        title: `Caso 4 · A ordem de serviço incompleta`,
+        situation: `A equipe recebe uma solicitação de campo (OS) sem saber que o equipamento opera com produto químico e sem indicação clara do ponto de bloqueio de energia.`,
+        question: `A equipe deve iniciar o serviço ao chegar ao local?`,
+        options: [
+          `Sim, descobrir na hora desmontando o equipamento para ganhar tempo.`,
+          `Não iniciar. Confirmar dados essenciais com planejamento e cliente, consultar a FISPQ e refazer a análise de risco.`
+        ],
+        correctIndex: 1,
+        analysis: {
+          risk: `Exposição química e energização/partida inesperada.`,
+          factor: `Falta de comunicação e informação incompleta na OS.`,
+          consequence: `Intoxicação, queimadura química, choque ou lesão mecânica.`,
+          decision: `Esclarecer toda dúvida relevante antes da execução, confirmar bloqueio e consultar FISPQ.`,
+          teamLeadership: `Padronizar OS completa e realizar briefing técnico antes do deslocamento.`
+        }
+      },
+      {
+        id: `case_5`,
+        title: `Caso 5 · Cansado antes de uma tarefa crítica`,
+        situation: `Após uma viagem longa, o colaborador dormiu apenas 4 horas. Durante a preparação, percebe que leu o mesmo item da instrução três vezes. A próxima tarefa é um ajuste em equipamento energizado.`,
+        question: `Qual é a atitude profissional correta?`,
+        options: [
+          `Tomar um café forte e fazer o ajuste energizado mesmo assim.`,
+          `Avisar o líder antes de começar, relatar a fadiga e trocar por tarefa menos crítica ou reprogramar.`
+        ],
+        correctIndex: 1,
+        analysis: {
+          risk: `Erro de execução e contato acidental com parte energizada.`,
+          factor: `Fadiga severa e atenção comprometida.`,
+          consequence: `Acidente grave e dano ao equipamento.`,
+          decision: `Comunicar imediatamente a liderança e não executar tarefa crítica em estado de fadiga.`,
+          teamLeadership: `Escala que respeite o descanso e acolhimento sem julgamento a quem sinaliza fadiga.`
+        }
+      },
+      {
+        id: `case_6`,
+        title: `Caso 6 · A atividade que mudou no meio`,
+        situation: `Durante uma manutenção planejada no cliente, outra equipe começa a realizar serviço de solda ao lado e o escopo da tarefa aumenta além do combinado inicialmente.`,
+        question: `O plano inicial continua válido?`,
+        options: [
+          `Sim, manter o ritmo como se nada tivesse mudado para cumprir o horário.`,
+          `Não. Acionar Stop Work, comunicar, reavaliar os novos riscos (fogo/partículas) e atualizar a permissão antes de retomar.`
+        ],
+        correctIndex: 1,
+        analysis: {
+          risk: `Incêndio, projeção de partículas e introdução de novas energias.`,
+          factor: `Complacência e falha na reavaliação diante de mudança.`,
+          consequence: `Queimaduras, lesão ocular e princípio de incêndio.`,
+          decision: `Mudou o cenário? Pare, comunique, reavalie riscos e atualize controles/permissões.`,
+          teamLeadership: `Garantir gestão de mudanças (MOC) e alinhamento imediato entre frentes de trabalho no cliente.`
+        }
+      }
+    ];
+
+    const FINAL_EXAM_QUESTIONS = [
+      {
+        id: `f_q1`,
+        moduleRef: 1,
+        prompt: `1. O que são Fatores Humanos?`,
+        options: [
+          `Apenas comportamentos inadequados dos trabalhadores.`,
+          `A interação entre pessoas, equipamentos, processos, ambiente e organização.`,
+          `Somente riscos ergonômicos ou de saúde ocupacional.`
+        ],
+        correctIndex: 1,
+        explanation: `Fatores Humanos abrangem todas as interações entre pessoas, equipamentos, procedimentos, ambiente e organização.`
+      },
+      {
+        id: `f_q2`,
+        moduleRef: 1,
+        prompt: `2. Qual é a melhor abordagem quando ocorre um erro ou desvio?`,
+        options: [
+          `Identificar o culpado, punir e encerrar a investigação.`,
+          `Cobrar apenas que o colaborador preste mais atenção.`,
+          `Investigar os fatores contribuintes (individuais e sistêmicos) para melhorar as condições.`
+        ],
+        correctIndex: 2,
+        explanation: `Investigar fatores individuais e falhas latentes do sistema permite prevenir recorrências de forma duradoura.`
+      },
+      {
+        id: `f_q3`,
+        moduleRef: 3,
+        prompt: `3. Quais fatores internos e situacionais aumentam a probabilidade de erro?`,
+        options: [
+          `Pressa, frustração, cansaço, complacência e distração.`,
+          `Planejamento prévio e comunicação assertiva.`,
+          `Verificação pré-uso de ferramentas e análise de risco.`
+        ],
+        correctIndex: 0,
+        explanation: `Pressa, frustração, cansaço, complacência e distrações comprometem diretamente a atenção e a tomada de decisão.`
+      },
+      {
+        id: `f_q4`,
+        moduleRef: 5,
+        prompt: `4. O que é uma "armadilha para erro"?`,
+        options: [
+          `Uma condição no ambiente, equipamento ou processo que torna o erro mais provável.`,
+          `Uma punição disciplinar aplicada pelo SMS.`,
+          `Uma atividade totalmente isenta de riscos.`
+        ],
+        correctIndex: 0,
+        explanation: `Armadilhas são condições (ex.: frascos iguais, comandos parecidos, OS incompleta) que favorecem a ocorrência do erro.`
+      },
+      {
+        id: `f_q5`,
+        moduleRef: 4,
+        prompt: `5. O que é percepção de risco e onde ocorrem mais incidentes?`,
+        options: [
+          `Reconhecer perigos e avaliar como agir; a maioria dos incidentes ocorre em tarefas de rotina.`,
+          `Trabalhar mais rápido; acidentes só ocorrem em tarefas raras.`,
+          `Nunca ter sofrido acidente; a experiência dispensa cuidados.`
+        ],
+        correctIndex: 0,
+        explanation: `Percepção de risco envolve reconhecer perigos e avaliar controles antes de agir. Na rotina, o piloto automático aumenta a exposição.`
+      },
+      {
+        id: `f_q6`,
+        moduleRef: 5,
+        prompt: `6. O que fazer ao identificar uma ferramenta com isolação danificada?`,
+        options: [
+          `Usar com cuidado redobrado se for apenas uma tarefa rápida.`,
+          `Retirar imediatamente de uso, sinalizar e comunicar conforme procedimento.`,
+          `Guardar na caixa sem avisar ninguém após concluir o serviço.`
+        ],
+        correctIndex: 1,
+        explanation: `Ferramenta danificada deve ser retirada de uso imediatamente e comunicada para substituição segura.`
+      },
+      {
+        id: `f_q7`,
+        moduleRef: 7,
+        prompt: `7. Qual é o objetivo da Técnica do Passo Atrás 5×5?`,
+        options: [
+          `Aumentar a velocidade da entrega no cliente.`,
+          `Recuar e investir 5 minutos revisando mentalmente etapas, riscos, mudanças e recursos antes de agir.`,
+          `Substituir todos os procedimentos escritos da empresa.`
+        ],
+        correctIndex: 1,
+        explanation: `O 5×5 promove uma pausa consciente de observação e revisão antes de iniciar ou quando o cenário muda.`
+      },
+      {
+        id: `f_q8`,
+        moduleRef: 8,
+        prompt: `8. O que fazer quando a atividade ou o ambiente muda durante a execução?`,
+        options: [
+          `Continuar o plano original sem parar.`,
+          `Ignorar a mudança se o prazo estiver apertado.`,
+          `Parar (Stop Work), avaliar os novos riscos, comunicar e reavaliar o plano antes de retomar.`
+        ],
+        correctIndex: 2,
+        explanation: `Mudanças no escopo ou ambiente invalidam a análise inicial e exigem pausa, comunicação e reavaliação.`
+      },
+      {
+        id: `f_q9`,
+        moduleRef: 8,
+        prompt: `9. O que significa Stop Work e quem pode acioná-lo?`,
+        options: [
+          `Direito e dever de qualquer pessoa interromper uma atividade quando a segurança puder estar comprometida.`,
+          `Cancelar definitivamente todos os contratos da empresa.`,
+          `Ordem exclusiva do supervisor ou cliente.`
+        ],
+        correctIndex: 0,
+        explanation: `Qualquer colaborador pode e deve acionar o Stop Work diante de condição insegura ou risco não previsto.`
+      },
+      {
+        id: `f_q10`,
+        moduleRef: 10,
+        prompt: `10. Qual é a mensagem central do treinamento "Fatores Humanos – Nós Somos a Solução"?`,
+        options: [
+          `Apenas o setor de SMS é responsável pela segurança.`,
+          `Somente o comportamento individual importa; condições de trabalho não influenciam.`,
+          `Todos e o sistema de trabalho contribuem para a segurança por meio de perceber, comunicar, interromper e aprender.`
+        ],
+        correctIndex: 2,
+        explanation: `A segurança é responsabilidade compartilhada: depende das pessoas, das decisões conscientes, da comunicação e da melhoria contínua do sistema.`
+      }
+    ];
+
+    const COMMITMENT_ITEMS = [
+      `Fazer o Passo Atrás 5×5 antes das tarefas e diante de mudanças`,
+      `Comunicar desvios, riscos e quase acidentes sem omissão`,
+      `Acionar o Stop Work sempre que algo não estiver seguro`,
+      `Avisar meu líder quando não estiver apto (fadiga ou limitação)`,
+      `Cuidar dos colegas com intervenções respeitosas e aceitar ser cuidado`,
+      `Aprender com os erros e falhas do sistema, sem buscar culpados`
+    ];
+
+    /* ============================================================
+       STATE MANAGEMENT (Persisted via window.notebookAppApi)
+       ============================================================ */
+
+    function getDefaultParticipant() {
+      const today = new Date().toISOString().slice(0, 10);
+      return {
+        fullName: ``,
+        role: ``,
+        department: ``,
+        unit: ``,
+        date: today,
+        instructor: `Marcelo Alves – SMS Pensalab`
+      };
+    }
+
+    let appState = {
+      currentView: `welcome`,
+      activeModule: 1,
+      participant: getDefaultParticipant(),
+      registered: false,
+      completedModules: [],
+      exerciseAnswers: {},      /* { [exId]: selectedIndex } */
+      foundHazards: [],         /* array of hazard IDs in Module 4 */
+      aptitudeChecklist: [],    /* array of indices in Module 6 */
+      caseDecisions: {},        /* { [caseId]: { selectedIndex, revealed } } */
+      finalExamAnswers: {},     /* { [qId]: selectedIndex } */
+      finalExamSubmitted: false,
+      finalExamScore: null,     /* 0-100 */
+      commitmentsChecked: [],   /* array of indices */
+      personalAttitude: ``,
+      completedAt: null,
+      adminConfig: {
+        minPassingScore: 70,
+        pin: `SMS2026`
+      },
+      history: []               /* array of completed/saved participant records */
+    };
+
+    let uiTransient = {
+      bradleyIdx: 3,
+      stateIdx: 0,
+      adminUnlocked: false,
+      selectedHistoryIdx: null,
+      riskTimerRemaining: null,
+      riskTimerInterval: null
+    };
+
+    async function persistState() {
+      const syncEl = document.getElementById(`strip-sync-status`);
+      if (syncEl) syncEl.textContent = `Salvando...`;
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+          await window.notebookAppApi.setAppState(appState);
+        }
+        if (syncEl) {
+          syncEl.textContent = `Salvo localmente`;
+          syncEl.className = `mono-tag mono-tag--green`;
+        }
+      } catch (err) {
+        if (syncEl) {
+          syncEl.textContent = `Aviso ao salvar`;
+          syncEl.className = `mono-tag mono-tag--orange`;
+        }
+      }
+    }
+
+    async function loadState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            appState = {
+              ...appState,
+              ...saved,
+              participant: { ...getDefaultParticipant(), ...(saved.participant || {}) },
+              adminConfig: { ...appState.adminConfig, ...(saved.adminConfig || {}) },
+              history: Array.isArray(saved.history) ? saved.history : []
+            };
+          }
+        }
+      } catch (err) {
+        /* Fallback cleanly to default state */
+      }
+    }
+
+    /* ============================================================
+       MASCOT SVG GENERATOR (SMS PENSALAB GUARDIAN)
+       ============================================================ */
+
+    function renderMascotSvg(mood) {
+      /* mood: 'guide' (blue), 'alert' (orange), 'positive' (green) */
+      let badgeFill = `var(--primary)`;
+      let badgeAccent = `var(--primary-container)`;
+      let mouthPath = `M42 53 Q50 59 58 53`;
+      let statusIcon = `<path d="M47 22L50 25L55 19" stroke="var(--on-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+      if (mood === `alert`) {
+        badgeFill = `var(--warning)`;
+        badgeAccent = `var(--warning-container)`;
+        mouthPath = `M43 56 Q50 53 57 56`;
+        statusIcon = `<path d="M50 18V24M50 27V28" stroke="var(--on-primary)" stroke-width="2.4" stroke-linecap="round"/>`;
+      } else if (mood === `positive`) {
+        badgeFill = `var(--positive)`;
+        badgeAccent = `var(--positive-container)`;
+        mouthPath = `M41 52 Q50 61 59 52`;
+        statusIcon = `<path d="M45 22L48.5 25.5L55.5 18.5" stroke="var(--on-primary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`;
+      }
+
+      return `
+        <svg viewBox="0 0 100 110" width="100%" height="100%" aria-hidden="true">
+          <rect x="8" y="8" width="84" height="94" rx="12" fill="${badgeAccent}" stroke="var(--navy)" stroke-width="2"/>
+          <!-- Shoulders & Safety Vest -->
+          <path d="M22 98C22 79 34 70 50 70C66 70 78 79 78 98H22Z" fill="var(--navy)"/>
+          <path d="M35 72L42 98H31L26 83Z" fill="var(--mascot-vest-stripe)"/>
+          <path d="M65 72L58 98H69L74 83Z" fill="var(--mascot-vest-stripe)"/>
+          <path d="M44 70L50 86L56 70Z" fill="var(--surface-container)"/>
+          <!-- Pensalab Pocket Shield -->
+          <path d="M59 81H67V88C67 91 63 93 63 93C63 93 59 91 59 88V81Z" fill="${badgeFill}" stroke="var(--surface-container)" stroke-width="1"/>
+          <!-- Neck & Head -->
+          <rect x="44" y="60" width="12" height="12" rx="4" fill="var(--mascot-skin-shadow)"/>
+          <circle cx="50" cy="46" r="17" fill="var(--mascot-skin)" stroke="var(--navy)" stroke-width="1.8"/>
+          <!-- Safety Glasses -->
+          <rect x="36" y="40" width="12" height="8" rx="3" fill="var(--mascot-visor)" stroke="var(--navy)" stroke-width="1.6"/>
+          <rect x="52" y="40" width="12" height="8" rx="3" fill="var(--mascot-visor)" stroke="var(--navy)" stroke-width="1.6"/>
+          <line x1="48" y1="43" x2="52" y2="43" stroke="var(--navy)" stroke-width="1.6"/>
+          <circle cx="42" cy="44" r="1.8" fill="var(--navy)"/>
+          <circle cx="58" cy="44" r="1.8" fill="var(--navy)"/>
+          <!-- Expression -->
+          <path d="${mouthPath}" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round"/>
+          <!-- Hard Hat -->
+          <path d="M30 35C30 22 39 14 50 14C61 14 70 22 70 35H30Z" fill="${badgeFill}" stroke="var(--navy)" stroke-width="2"/>
+          <rect x="27" y="33" width="46" height="5" rx="2.5" fill="var(--navy)"/>
+          <!-- Helmet Front Emblem -->
+          <circle cx="50" cy="22" r="7" fill="var(--navy)"/>
+          ${statusIcon}
+        </svg>
+      `;
+    }
+
+    /* ============================================================
+       STATISTICS & PROGRESS COMPUTATIONS
+       ============================================================ */
+
+    function computeStats() {
+      /* Count formative exercises in modules 1..8 */
+      let totalFormative = 0;
+      let answeredFormative = 0;
+      let hits = 0;
+      let misses = 0;
+
+      MODULES.forEach((mod) => {
+        if (mod.id <= 8) {
+          mod.exercises.forEach((ex) => {
+            totalFormative += 1;
+            const ans = appState.exerciseAnswers[ex.id];
+            if (ans !== undefined && ans !== null) {
+              answeredFormative += 1;
+              if (ans === ex.correctIndex) hits += 1;
+              else misses += 1;
+            }
+          });
+        }
+      });
+
+      /* Module 4 Risk Hunt counts as 5 points / 1 activity */
+      const foundCount = appState.foundHazards.length;
+      const totalHazards = RISK_HUNT_HAZARDS.length;
+
+      /* Module 9 Cases */
+      const casesDone = Object.keys(appState.caseDecisions).length;
+      PENSALAB_CASES.forEach((c) => {
+        const dec = appState.caseDecisions[c.id];
+        if (dec && dec.selectedIndex !== undefined) {
+          if (dec.selectedIndex === c.correctIndex) hits += 1;
+          else misses += 1;
+        }
+      });
+
+      /* Module 10 Final Exam */
+      if (appState.finalExamSubmitted) {
+        FINAL_EXAM_QUESTIONS.forEach((q) => {
+          const ans = appState.finalExamAnswers[q.id];
+          if (ans === q.correctIndex) hits += 1;
+          else misses += 1;
+        });
+      }
+
+      /* Overall completion percentage */
+      const completedModCount = appState.completedModules.length;
+      const examDone = appState.finalExamSubmitted ? 1 : 0;
+      const totalSteps = 10;
+      const pct = Math.min(100, Math.round((completedModCount / totalSteps) * 100));
+
+      const minScore = Number(appState.adminConfig.minPassingScore) || 70;
+      let statusLabel = `Em andamento`;
+      let statusCode = `pending`;
+      if (appState.finalExamSubmitted && appState.finalExamScore !== null) {
+        if (appState.finalExamScore >= minScore) {
+          statusLabel = `Aprovado`;
+          statusCode = `approved`;
+        } else {
+          statusLabel = `Em Reforço`;
+          statusCode = `review`;
+        }
+      }
+
+      return {
+        totalFormative,
+        answeredFormative,
+        foundCount,
+        totalHazards,
+        casesDone,
+        hits,
+        misses,
+        completedModCount,
+        examDone,
+        pct,
+        minScore,
+        statusLabel,
+        statusCode
+      };
+    }
+
+    function updateProgressStrip() {
+      const stats = computeStats();
+      const pNameEl = document.getElementById(`strip-participant-name`);
+      const pctEl = document.getElementById(`strip-progress-pct`);
+      const fillEl = document.getElementById(`strip-progress-fill`);
+      const ariaEl = document.getElementById(`strip-progress-aria`);
+      const modCountEl = document.getElementById(`strip-modules-count`);
+      const hitsMissesEl = document.getElementById(`strip-hits-misses`);
+      const gradeEl = document.getElementById(`strip-final-grade`);
+
+      if (pNameEl) {
+        pNameEl.textContent = appState.registered && appState.participant.fullName
+          ? `${appState.participant.fullName} · ${appState.participant.unit}`
+          : `Participante não identificado`;
+      }
+      if (pctEl) pctEl.textContent = `${stats.pct}%`;
+      if (fillEl) {
+        fillEl.style.width = `${stats.pct}%`;
+        if (stats.pct >= 100) fillEl.classList.add(`is-complete`);
+        else fillEl.classList.remove(`is-complete`);
+      }
+      if (ariaEl) ariaEl.setAttribute(`aria-valuenow`, String(stats.pct));
+      if (modCountEl) modCountEl.textContent = `${stats.completedModCount} / 10`;
+      if (hitsMissesEl) hitsMissesEl.textContent = `${stats.hits} / ${stats.misses}`;
+      if (gradeEl) {
+        gradeEl.textContent = appState.finalExamSubmitted && appState.finalExamScore !== null
+          ? `${appState.finalExamScore}% (${stats.statusLabel})`
+          : `—`;
+      }
+    }
+
+    /* ============================================================
+       NAVIGATION & VIEW SWITCHING
+       ============================================================ */
+
+    function switchView(viewName) {
+      appState.currentView = viewName;
+      const views = [`welcome`, `training`, `report`, `admin`];
+      views.forEach((v) => {
+        const panel = document.getElementById(`view-${v}`);
+        const navBtn = document.getElementById(`nav-btn-${v}`);
+        if (panel) {
+          if (v === viewName) panel.classList.add(`is-visible`);
+          else panel.classList.remove(`is-visible`);
+        }
+        if (navBtn) {
+          if (v === viewName) navBtn.classList.add(`is-active`);
+          else navBtn.classList.remove(`is-active`);
+        }
+      });
+
+      if (viewName === `training`) {
+        renderModuleRail();
+        renderActiveModule();
+      } else if (viewName === `report`) {
+        renderReportView();
+      } else if (viewName === `admin`) {
+        if (uiTransient.adminUnlocked) renderAdminDashboard();
+      }
+      persistState();
+    }
+
+    /* ============================================================
+       WELCOME & PARTICIPANT REGISTRATION
+       ============================================================ */
+
+    function renderWelcomeView() {
+      const mascotSlot = document.getElementById(`welcome-mascot-slot`);
+      if (mascotSlot) mascotSlot.innerHTML = renderMascotSvg(`guide`);
+
+      const roadmapEl = document.getElementById(`welcome-roadmap-list`);
+      if (roadmapEl) {
+        roadmapEl.innerHTML = MODULES.map((m) => `
+          <div class="roadmap-chip">
+            <span class="roadmap-num">${m.code}</span>
+            <span>${escapeHtml(m.title)}</span>
+          </div>
+        `).join(``);
+      }
+
+      /* Populate form fields from state */
+      const fName = document.getElementById(`input-fullname`);
+      const fRole = document.getElementById(`input-role`);
+      const fDept = document.getElementById(`input-dept`);
+      const fUnit = document.getElementById(`input-unit`);
+      const fDate = document.getElementById(`input-date`);
+
+      if (fName) fName.value = appState.participant.fullName || ``;
+      if (fRole) fRole.value = appState.participant.role || ``;
+      if (fDept) fDept.value = appState.participant.department || ``;
+      if (fUnit) fUnit.value = appState.participant.unit || ``;
+      if (fDate) fDate.value = appState.participant.date || getDefaultParticipant().date;
+
+      const resumeBanner = document.getElementById(`resume-banner`);
+      const resumeText = document.getElementById(`resume-banner-text`);
+      if (resumeBanner && resumeText) {
+        if (appState.registered && appState.participant.fullName) {
+          const stats = computeStats();
+          resumeBanner.style.display = `block`;
+          resumeText.textContent = `${appState.participant.fullName} (${appState.participant.role}) — ${stats.completedModCount}/10 módulos concluídos (${stats.pct}%).`;
+        } else {
+          resumeBanner.style.display = `none`;
+        }
+      }
+    }
+
+    function handleParticipantSubmit(event) {
+      event.preventDefault();
+      const fName = document.getElementById(`input-fullname`);
+      const fRole = document.getElementById(`input-role`);
+      const fDept = document.getElementById(`input-dept`);
+      const fUnit = document.getElementById(`input-unit`);
+      const fDate = document.getElementById(`input-date`);
+      const msgEl = document.getElementById(`welcome-form-msg`);
+
+      const checks = [
+        { el: fName, err: `err-fullname`, val: fName ? fName.value.trim() : `` },
+        { el: fRole, err: `err-role`, val: fRole ? fRole.value.trim() : `` },
+        { el: fDept, err: `err-dept`, val: fDept ? fDept.value.trim() : `` },
+        { el: fUnit, err: `err-unit`, val: fUnit ? fUnit.value.trim() : `` },
+        { el: fDate, err: `err-date`, val: fDate ? fDate.value.trim() : `` }
+      ];
+
+      let valid = true;
+      checks.forEach((c) => {
+        const errEl = document.getElementById(c.err);
+        if (!c.val) {
+          valid = false;
+          if (errEl) errEl.classList.add(`is-shown`);
+        } else {
+          if (errEl) errEl.classList.remove(`is-shown`);
+        }
+      });
+
+      if (!valid) {
+        if (msgEl) {
+          msgEl.className = `inline-msg inline-msg--err is-shown`;
+          msgEl.textContent = `Preencha todos os campos obrigatórios antes de iniciar.`;
+        }
+        return;
+      }
+
+      appState.participant = {
+        fullName: checks[0].val,
+        role: checks[1].val,
+        department: checks[2].val,
+        unit: checks[3].val,
+        date: checks[4].val,
+        instructor: `Marcelo Alves – SMS Pensalab`
+      };
+      appState.registered = true;
+      if (msgEl) msgEl.className = `inline-msg`;
+
+      updateProgressStrip();
+      persistState();
+      switchView(`training`);
+    }
+
+    function continueSavedTraining() {
+      switchView(`training`);
+    }
+
+    function startNewParticipantFlow() {
+      /* Preserve history and adminConfig, reset current participant progress */
+      if (appState.registered && appState.participant.fullName) {
+        saveCurrentToAdminHistory(false);
+      }
+      appState.participant = getDefaultParticipant();
+      appState.registered = false;
+      appState.activeModule = 1;
+      appState.completedModules = [];
+      appState.exerciseAnswers = {};
+      appState.foundHazards = [];
+      appState.aptitudeChecklist = [];
+      appState.caseDecisions = {};
+      appState.finalExamAnswers = {};
+      appState.finalExamSubmitted = false;
+      appState.finalExamScore = null;
+      appState.commitmentsChecked = [];
+      appState.personalAttitude = ``;
+      appState.completedAt = null;
+      renderWelcomeView();
+      updateProgressStrip();
+      persistState();
+    }
+
+    function resetCurrentProgressBtn(btn) {
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Confirmar limpeza dos dados atuais`;
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.textContent = `Limpar dados atuais`;
+      startNewParticipantFlow();
+    }
+
+    /* ============================================================
+       MODULE NAVIGATION & COMPLETION
+       ============================================================ */
+
+    function renderModuleRail() {
+      const rail = document.getElementById(`module-rail-list`);
+      const mobileSel = document.getElementById(`mobile-module-select`);
+      if (rail) {
+        rail.innerHTML = MODULES.map((m) => {
+          const isActive = m.id === appState.activeModule;
+          const isDone = appState.completedModules.includes(m.id);
+          let hasActivity = false;
+          if (m.id <= 8) {
+            hasActivity = m.exercises.some((ex) => appState.exerciseAnswers[ex.id] !== undefined);
+          } else if (m.id === 9) {
+            hasActivity = Object.keys(appState.caseDecisions).length > 0;
+          } else if (m.id === 10) {
+            hasActivity = Object.keys(appState.finalExamAnswers).length > 0;
+          }
+          const dotClass = isDone ? `is-done` : (hasActivity ? `is-progress` : ``);
+          return `
+            <button type="button" class="module-nav-btn ${isActive ? `is-active` : ``}" onclick="selectModule(${m.id})">
+              <span class="module-nav-num">${m.code}</span>
+              <span class="module-nav-title">${escapeHtml(m.title)}</span>
+              <span class="module-status-dot ${dotClass}" title="${isDone ? `Concluído` : `Pendente`}"></span>
+            </button>
+          `;
+        }).join(``);
+      }
+      if (mobileSel) {
+        mobileSel.innerHTML = MODULES.map((m) => {
+          const isDone = appState.completedModules.includes(m.id);
+          return `<option value="${m.id}" ${m.id === appState.activeModule ? `selected` : ``}>${m.code} · ${escapeHtml(m.title)} ${isDone ? `(Concluído)` : ``}</option>`;
+        }).join(``);
+      }
+    }
+
+    function selectModule(modId) {
+      appState.activeModule = modId;
+      if (uiTransient.riskTimerInterval) {
+        clearInterval(uiTransient.riskTimerInterval);
+        uiTransient.riskTimerInterval = null;
+      }
+      renderModuleRail();
+      renderActiveModule();
+      persistState();
+      window.scrollTo({ top: 0, behavior: `smooth` });
+    }
+
+    function toggleModuleComplete(modId) {
+      const idx = appState.completedModules.indexOf(modId);
+      if (idx === -1) {
+        appState.completedModules.push(modId);
+      } else {
+        appState.completedModules.splice(idx, 1);
+      }
+      updateProgressStrip();
+      renderModuleRail();
+      renderActiveModule();
+      persistState();
+    }
+
+    function markModuleDoneAndNext(modId) {
+      if (!appState.completedModules.includes(modId)) {
+        appState.completedModules.push(modId);
+      }
+      updateProgressStrip();
+      if (modId < 10) {
+        selectModule(modId + 1);
+      } else {
+        renderModuleRail();
+        renderActiveModule();
+        persistState();
+      }
+    }
+
+    /* ============================================================
+       MODULE CONTENT RENDERERS (MODULES 1–10)
+       ============================================================ */
+
+    function renderActiveModule() {
+      const canvas = document.getElementById(`module-canvas`);
+      if (!canvas) return;
+      const mod = MODULES.find((m) => m.id === appState.activeModule) || MODULES[0];
+      const isDone = appState.completedModules.includes(mod.id);
+
+      let html = `
+        <div class="module-header-card">
+          <div class="module-meta-row">
+            <span class="mono-tag">MÓDULO ${mod.code} DE 10 · DURAÇÃO ESTIMADA: ${mod.duration}</span>
+            <span class="mono-tag ${isDone ? `mono-tag--green` : `mono-tag--orange`}">${isDone ? `Módulo Concluído` : `Em Estudo`}</span>
+          </div>
+          <h2 class="section-title">${escapeHtml(mod.title)}</h2>
+          <p style="margin:0; color:var(--on-surface-variant);">${escapeHtml(mod.objective)}</p>
+        </div>
+
+        <div class="mascot-guide-card">
+          <div class="mascot-box">${renderMascotSvg(`guide`)}</div>
+          <div>
+            <span class="label-mono">DICA DO GUARDIÃO SMS PENSALAB</span>
+            <p style="margin:0; font-weight:500;">${escapeHtml(mod.mascotTip)}</p>
+          </div>
+        </div>
+      `;
+
+      /* Specific Module Content */
+      if (mod.id === 1) html += renderModule1Content();
+      else if (mod.id === 2) html += renderModule2Content();
+      else if (mod.id === 3) html += renderModule3Content();
+      else if (mod.id === 4) html += renderModule4Content();
+      else if (mod.id === 5) html += renderModule5Content();
+      else if (mod.id === 6) html += renderModule6Content();
+      else if (mod.id === 7) html += renderModule7Content();
+      else if (mod.id === 8) html += renderModule8Content();
+      else if (mod.id === 9) html += renderModule9Content();
+      else if (mod.id === 10) html += renderModule10Content();
+
+      /* Formative Exercises for Modules 1..8 */
+      if (mod.id <= 8 && mod.exercises.length > 0) {
+        html += `<div class="card card--accent-navy">
+          <span class="label-mono">FIXAÇÃO E PRÁTICA · MÓDULO ${mod.code}</span>
+          <h3 class="subhead-title">Exercícios Interativos</h3>
+          <p style="color:var(--on-surface-variant); margin-top:0;">Responda abaixo para receber feedback imediato e registrar seus acertos no painel.</p>
+          <div style="display:flex; flex-direction:column; gap:var(--space-md);">
+            ${mod.exercises.map((ex) => renderExerciseHtml(ex)).join(``)}
+          </div>
+        </div>`;
+      }
+
+      /* Footer Navigation */
+      html += `
+        <div class="module-footer-nav no-print">
+          <div>
+            ${mod.id > 1 ? `<button type="button" class="btn btn--ghost" onclick="selectModule(${mod.id - 1})">← Módulo Anterior</button>` : `<button type="button" class="btn btn--ghost" onclick="switchView('welcome')">← Identificação</button>`}
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+            <button type="button" class="btn ${isDone ? `btn--secondary` : `btn--positive`}" onclick="toggleModuleComplete(${mod.id})">
+              ${isDone ? `Desmarcar Conclusão` : `Marcar Módulo Concluído`}
+            </button>
+            ${mod.id < 10
+              ? `<button type="button" class="btn btn--primary" onclick="markModuleDoneAndNext(${mod.id})">Concluir e Avançar →</button>`
+              : `<button type="button" class="btn btn--navy" onclick="switchView('report')">Visualizar Relatório Final →</button>`}
+          </div>
+        </div>
+      `;
+
+      canvas.innerHTML = html;
+    }
+
+    function renderModule1Content() {
+      const b = BRADLEY_STAGES[uiTransient.bradleyIdx] || BRADLEY_STAGES[0];
+      return `
+        <div class="card">
+          <span class="label-mono">POR QUE FALAR DE FATORES HUMANOS?</span>
+          <h3 class="subhead-title">Fatores Humanos × Interações do Trabalho</h3>
+          <p class="prose-limit">Pessoas operam equipamentos, interpretam procedimentos, se comunicam e decidem o tempo todo — sob pressão, cansaço e mudanças. <strong>Fator humano não é sinônimo de falha individual.</strong></p>
+          <div class="card-grid-2" style="margin-top:var(--space-md);">
+            <div class="info-tile info-tile--blue">
+              <span class="label-mono">1. PESSOAS</span>
+              <p style="margin:0;">Conhecimento, experiência, atenção, capacidade, limitações físicas/emocionais e estado momentâneo.</p>
+            </div>
+            <div class="info-tile info-tile--navy">
+              <span class="label-mono">2. EQUIPAMENTOS</span>
+              <p style="margin:0;">Ferramentas, máquinas, instrumentos de medição, painéis e interfaces homem-máquina.</p>
+            </div>
+            <div class="info-tile info-tile--orange">
+              <span class="label-mono">3. AMBIENTE</span>
+              <p style="margin:0;">Condições físicas, iluminação, ruído, temperatura, organização 5S e cenário em cliente.</p>
+            </div>
+            <div class="info-tile info-tile--green">
+              <span class="label-mono">4. ORGANIZAÇÃO</span>
+              <p style="margin:0;">Processos, comunicação, recursos disponíveis, prazos, clima organizacional e liderança.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="label-mono">CULTURA DE SEGURANÇA · CURVA DE BRADLEY (DUPONT)</span>
+          <h3 class="subhead-title">O que fazemos quando ninguém está olhando?</h3>
+          <p style="color:var(--on-surface-variant); margin-top:0;">Explore os 5 estágios da maturidade da cultura de segurança (da esquerda para a direita, a taxa de incidentes cai):</p>
+          <div class="pill-tabs">
+            ${BRADLEY_STAGES.map((st, idx) => `
+              <button type="button" class="pill-tab ${idx === uiTransient.bradleyIdx ? `is-active` : ``}" onclick="setBradleyStage(${idx})">${escapeHtml(st.stage)}</button>
+            `).join(``)}
+          </div>
+          <div class="card--low card--accent-blue">
+            <span class="label-mono">${escapeHtml(b.stage)}</span>
+            <p style="font-size:1.1rem; font-weight:600; color:var(--navy); margin:0 0 var(--space-xs) 0;">${escapeHtml(b.quote)} — <em>${escapeHtml(b.belief)}</em></p>
+            <p style="margin:0;">${escapeHtml(b.detail)}</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="label-mono">MUDANÇA DE OLHAR</span>
+          <h3 class="subhead-title">Foco exclusivo no comportamento × Foco no sistema</h3>
+          <div class="comp-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Visão Antiga: "Quem errou?"</th>
+                  <th>Visão de Fatores Humanos: "O que levou ao erro?"</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>O erro humano é a causa final dos acidentes</td><td>O erro humano é inerente ao trabalho — deve ser previsto e gerenciado</td></tr>
+                <tr><td>As pessoas comprometem o sistema</td><td>As pessoas lidam com sistemas complexos e criam segurança no dia a dia</td></tr>
+                <tr><td>Segurança vista como obrigação burocrática</td><td>Segurança como responsabilidade ética e valor compartilhado</td></tr>
+                <tr><td>Segurança = apenas não ter eventos negativos</td><td>Segurança = capacidades positivas: perceber, alertar, parar e aprender</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function setBradleyStage(idx) {
+      uiTransient.bradleyIdx = idx;
+      renderActiveModule();
+    }
+
+    function renderModule2Content() {
+      return `
+        <div class="card">
+          <span class="label-mono">ERRO HUMANO × FALHA ORGANIZACIONAL</span>
+          <h3 class="subhead-title">Falha Ativa na Ponta × Falha Latente no Sistema</h3>
+          <div class="card-grid-2" style="margin-top:var(--space-md);">
+            <div class="info-tile info-tile--orange">
+              <span class="label-mono" style="color:var(--on-warning-container);">ERRO HUMANO (FALHA ATIVA)</span>
+              <p>Ação ou omissão de quem está na ponta, com efeito imediato e visível.</p>
+              <p style="margin:0;"><strong>Exemplo:</strong> O técnico inverte dois cabos na ligação de um equipamento ou inicia etapa sem confirmar informação.</p>
+            </div>
+            <div class="info-tile info-tile--navy">
+              <span class="label-mono">FALHA ORGANIZACIONAL (LATENTE)</span>
+              <p>Decisões, falta de recursos, prazos apertados e processos que ficam "escondidos" até encontrarem o erro.</p>
+              <p style="margin:0;"><strong>Exemplo:</strong> Cabos sem identificação, desenho desatualizado, ferramenta indisponível ou OS sem dados.</p>
+            </div>
+          </div>
+          <div class="card--low card--accent-orange" style="margin-top:var(--space-md);">
+            <span class="label-mono" style="color:var(--on-warning-container);">FRASE QUE MERECE PAUSA</span>
+            <p style="margin:0; font-size:1.05rem; font-weight:600;">"É rapidinho, não vai acontecer nada."</p>
+            <p style="margin:var(--space-xs) 0 0 0;">Essa frase costuma esconder improviso, falta de verificação da ferramenta, omissão de mudança na atividade ou pressa para contornar etapas.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="label-mono">ATITUDES NO DIA A DIA</span>
+          <h3 class="subhead-title">6 Práticas Essenciais de Prevenção</h3>
+          <div class="card-grid-3" style="margin-top:var(--space-sm);">
+            <div class="info-tile info-tile--blue"><strong>1. Capacitação:</strong> Faça apenas atividades para as quais você foi capacitado.</div>
+            <div class="info-tile info-tile--blue"><strong>2. Clareza:</strong> Não está 100% seguro do passo a passo? Pergunte e peça ajuda.</div>
+            <div class="info-tile info-tile--orange"><strong>3. Recursos:</strong> Questione recursos ausentes ou equipamentos danificados.</div>
+            <div class="info-tile info-tile--orange"><strong>4. Margem:</strong> Quanto maior a pressão de tempo, menor a margem de segurança.</div>
+            <div class="info-tile info-tile--navy"><strong>5. Diálogo:</strong> Burocracia atrapalhando? Não contorne — converse e proponha melhoria.</div>
+            <div class="info-tile info-tile--green"><strong>6. Limites:</strong> Cansaço e problemas pessoais importam. Fale com seu líder.</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderModule3Content() {
+      const st = CRITICAL_STATES[uiTransient.stateIdx] || CRITICAL_STATES[0];
+      return `
+        <div class="card">
+          <span class="label-mono">AUTOPERCEPÇÃO PREVENTIVA</span>
+          <h3 class="subhead-title">4 Estados Internos que Levam a 4 Erros Críticos</h3>
+          <p style="color:var(--on-surface-variant); margin-top:0;">Clique em cada estado interno para ver como ele aparece na Pensalab e qual pergunta preventiva fazer antes de agir:</p>
+          <div class="pill-tabs">
+            ${CRITICAL_STATES.map((s, idx) => `
+              <button type="button" class="pill-tab ${idx === uiTransient.stateIdx ? `is-active` : ``}" onclick="setCriticalState(${idx})">${escapeHtml(s.name)}</button>
+            `).join(``)}
+          </div>
+          <div class="card--low card--accent-orange">
+            <span class="label-mono" style="color:var(--on-warning-container);">ESTADO: ${escapeHtml(st.name)}</span>
+            <p style="font-weight:600; margin:0 0 var(--space-xs) 0;">Pergunta de autopercepção: "${escapeHtml(st.question)}"</p>
+            <p style="margin:0 0 var(--space-xs) 0;"><strong>Como aparece:</strong> ${escapeHtml(st.appear)}</p>
+            <p style="margin:0;"><strong>Exemplo Pensalab:</strong> ${escapeHtml(st.example)}</p>
+          </div>
+          <div class="card-grid-2" style="margin-top:var(--space-md);">
+            <div class="info-tile info-tile--navy">
+              <span class="label-mono">OS 4 ERROS CRÍTICOS RESULTANTES</span>
+              <ul style="margin:var(--space-xs) 0 0 0; padding-left:1.25rem;">
+                <li>Olhos longe da tarefa</li>
+                <li>Mente longe da tarefa</li>
+                <li>Ficar na linha de fogo</li>
+                <li>Perder equilíbrio, tração ou firmeza</li>
+              </ul>
+            </div>
+            <div class="info-tile info-tile--green">
+              <span class="label-mono" style="color:var(--on-positive-container);">EQUAÇÃO PREVENTIVA</span>
+              <p style="margin:var(--space-xs) 0 0 0;">Perceba seu estado + Valorize quase acidentes + Fique atento a erros críticos + Melhore hábitos = <strong>Menos chance de lesão</strong>.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="label-mono">MAPA DA ROTINA PENSALAB</span>
+          <h3 class="subhead-title">Outros Fatores Contribuintes em Campo, Laboratório e Almoxarifado</h3>
+          <div class="comp-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Fator</th>
+                  <th>Como aparece</th>
+                  <th>Exemplo Pensalab</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${OTHER_FACTORS.map((f) => `
+                  <tr>
+                    <td><strong>${escapeHtml(f.factor)}</strong></td>
+                    <td>${escapeHtml(f.appear)}</td>
+                    <td>${escapeHtml(f.example)}</td>
+                  </tr>
+                `).join(``)}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function setCriticalState(idx) {
+      uiTransient.stateIdx = idx;
+      renderActiveModule();
+    }
+
+    function renderModule4Content() {
+      const foundCount = appState.foundHazards.length;
+      const totalHazards = RISK_HUNT_HAZARDS.length;
+      const timerTxt = uiTransient.riskTimerRemaining !== null
+        ? `Cronômetro: ${uiTransient.riskTimerRemaining}s`
+        : `Desafio de 60 segundos`;
+
+      return `
+        <div class="card">
+          <span class="label-mono">RISCO PERCEBIDO × RISCO REAL</span>
+          <h3 class="subhead-title">Por que nos machucamos mais na rotina?</h3>
+          <div class="card-grid-2" style="margin-top:var(--space-sm);">
+            <div class="info-tile info-tile--blue">
+              <span class="label-mono">PARECE MAIS PERIGOSO × COSTUMA SER MAIS PERIGOSO</span>
+              <p>Voar de avião chama atenção e assusta, mas <strong>dirigir até o cliente</strong> costuma ser mais perigoso (segundo a ONU, o trânsito mata por dia o equivalente a sete quedas de avião).</p>
+              <p style="margin:0;"><strong>O.P.I.C.:</strong> Olhe área/energias · Pergunte o que mudou · Imagine o que pode dar errado · Confirme os controles.</p>
+            </div>
+            <div class="info-tile info-tile--orange">
+              <span class="label-mono" style="color:var(--on-warning-container);">DADO DE REFERÊNCIA (SBM OFFSHORE)</span>
+              <p style="margin:0 0 var(--space-sm) 0;">Incidentes ocorrem com maior frequência em tarefas rotineiras porque o cérebro entra em piloto automático.</p>
+              <svg viewBox="0 0 320 120" width="100%" style="max-height:130px; display:block;" aria-label="Gráfico ilustrativo de incidentes por frequência da tarefa">
+                <line x1="20" y1="95" x2="305" y2="95" stroke="var(--on-surface)" stroke-width="1.5"/>
+                <rect x="35" y="68" width="60" height="27" fill="var(--data-context)"/>
+                <text x="65" y="62" text-anchor="middle" font-size="10" font-family="var(--font-label)" fill="var(--on-surface-variant)">Rara</text>
+                <rect x="128" y="45" width="60" height="50" fill="var(--data-1)"/>
+                <text x="158" y="39" text-anchor="middle" font-size="10" font-family="var(--font-label)" fill="var(--navy)">Ocasional</text>
+                <rect x="220" y="16" width="65" height="79" fill="var(--data-2)"/>
+                <text x="252" y="11" text-anchor="middle" font-size="10" font-weight="700" font-family="var(--font-label)" fill="var(--on-warning-container)">Rotina (+ alto)</text>
+                <text x="160" y="112" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">Familiaridade não é sinônimo de segurança</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Risk Hunt ("Encontre o Risco") -->
+        <div class="card card--accent-blue">
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-sm);">
+            <div>
+              <span class="label-mono">DINÂMICA INTERATIVA · ENCONTRE O RISCO</span>
+              <h3 class="subhead-title" style="margin:0;">Caça ao Risco na Bancada e Área Técnica (${foundCount}/${totalHazards} encontrados)</h3>
+            </div>
+            <div style="display:flex; gap:var(--space-sm); align-items:center;">
+              <span class="mono-tag ${foundCount === totalHazards ? `mono-tag--green` : `mono-tag--orange`}" id="risk-timer-badge">${timerTxt}</span>
+              <button type="button" class="btn btn--secondary btn--sm" onclick="startRiskHuntTimer()">Iniciar 60s</button>
+            </div>
+          </div>
+          <p style="color:var(--on-surface-variant); margin-top:0;">Clique diretamente nos <strong>5 perigos ocultos ou visíveis</strong> na cena de trabalho abaixo para identificar e aprender a medida de controle.</p>
+
+          <div class="risk-scene-wrap">
+            <svg class="risk-svg-box" viewBox="0 0 800 340" role="img" aria-label="Cena interativa de bancada e painel Pensalab para identificação de 5 riscos">
+              <!-- Room & Bench Background -->
+              <rect x="0" y="0" width="800" height="250" fill="var(--surface-container-low)"/>
+              <rect x="0" y="250" width="800" height="90" fill="var(--surface-container-high)"/>
+              <!-- Workbench -->
+              <rect x="40" y="165" width="420" height="18" fill="var(--navy)" rx="2"/>
+              <rect x="55" y="183" width="16" height="67" fill="var(--navy-mid)"/>
+              <rect x="425" y="183" width="16" height="67" fill="var(--navy-mid)"/>
+
+              <!-- HAZARD 1: Open Unlabeled Solvent Bottle (x:95..155, y:95..165) -->
+              <g class="hazard-hotspot ${appState.foundHazards.includes(`h_bottle`) ? `is-found` : ``}" onclick="toggleHazardFound('h_bottle')" tabindex="0" role="button" aria-label="Risco: Frasco de solvente sem rótulo">
+                <rect x="108" y="112" width="34" height="53" rx="4" fill="var(--warning-container)" stroke="var(--navy)" stroke-width="2"/>
+                <rect x="118" y="102" width="14" height="10" fill="var(--outline)"/>
+                <text x="125" y="142" text-anchor="middle" font-size="11" font-family="var(--font-label)" fill="var(--on-warning-container)">???</text>
+                <circle class="hazard-ring" cx="125" cy="134" r="32"/>
+              </g>
+
+              <!-- HAZARD 2: Technician without Safety Glasses near solvent (x:210..290, y:55..165) -->
+              <g class="hazard-hotspot ${appState.foundHazards.includes(`h_ppe`) ? `is-found` : ``}" onclick="toggleHazardFound('h_ppe')" tabindex="0" role="button" aria-label="Risco: Operação sem óculos de segurança">
+                <circle cx="250" cy="82" r="20" fill="var(--mascot-skin)" stroke="var(--navy)" stroke-width="2"/>
+                <circle cx="243" cy="80" r="2.2" fill="var(--navy)"/>
+                <circle cx="257" cy="80" r="2.2" fill="var(--navy)"/>
+                <path d="M225 165C225 120 235 106 250 106C265 106 275 120 275 165Z" fill="var(--primary)"/>
+                <text x="250" y="54" text-anchor="middle" font-size="10" font-family="var(--font-label)" fill="var(--navy)">SEM ÓCULOS</text>
+                <circle class="hazard-ring" cx="250" cy="92" r="36"/>
+              </g>
+
+              <!-- HAZARD 3: Cracked Insulated Pliers (x:335..415, y:125..168) -->
+              <g class="hazard-hotspot ${appState.foundHazards.includes(`h_pliers`) ? `is-found` : ``}" onclick="toggleHazardFound('h_pliers')" tabindex="0" role="button" aria-label="Risco: Alicate com isolação trincada">
+                <path d="M350 152L395 140M350 158L395 152" stroke="var(--warning)" stroke-width="5" stroke-linecap="round"/>
+                <path d="M395 140L412 135M395 152L412 155" stroke="var(--outline)" stroke-width="3" stroke-linecap="round"/>
+                <line x1="366" y1="142" x2="372" y2="160" stroke="var(--error)" stroke-width="2.5"/>
+                <text x="380" y="130" text-anchor="middle" font-size="10" font-family="var(--font-label)" fill="var(--error)">TRINCA</text>
+                <circle class="hazard-ring" cx="380" cy="148" r="32"/>
+              </g>
+
+              <!-- HAZARD 4: Open Electrical Panel without LOTO (x:550..710, y:50..210) -->
+              <g class="hazard-hotspot ${appState.foundHazards.includes(`h_panel`) ? `is-found` : ``}" onclick="toggleHazardFound('h_panel')" tabindex="0" role="button" aria-label="Risco: Painel elétrico aberto sem bloqueio">
+                <rect x="565" y="55" width="130" height="150" rx="4" fill="var(--surface-container)" stroke="var(--navy)" stroke-width="2.5"/>
+                <rect x="578" y="72" width="104" height="116" fill="var(--navy)"/>
+                <path d="M630 88L614 124H632L622 160L648 118H630L642 88Z" fill="var(--warning)"/>
+                <text x="630" y="182" text-anchor="middle" font-size="10" font-family="var(--font-label)" fill="var(--warning-container)">SEM LOTO</text>
+                <circle class="hazard-ring" cx="630" cy="130" r="68"/>
+              </g>
+
+              <!-- HAZARD 5: Loose Cables on the Floor (x:220..520, y:265..320) -->
+              <g class="hazard-hotspot ${appState.foundHazards.includes(`h_cable`) ? `is-found` : ``}" onclick="toggleHazardFound('h_cable')" tabindex="0" role="button" aria-label="Risco: Cabos soltos na passagem">
+                <path d="M235 288C285 268 335 312 395 285C445 262 490 308 530 282" fill="none" stroke="var(--error)" stroke-width="5" stroke-linecap="round"/>
+                <path d="M245 302C305 316 365 274 430 304C475 318 510 288 535 296" fill="none" stroke="var(--navy)" stroke-width="4" stroke-linecap="round"/>
+                <circle class="hazard-ring" cx="385" cy="292" r="52"/>
+              </g>
+            </svg>
+          </div>
+
+          <div style="margin-top:var(--space-md); display:flex; flex-direction:column; gap:var(--space-sm);">
+            ${RISK_HUNT_HAZARDS.map((hz) => {
+              const found = appState.foundHazards.includes(hz.id);
+              return `
+                <div class="info-tile ${found ? `info-tile--green` : ``}" style="display:flex; justify-content:space-between; align-items:flex-start; gap:var(--space-md);">
+                  <div>
+                    <strong>${found ? `✓ ${escapeHtml(hz.title)}` : `Risco ainda não marcado — clique na cena acima`}</strong>
+                    ${found ? `<p style="margin:var(--space-xs) 0 0 0; font-size:0.875rem;"><strong>Controle:</strong> ${escapeHtml(hz.control)}</p>` : ``}
+                  </div>
+                  <span class="mono-tag ${found ? `mono-tag--green` : ``}">${found ? `Identificado` : `Pendente`}</span>
+                </div>
+              `;
+            }).join(``)}
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleHazardFound(hazardId) {
+      if (!appState.foundHazards.includes(hazardId)) {
+        appState.foundHazards.push(hazardId);
+        updateProgressStrip();
+        renderActiveModule();
+        persistState();
+      }
+    }
+
+    function startRiskHuntTimer() {
+      if (uiTransient.riskTimerInterval) clearInterval(uiTransient.riskTimerInterval);
+      uiTransient.riskTimerRemaining = 60;
+      const badge = document.getElementById(`risk-timer-badge`);
+      if (badge) badge.textContent = `Cronômetro: 60s`;
+      uiTransient.riskTimerInterval = setInterval(() => {
+        if (uiTransient.riskTimerRemaining === null) return;
+        uiTransient.riskTimerRemaining -= 1;
+        const el = document.getElementById(`risk-timer-badge`);
+        if (uiTransient.riskTimerRemaining <= 0) {
+          clearInterval(uiTransient.riskTimerInterval);
+          uiTransient.riskTimerInterval = null;
+          uiTransient.riskTimerRemaining = 0;
+          if (el) el.textContent = `Tempo encerrado (continue se desejar)`;
+        } else if (el) {
+          el.textContent = `Cronômetro: ${uiTransient.riskTimerRemaining}s`;
+        }
+      }, 1000);
+    }
+
+    function renderModule5Content() {
+      return `
+        <div class="card">
+          <span class="label-mono">EXEMPLOS CLÁSSICOS DE ARMADILHAS</span>
+          <h3 class="subhead-title">Condições que Tornam o Erro Mais Provável</h3>
+          <div class="card-grid-3" style="margin-top:var(--space-sm);">
+            <div class="info-tile info-tile--orange">
+              <span class="label-mono" style="color:var(--on-warning-container);">1. EMBALAGENS IGUAIS</span>
+              <p style="margin:0;">Inseticida e óleo em spray com mesma cor, fonte e posição do rótulo levam à troca acidental sob pressa.</p>
+            </div>
+            <div class="info-tile info-tile--orange">
+              <span class="label-mono" style="color:var(--on-warning-container);">2. PAINEL MAL PROJETADO</span>
+              <p style="margin:0;">Tubos atrapalham visão e movimento; botões apenas vermelho e verde se confundem para quem é daltônico.</p>
+            </div>
+            <div class="info-tile info-tile--orange">
+              <span class="label-mono" style="color:var(--on-warning-container);">3. COMANDOS PARECIDOS</span>
+              <p style="margin:0;">Alça do chuveiro de emergência idêntica à alça de uma válvula de processo posicionadas lado a lado.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="label-mono">GUIA DE DESARME PENSALAB</span>
+          <h3 class="subhead-title">8 Armadilhas Comuns e Como Desarmá-las</h3>
+          <div class="card-grid-2" style="margin-top:var(--space-sm);">
+            ${ERROR_TRAPS_PENSALAB.map((item) => `
+              <div class="info-tile info-tile--blue">
+                <strong style="color:var(--navy);">${escapeHtml(item.trap)}</strong>
+                <p style="margin:var(--space-xs) 0 0 0; font-size:0.9rem;"><strong>Desarme:</strong> ${escapeHtml(item.disarm)}</p>
+              </div>
+            `).join(``)}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderModule6Content() {
+      const checklistItems = [
+        `Treinamentos obrigatórios em dia`,
+        `Certificados exigidos para a atividade`,
+        `ASO (Atestado de Saúde Ocupacional) em dia`,
+        `Conheço minhas limitações físicas e técnicas`,
+        `Permissão de Trabalho (PT) / OS autorizada`,
+        `Descansado: fadiga sob controle`
+      ];
+
+      return `
+        <div class="card">
+          <span class="label-mono">LIMITES HUMANOS</span>
+          <h3 class="subhead-title">Fadiga: Quando o Corpo e a Mente Chegam ao Limite</h3>
+          <p class="prose-limit">Fadiga é mais que cansaço: seus efeitos no desempenho podem se parecer com os do álcool. <strong>Fadiga não é falha moral</strong> — pode decorrer de sono em atraso, viagens, turnos e jornada exigente.</p>
+          <div class="card-grid-3" style="margin-top:var(--space-md);">
+            <div class="info-tile info-tile--blue">
+              <span class="label-mono">NÍVEL MODERADO</span>
+              <p style="margin:0;"><strong>Ação:</strong> Pausas programadas para descanso e hidratação.</p>
+            </div>
+            <div class="info-tile info-tile--orange">
+              <span class="label-mono" style="color:var(--on-warning-container);">NÍVEL CANSADO</span>
+              <p style="margin:0;"><strong>Ação:</strong> Nada de tarefas complexas ou energizadas; comunicar líder.</p>
+            </div>
+            <div class="info-tile info-tile--navy">
+              <span class="label-mono">NÍVEL EXAUSTO</span>
+              <p style="margin:0;"><strong>Ação:</strong> Parar imediatamente e dormir. A única cura para a fadiga é dormir.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="label-mono">AUTOAVALIAÇÃO DIÁRIA</span>
+          <h3 class="subhead-title">Checklist Interativo: Estou Apto para o Trabalho Hoje?</h3>
+          <p style="color:var(--on-surface-variant); margin-top:0;">Marque os itens aplicáveis antes de iniciar uma atividade:</p>
+          <div class="card-grid-2">
+            ${checklistItems.map((label, idx) => {
+              const checked = appState.aptitudeChecklist.includes(idx);
+              return `
+                <label class="check-row">
+                  <input type="checkbox" ${checked ? `checked` : ``} onchange="toggleAptitudeItem(${idx})">
+                  <span>${escapeHtml(label)}</span>
+                </label>
+              `;
+            }).join(``)}
+          </div>
+          <div class="card--low card--accent-green" style="margin-top:var(--space-md);">
+            <strong>Sinais de alerta da fadiga:</strong> bocejos e olhos pesados, ler a mesma linha várias vezes, esquecer etapas, irritação e reflexos lentos. Se notar qualquer limitação, avise seu líder antes de começar!
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleAptitudeItem(idx) {
+      const pos = appState.aptitudeChecklist.indexOf(idx);
+      if (pos === -1) appState.aptitudeChecklist.push(idx);
+      else appState.aptitudeChecklist.splice(pos, 1);
+      persistState();
+    }
+
+    function renderModule7Content() {
+      const steps5x5 = [
+        `1. Recue cinco passos da tarefa que vai executar`,
+        `2. Invista cinco minutos revendo mentalmente cada etapa`,
+        `3. Pense antes de agir: o que pode dar errado?`,
+        `4. Identifique riscos e mudanças no local e na tarefa`,
+        `5. Confirme recursos: ferramentas, EPI, permissão e informação`
+      ];
+      return `
+        <div class="card">
+          <span class="label-mono">TÉCNICA PREVENTIVA CHAVE</span>
+          <h3 class="subhead-title">Passo Atrás 5×5 (Antes de Começar e Sempre que Algo Mudar)</h3>
+          <div class="card-grid-2" style="margin-top:var(--space-sm);">
+            ${steps5x5.map((s) => `<div class="info-tile info-tile--blue"><strong>${escapeHtml(s)}</strong></div>`).join(``)}
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="label-mono">COMUNICAÇÃO E INTERVENÇÃO</span>
+          <h3 class="subhead-title">5 Hábitos que Reduzem Erros &amp; Como Abordar um Colega</h3>
+          <div class="card-grid-2" style="margin-top:var(--space-sm);">
+            <div class="info-tile info-tile--navy">
+              <span class="label-mono">5 HÁBITOS PREVENTIVOS</span>
+              <ul style="margin:var(--space-xs) 0 0 0; padding-left:1.25rem;">
+                <li><strong>Pausa de segurança:</strong> 30s antes de etapa crítica.</li>
+                <li><strong>Comunicação assertiva:</strong> "Repita o que combinamos".</li>
+                <li><strong>Verificação pré-uso:</strong> Inspecione ferramentas antes.</li>
+                <li><strong>Planejamento:</strong> Sequência e análise de risco antes de campo.</li>
+                <li><strong>Revisão das condições:</strong> Clima, pessoas ou energias mudaram?</li>
+              </ul>
+            </div>
+            <div class="info-tile info-tile--green">
+              <span class="label-mono" style="color:var(--on-positive-container);">ABORDAGEM EM 5 PASSOS (PERGUNTAS ABERTAS)</span>
+              <ol style="margin:var(--space-xs) 0 0 0; padding-left:1.25rem;">
+                <li><strong>Conexão:</strong> apresente-se com respeito.</li>
+                <li><strong>Atenção:</strong> escute e mantenha contato visual.</li>
+                <li><strong>Entendimento:</strong> explique o risco específico.</li>
+                <li><strong>Opções:</strong> "Existe uma forma mais segura?"</li>
+                <li><strong>Compromisso:</strong> "Posso contar com você?"</li>
+              </ol>
+              <p style="margin:var(--space-sm) 0 0 0; font-size:0.875rem;"><strong>Evite:</strong> "Você sabe que isso não é seguro?" · <strong>Prefira:</strong> "Qual é o pior resultado possível?"</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderModule8Content() {
+      return `
+        <div class="card">
+          <span class="label-mono">DIREITO E DEVER DE TODOS</span>
+          <h3 class="subhead-title">Stop Work: O que Fazer Após Interromper uma Atividade</h3>
+          <p class="prose-limit">Quando parar? Diante de equipamento com defeito, ausência de proteção, ferramenta inadequada, procedimento desconhecido, risco não previsto ou cenário diferente do planejado.</p>
+          <div class="card-grid-3" style="margin-top:var(--space-md);">
+            <div class="info-tile info-tile--orange"><span class="label-mono" style="color:var(--on-warning-container);">1. PARAR</span>Interrompa e deixe a área em condição segura.</div>
+            <div class="info-tile info-tile--blue"><span class="label-mono">2. COMUNICAR</span>Avise líder, SMS e responsável do cliente.</div>
+            <div class="info-tile info-tile--navy"><span class="label-mono">3. AVALIAR</span>O que mudou? Qual o risco real presente?</div>
+            <div class="info-tile info-tile--navy"><span class="label-mono">4. CORRIGIR</span>Controles, recursos e nova análise de risco.</div>
+            <div class="info-tile info-tile--green"><span class="label-mono" style="color:var(--on-positive-container);">5. RETOMAR</span>Só com condições seguras e todos informados.</div>
+            <div class="info-tile info-tile--blue"><span class="label-mono">REPORTE</span>Tudo deve ser reportado: condição/ato inseguro, quase acidente e acidente.</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderModule9Content() {
+      return `
+        <div class="card">
+          <span class="label-mono">APLICAÇÃO PRÁTICA NA PENSALAB</span>
+          <h3 class="subhead-title">6 Estudos de Caso Reais — "O que você faria?"</h3>
+          <p style="color:var(--on-surface-variant); margin-top:0;">Responda a cada caso prático para receber feedback imediato e liberar a análise sugerida completa (Risco, Fator Humano, Consequências, Decisão Segura e Liderança).</p>
+          <div style="display:flex; flex-direction:column; gap:var(--space-lg);">
+            ${PENSALAB_CASES.map((c) => {
+              const dec = appState.caseDecisions[c.id] || {};
+              const answered = dec.selectedIndex !== undefined;
+              const isCorrect = answered && dec.selectedIndex === c.correctIndex;
+              return `
+                <div class="exercise-card">
+                  <div class="exercise-header">
+                    <span class="mono-tag">SITUAÇÃO PRÁTICA</span>
+                    ${answered ? `<span class="mono-tag ${isCorrect ? `mono-tag--green` : `mono-tag--orange`}">${isCorrect ? `Decisão Segura` : `Atenção: Rever Critério`}</span>` : `<span class="mono-tag">Aguardando decisão</span>`}
+                  </div>
+                  <h4 class="subhead-title">${escapeHtml(c.title)}</h4>
+                  <p style="margin:0 0 var(--space-sm) 0;">${escapeHtml(c.situation)}</p>
+                  <p style="font-weight:600; margin:0;">${escapeHtml(c.question)}</p>
+                  <div class="exercise-options">
+                    ${c.options.map((opt, oIdx) => {
+                      let cls = ``;
+                      if (answered) {
+                        if (oIdx === c.correctIndex) cls = `is-correct`;
+                        else if (oIdx === dec.selectedIndex) cls = `is-wrong`;
+                      }
+                      return `
+                        <button type="button" class="option-btn ${cls}" onclick="answerPensalabCase('${c.id}', ${oIdx})">
+                          <span class="option-key">${String.fromCharCode(65 + oIdx)}</span>
+                          <span>${escapeHtml(opt)}</span>
+                        </button>
+                      `;
+                    }).join(``)}
+                  </div>
+                  ${answered ? `
+                    <div class="feedback-box is-shown ${isCorrect ? `is-positive` : `is-alert`}">
+                      <p style="margin:0 0 var(--space-xs) 0;"><strong>Análise Sugerida SMS Pensalab:</strong></p>
+                      <ul style="margin:0; padding-left:1.25rem; font-size:0.9rem;">
+                        <li><strong>Risco:</strong> ${escapeHtml(c.analysis.risk)}</li>
+                        <li><strong>Fator humano:</strong> ${escapeHtml(c.analysis.factor)}</li>
+                        <li><strong>Consequências:</strong> ${escapeHtml(c.analysis.consequence)}</li>
+                        <li><strong>Decisão segura:</strong> ${escapeHtml(c.analysis.decision)}</li>
+                        <li><strong>Equipe e liderança:</strong> ${escapeHtml(c.analysis.teamLeadership)}</li>
+                      </ul>
+                    </div>
+                  ` : ``}
+                </div>
+              `;
+            }).join(``)}
+          </div>
+        </div>
+      `;
+    }
+
+    function answerPensalabCase(caseId, optIdx) {
+      appState.caseDecisions[caseId] = { selectedIndex: optIdx, revealed: true };
+      updateProgressStrip();
+      renderActiveModule();
+      persistState();
+    }
+
+    function renderModule10Content() {
+      const minScore = Number(appState.adminConfig.minPassingScore) || 70;
+      const answeredCount = Object.keys(appState.finalExamAnswers).length;
+      const submitted = appState.finalExamSubmitted;
+      const score = appState.finalExamScore;
+      const passed = submitted && score !== null && score >= minScore;
+
+      let mascotMood = `guide`;
+      if (submitted) mascotMood = passed ? `positive` : `alert`;
+
+      return `
+        <!-- Final Exam Block -->
+        <div class="card card--accent-navy">
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-sm);">
+            <div>
+              <span class="label-mono">AVALIAÇÃO FINAL ABRANGENTE · NOTA MÍNIMA CONFIGURADA: ${minScore}%</span>
+              <h3 class="subhead-title">Quiz Oficial de Fixação (10 Questões)</h3>
+            </div>
+            <span class="mono-tag">${answeredCount} / ${FINAL_EXAM_QUESTIONS.length} respondidas</span>
+          </div>
+          <p style="color:var(--on-surface-variant); margin-top:0;">Selecione uma alternativa para cada questão e clique em <strong>Finalizar e Corrigir Avaliação</strong>.</p>
+
+          <div style="display:flex; flex-direction:column; gap:var(--space-md);">
+            ${FINAL_EXAM_QUESTIONS.map((q) => {
+              const sel = appState.finalExamAnswers[q.id];
+              return `
+                <div class="card--low">
+                  <p style="font-weight:600; margin:0 0 var(--space-sm) 0;">${escapeHtml(q.prompt)}</p>
+                  <div class="exercise-options" style="margin-top:0;">
+                    ${q.options.map((opt, idx) => {
+                      let cls = ``;
+                      if (!submitted && sel === idx) cls = `is-selected`;
+                      if (submitted) {
+                        if (idx === q.correctIndex) cls = `is-correct`;
+                        else if (idx === sel) cls = `is-wrong`;
+                      }
+                      return `
+                        <button type="button" class="option-btn ${cls}" onclick="selectFinalExamOption('${q.id}', ${idx})">
+                          <span class="option-key">${String.fromCharCode(65 + idx)}</span>
+                          <span>${escapeHtml(opt)}</span>
+                        </button>
+                      `;
+                    }).join(``)}
+                  </div>
+                  ${submitted ? `
+                    <div class="feedback-box is-shown ${sel === q.correctIndex ? `is-positive` : `is-alert`}">
+                      <strong>${sel === q.correctIndex ? `✓ Resposta Correta:` : `! Gabarito Comentado:`}</strong> ${escapeHtml(q.explanation)}
+                    </div>
+                  ` : ``}
+                </div>
+              `;
+            }).join(``)}
+          </div>
+
+          <div style="margin-top:var(--space-lg); display:flex; flex-wrap:wrap; gap:var(--space-md); align-items:center;">
+            <button type="button" class="btn btn--primary" onclick="submitFinalExam()">
+              ${submitted ? `Recalcular / Atualizar Avaliação` : `Finalizar e Corrigir Avaliação`}
+            </button>
+            <button type="button" class="btn btn--ghost" onclick="resetFinalExam(this)">Refazer Avaliação</button>
+          </div>
+          <div class="inline-msg" id="final-exam-msg"></div>
+
+          ${submitted ? `
+            <div class="card--low ${passed ? `card--accent-green` : `card--accent-orange`}" style="margin-top:var(--space-md);">
+              <span class="label-mono">RESULTADO DA AVALIAÇÃO FINAL</span>
+              <h4 class="subhead-title" style="margin:0 0 var(--space-xs) 0;">Nota obtida: ${score}% · Status: ${passed ? `APROVADO` : `NECESSITA REFORÇO`} (Mínimo: ${minScore}%)</h4>
+              <p style="margin:0;">${passed ? `Parabéns! Seu desempenho atingiu os critérios do SMS Pensalab. Registre abaixo seu compromisso individual e emita seu relatório.` : `Você ainda não atingiu a nota mínima de ${minScore}%. Revise os comentários acima e os módulos com erros, e refaça a avaliação quando estiver pronto.`}</p>
+            </div>
+          ` : ``}
+        </div>
+
+        <!-- Individual Commitment -->
+        <div class="card card--accent-blue">
+          <span class="label-mono">COMPROMISSO INDIVIDUAL COM A SEGURANÇA</span>
+          <h3 class="subhead-title">Eu, ${escapeHtml(appState.participant.fullName || `Colaborador(a) Pensalab`)}, me comprometo a:</h3>
+          <div class="card-grid-2" style="margin-top:var(--space-sm);">
+            ${COMMITMENT_ITEMS.map((item, idx) => {
+              const checked = appState.commitmentsChecked.includes(idx);
+              return `
+                <label class="check-row">
+                  <input type="checkbox" ${checked ? `checked` : ``} onchange="toggleCommitmentItem(${idx})">
+                  <span>${escapeHtml(item)}</span>
+                </label>
+              `;
+            }).join(``)}
+          </div>
+          <div class="form-field" style="margin-top:var(--space-md);">
+            <label class="field-label" for="input-personal-attitude">Minha atitude de segurança a partir de amanhã:</label>
+            <textarea id="input-personal-attitude" class="field-textarea" placeholder="Escreva qual atitude prática você vai aplicar no seu dia a dia..." oninput="updatePersonalAttitude(this.value)">${escapeHtml(appState.personalAttitude || ``)}</textarea>
+          </div>
+        </div>
+
+        <!-- Closing Mascot Banner (Exact User Message) -->
+        <div class="card card--accent-navy">
+          <div class="mascot-guide-card ${passed ? `mascot-guide-card--positive` : ``}" style="margin-bottom:0;">
+            <div class="mascot-box mascot-box--lg">${renderMascotSvg(mascotMood)}</div>
+            <div>
+              <span class="label-mono">ENCERRAMENTO · SMS PENSALAB</span>
+              <p style="font-size:1.05rem; font-weight:600; color:var(--navy); margin:0 0 var(--space-sm) 0;">
+                “A segurança não depende apenas de procedimentos. Depende da nossa capacidade de perceber, comunicar, interromper e aprender. Cada atitude faz a diferença. PENSALAB – NÓS SOMOS A SOLUÇÃO!”
+              </p>
+              <p style="margin:0; font-size:0.875rem; color:var(--on-surface-variant);">Marcelo Alves · SMS – Pensalab</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectFinalExamOption(qId, optIdx) {
+      appState.finalExamAnswers[qId] = optIdx;
+      renderActiveModule();
+      persistState();
+    }
+
+    function submitFinalExam() {
+      const total = FINAL_EXAM_QUESTIONS.length;
+      const answered = Object.keys(appState.finalExamAnswers).length;
+      const msgEl = document.getElementById(`final-exam-msg`);
+
+      if (answered < total) {
+        if (msgEl) {
+          msgEl.className = `inline-msg inline-msg--warn is-shown`;
+          msgEl.textContent = `Responda todas as ${total} questões antes de finalizar (faltam ${total - answered}).`;
+        }
+        return;
+      }
+
+      let correct = 0;
+      FINAL_EXAM_QUESTIONS.forEach((q) => {
+        if (appState.finalExamAnswers[q.id] === q.correctIndex) correct += 1;
+      });
+      appState.finalExamScore = Math.round((correct / total) * 100);
+      appState.finalExamSubmitted = true;
+      appState.completedAt = new Date().toISOString();
+      if (!appState.completedModules.includes(10)) appState.completedModules.push(10);
+
+      saveCurrentToAdminHistory(false);
+      updateProgressStrip();
+      renderModuleRail();
+      renderActiveModule();
+      persistState();
+    }
+
+    function resetFinalExam(btn) {
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Clique novamente para refazer`;
+        return;
+      }
+      btn.dataset.armed = `false`;
+      appState.finalExamAnswers = {};
+      appState.finalExamSubmitted = false;
+      appState.finalExamScore = null;
+      updateProgressStrip();
+      renderActiveModule();
+      persistState();
+    }
+
+    function toggleCommitmentItem(idx) {
+      const pos = appState.commitmentsChecked.indexOf(idx);
+      if (pos === -1) appState.commitmentsChecked.push(idx);
+      else appState.commitmentsChecked.splice(pos, 1);
+      persistState();
+    }
+
+    function updatePersonalAttitude(val) {
+      appState.personalAttitude = val;
+      persistState();
+    }
+
+    /* ============================================================
+       FORMATIVE EXERCISE RENDERER & HANDLER
+       ============================================================ */
+
+    function renderExerciseHtml(ex) {
+      const selected = appState.exerciseAnswers[ex.id];
+      const answered = selected !== undefined && selected !== null;
+      const isCorrect = answered && selected === ex.correctIndex;
+
+      return `
+        <div class="card--low" style="border-left:3px solid var(--primary);">
+          <div class="exercise-header">
+            <span class="mono-tag">${escapeHtml(ex.type)}</span>
+            ${answered ? `<span class="mono-tag ${isCorrect ? `mono-tag--green` : `mono-tag--orange`}">${isCorrect ? `Correto` : `Revisar`}</span>` : ``}
+          </div>
+          <p style="font-weight:600; margin:0;">${escapeHtml(ex.prompt)}</p>
+          <div class="exercise-options">
+            ${ex.options.map((opt, idx) => {
+              let cls = ``;
+              if (answered) {
+                if (idx === ex.correctIndex) cls = `is-correct`;
+                else if (idx === selected) cls = `is-wrong`;
+              }
+              return `
+                <button type="button" class="option-btn ${cls}" onclick="answerFormativeExercise('${ex.id}', ${idx})">
+                  <span class="option-key">${String.fromCharCode(65 + idx)}</span>
+                  <span>${escapeHtml(opt)}</span>
+                </button>
+              `;
+            }).join(``)}
+          </div>
+          ${answered ? `
+            <div class="feedback-box is-shown ${isCorrect ? `is-positive` : `is-alert`}">
+              <strong>${isCorrect ? `✓ Feedback Positivo:` : `! Atenção:`}</strong> ${escapeHtml(ex.explanation)}
+            </div>
+          ` : ``}
+        </div>
+      `;
+    }
+
+    function answerFormativeExercise(exId, optIdx) {
+      appState.exerciseAnswers[exId] = optIdx;
+      updateProgressStrip();
+      renderModuleRail();
+      renderActiveModule();
+      persistState();
+    }
+
+    /* ============================================================
+       INDIVIDUAL REPORT & EXPORT (VIEW / PDF / CSV)
+       ============================================================ */
+
+    function analyzeStrengthsAndReinforcement() {
+      const strengths = [];
+      const reinforce = [];
+
+      MODULES.forEach((mod) => {
+        let mHits = 0;
+        let mTotal = 0;
+
+        if (mod.id <= 8) {
+          mod.exercises.forEach((ex) => {
+            if (appState.exerciseAnswers[ex.id] !== undefined) {
+              mTotal += 1;
+              if (appState.exerciseAnswers[ex.id] === ex.correctIndex) mHits += 1;
+            }
+          });
+        } else if (mod.id === 9) {
+          PENSALAB_CASES.forEach((c) => {
+            const dec = appState.caseDecisions[c.id];
+            if (dec && dec.selectedIndex !== undefined) {
+              mTotal += 1;
+              if (dec.selectedIndex === c.correctIndex) mHits += 1;
+            }
+          });
+        }
+
+        if (appState.finalExamSubmitted) {
+          FINAL_EXAM_QUESTIONS.filter((q) => q.moduleRef === mod.id).forEach((q) => {
+            mTotal += 1;
+            if (appState.finalExamAnswers[q.id] === q.correctIndex) mHits += 1;
+          });
+        }
+
+        if (mTotal > 0) {
+          if (mHits === mTotal) strengths.push(`${mod.code}. ${mod.title}`);
+          else reinforce.push(`${mod.code}. ${mod.title} (${mHits}/${mTotal} acertos)`);
+        }
+      });
+
+      return { strengths, reinforce };
+    }
+
+    function renderReportView() {
+      const container = document.getElementById(`report-sheet-container`);
+      if (!container) return;
+
+      const stats = computeStats();
+      const p = appState.participant;
+      const { strengths, reinforce } = analyzeStrengthsAndReinforcement();
+      const scoreTxt = appState.finalExamSubmitted && appState.finalExamScore !== null
+        ? `${appState.finalExamScore}%`
+        : `Pendente`;
+
+      container.innerHTML = `
+        <div class="report-header">
+          <div>
+            <span class="label-mono">RELATÓRIO INDIVIDUAL DE CAPACITAÇÃO · SMS PENSALAB</span>
+            <h2 class="section-title" style="margin:0;">Fatores Humanos – Nós Somos a Solução</h2>
+            <p style="margin:var(--space-xs) 0 0 0; color:var(--on-surface-variant);">Instrutor: ${escapeHtml(p.instructor)}</p>
+          </div>
+          <div style="text-align:right;">
+            <span class="mono-tag ${stats.statusCode === `approved` ? `mono-tag--green` : (stats.statusCode === `review` ? `mono-tag--orange` : ``)}">
+              Status: ${escapeHtml(stats.statusLabel)}
+            </span>
+            <p style="font-family:var(--font-label); font-size:0.75rem; color:var(--on-surface-variant); margin:var(--space-xs) 0 0 0;">
+              Nota mínima configurada: ${stats.minScore}%
+            </p>
+          </div>
+        </div>
+
+        <div class="card--low" style="margin-bottom:var(--space-lg);">
+          <span class="label-mono">IDENTIFICAÇÃO DO PARTICIPANTE</span>
+          <div class="card-grid-3" style="margin-top:var(--space-xs);">
+            <div><strong>Nome completo:</strong><br>${escapeHtml(p.fullName || `Não informado`)}</div>
+            <div><strong>Cargo:</strong><br>${escapeHtml(p.role || `Não informado`)}</div>
+            <div><strong>Departamento:</strong><br>${escapeHtml(p.department || `Não informado`)}</div>
+            <div><strong>Unidade:</strong><br>${escapeHtml(p.unit || `Não informado`)}</div>
+            <div><strong>Data do treinamento:</strong><br>${escapeHtml(p.date || `Não informado`)}</div>
+            <div><strong>Riscos identificados (Mód. 4):</strong><br>${stats.foundCount} de ${stats.totalHazards}</div>
+          </div>
+        </div>
+
+        <div class="report-kpi-grid">
+          <div class="report-kpi">
+            <span class="label-mono">CONCLUSÃO DA TRILHA</span>
+            <div class="report-kpi-val">${stats.pct}%</div>
+            <span style="font-size:0.8125rem; color:var(--on-surface-variant);">${stats.completedModCount} de 10 módulos</span>
+          </div>
+          <div class="report-kpi">
+            <span class="label-mono">ACERTOS / ERROS TOTAIS</span>
+            <div class="report-kpi-val">${stats.hits} / ${stats.misses}</div>
+            <span style="font-size:0.8125rem; color:var(--on-surface-variant);">Exercícios, casos e prova</span>
+          </div>
+          <div class="report-kpi">
+            <span class="label-mono">AVALIAÇÃO FINAL</span>
+            <div class="report-kpi-val">${scoreTxt}</div>
+            <span style="font-size:0.8125rem; color:var(--on-surface-variant);">Mínimo exigido: ${stats.minScore}%</span>
+          </div>
+          <div class="report-kpi">
+            <span class="label-mono">SITUAÇÃO FINAL</span>
+            <div class="report-kpi-val" style="font-size:1.15rem;">${escapeHtml(stats.statusLabel)}</div>
+            <span style="font-size:0.8125rem; color:var(--on-surface-variant);">Critério SMS Pensalab</span>
+          </div>
+        </div>
+
+        <div class="card-grid-2" style="margin-bottom:var(--space-lg);">
+          <div class="info-tile info-tile--green">
+            <span class="label-mono" style="color:var(--on-positive-container);">PONTOS FORTES DEMONSTRADOS</span>
+            ${strengths.length > 0
+              ? `<ul style="margin:var(--space-xs) 0 0 0; padding-left:1.25rem;">${strengths.map((s) => `<li>${escapeHtml(s)}</li>`).join(``)}</ul>`
+              : `<p style="margin:var(--space-xs) 0 0 0;">Complete os exercícios dos módulos e a avaliação final para mapear seus pontos fortes.</p>`}
+          </div>
+          <div class="info-tile info-tile--orange">
+            <span class="label-mono" style="color:var(--on-warning-container);">PONTOS DE REFORÇO RECOMENDADOS</span>
+            ${reinforce.length > 0
+              ? `<ul style="margin:var(--space-xs) 0 0 0; padding-left:1.25rem;">${reinforce.map((r) => `<li>${escapeHtml(r)}</li>`).join(``)}</ul>`
+              : `<p style="margin:var(--space-xs) 0 0 0;">Nenhum ponto pendente de reforço identificado até o momento.</p>`}
+          </div>
+        </div>
+
+        <div class="card--low card--accent-blue" style="margin-bottom:var(--space-lg);">
+          <span class="label-mono">COMPROMISSO INDIVIDUAL COM A SEGURANÇA</span>
+          <p style="margin:var(--space-xs) 0;"><strong>Compromissos assumidos (${appState.commitmentsChecked.length}/${COMMITMENT_ITEMS.length}):</strong></p>
+          <ul style="margin:0 0 var(--space-sm) 0; padding-left:1.25rem;">
+            ${COMMITMENT_ITEMS.map((item, idx) => `
+              <li>${appState.commitmentsChecked.includes(idx) ? `☑` : `☐`} ${escapeHtml(item)}</li>
+            `).join(``)}
+          </ul>
+          <p style="margin:0;"><strong>Atitude de segurança a partir de amanhã:</strong> ${escapeHtml(appState.personalAttitude || `Não preenchida ainda (Módulo 10).`)}</p>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--space-lg); padding-top:var(--space-lg); border-top:var(--rule); font-size:0.875rem;">
+          <div>
+            <p style="margin:0 0 var(--space-lg) 0;">__________________________________________________</p>
+            <strong>${escapeHtml(p.fullName || `Participante`)}</strong><br>
+            <span style="color:var(--on-surface-variant);">Participante · ${escapeHtml(p.role || `Cargo`)}</span>
+          </div>
+          <div>
+            <p style="margin:0 0 var(--space-lg) 0;">__________________________________________________</p>
+            <strong>Marcelo Alves</strong><br>
+            <span style="color:var(--on-surface-variant);">SMS – Pensalab · Instrutor Responsável</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function printReportPdf() {
+      renderReportView();
+      window.print();
+    }
+
+    function csvCell(val) {
+      const s = String(val === null || val === undefined ? `` : val).replace(/"/g, `""`);
+      return `"${s}"`;
+    }
+
+    function downloadCsvContent(csvBody, filename) {
+      const bomContent = `\uFEFF` + csvBody;
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: bomContent,
+          contentType: `text/csv`,
+          encoding: `UTF-8`,
+          filename: filename
+        });
+      }
+    }
+
+    function exportIndividualCsv() {
+      const stats = computeStats();
+      const p = appState.participant;
+      const { strengths, reinforce } = analyzeStrengthsAndReinforcement();
+
+      const headers = [
+        `Nome Completo`, `Cargo`, `Departamento`, `Unidade`, `Data`, `Instrutor`,
+        `Conclusao (%)`, `Modulos Concluidos`, `Acertos`, `Erros`,
+        `Nota Avaliacao Final (%)`, `Nota Minima (%)`, `Status`,
+        `Pontos Fortes`, `Pontos de Reforco`, `Atitude de Seguranca`
+      ];
+      const row = [
+        p.fullName || `Nao informado`,
+        p.role || `Nao informado`,
+        p.department || `Nao informado`,
+        p.unit || `Nao informado`,
+        p.date || ``,
+        p.instructor,
+        stats.pct,
+        `${stats.completedModCount}/10`,
+        stats.hits,
+        stats.misses,
+        appState.finalExamSubmitted && appState.finalExamScore !== null ? appState.finalExamScore : `Pendente`,
+        stats.minScore,
+        stats.statusLabel,
+        strengths.join(`; `),
+        reinforce.join(`; `),
+        appState.personalAttitude || ``
+      ];
+
+      const csv = `${headers.map(csvCell).join(`;`)}\n${row.map(csvCell).join(`;`)}\n`;
+      const safeName = (p.fullName || `participante`).toLowerCase().replace(/[^a-z0-9]+/g, `_`);
+      downloadCsvContent(csv, `relatorio_fatores_humanos_${safeName}.csv`);
+
+      const msg = document.getElementById(`report-action-msg`);
+      if (msg) {
+        msg.className = `inline-msg inline-msg--ok is-shown`;
+        msg.textContent = `Arquivo CSV individual exportado com sucesso.`;
+      }
+    }
+
+    function saveCurrentToAdminHistory(showFeedback) {
+      const msg = document.getElementById(`report-action-msg`);
+      if (!appState.participant.fullName) {
+        if (showFeedback && msg) {
+          msg.className = `inline-msg inline-msg--warn is-shown`;
+          msg.textContent = `Preencha a identificação do participante antes de registrar no histórico SMS.`;
+        }
+        return;
+      }
+
+      const stats = computeStats();
+      const p = appState.participant;
+      const { strengths, reinforce } = analyzeStrengthsAndReinforcement();
+      const recordKey = `${p.fullName.trim().toLowerCase()}|${p.date}`;
+
+      const entry = {
+        key: recordKey,
+        fullName: p.fullName,
+        role: p.role,
+        department: p.department,
+        unit: p.unit,
+        date: p.date,
+        pct: stats.pct,
+        hits: stats.hits,
+        misses: stats.misses,
+        finalScore: appState.finalExamSubmitted ? appState.finalExamScore : null,
+        statusCode: stats.statusCode,
+        statusLabel: stats.statusLabel,
+        strengths,
+        reinforce,
+        personalAttitude: appState.personalAttitude || ``,
+        updatedAt: new Date().toISOString()
+      };
+
+      const existingIdx = appState.history.findIndex((h) => h.key === recordKey);
+      if (existingIdx >= 0) appState.history[existingIdx] = entry;
+      else appState.history.unshift(entry);
+
+      persistState();
+      if (showFeedback && msg) {
+        msg.className = `inline-msg inline-msg--ok is-shown`;
+        msg.textContent = `Registro de ${p.fullName} salvo no histórico do Painel Administrativo SMS.`;
+      }
+    }
+
+    /* ============================================================
+       ADMIN PANEL SMS
+       ============================================================ */
+
+    function fillDemoAdminPin() {
+      const inp = document.getElementById(`admin-pin-input`);
+      if (inp) inp.value = appState.adminConfig.pin || `SMS2026`;
+    }
+
+    function unlockAdminPanel() {
+      const inp = document.getElementById(`admin-pin-input`);
+      const msg = document.getElementById(`admin-lock-msg`);
+      const entered = inp ? inp.value.trim() : ``;
+      const expected = appState.adminConfig.pin || `SMS2026`;
+
+      if (entered !== expected) {
+        if (msg) {
+          msg.className = `inline-msg inline-msg--err is-shown`;
+          msg.textContent = `Código inválido. Verifique com o SMS Pensalab (padrão de facilitação: SMS2026).`;
+        }
+        return;
+      }
+
+      uiTransient.adminUnlocked = true;
+      if (msg) msg.className = `inline-msg`;
+      const lockEl = document.getElementById(`admin-lock-screen`);
+      const dashEl = document.getElementById(`admin-dashboard`);
+      if (lockEl) lockEl.style.display = `none`;
+      if (dashEl) dashEl.style.display = `block`;
+      renderAdminDashboard();
+    }
+
+    function lockAdminPanel() {
+      uiTransient.adminUnlocked = false;
+      const lockEl = document.getElementById(`admin-lock-screen`);
+      const dashEl = document.getElementById(`admin-dashboard`);
+      const inp = document.getElementById(`admin-pin-input`);
+      if (inp) inp.value = ``;
+      if (lockEl) lockEl.style.display = `block`;
+      if (dashEl) dashEl.style.display = `none`;
+    }
+
+    function syncMinScoreFromSlider(val) {
+      const numEl = document.getElementById(`admin-min-score-number`);
+      if (numEl) numEl.value = val;
+      applyMinScoreChange(Number(val));
+    }
+
+    function syncMinScoreFromNumber(val) {
+      const clamped = Math.max(50, Math.min(100, Number(val) || 70));
+      const sliderEl = document.getElementById(`admin-min-score-slider`);
+      if (sliderEl) sliderEl.value = String(clamped);
+      applyMinScoreChange(clamped);
+    }
+
+    function applyMinScoreChange(newMin) {
+      appState.adminConfig.minPassingScore = newMin;
+      /* Re-evaluate stored history statuses against new threshold */
+      appState.history = appState.history.map((h) => {
+        if (h.finalScore !== null && h.finalScore !== undefined) {
+          const ok = h.finalScore >= newMin;
+          return {
+            ...h,
+            statusCode: ok ? `approved` : `review`,
+            statusLabel: ok ? `Aprovado` : `Em Reforço`
+          };
+        }
+        return h;
+      });
+      const msg = document.getElementById(`admin-score-msg`);
+      if (msg) msg.textContent = `Nota mínima atual configurada: ${newMin}% (critérios atualizados)`;
+      updateProgressStrip();
+      renderAdminDashboard();
+      persistState();
+    }
+
+    function updateAdminPin() {
+      const inp = document.getElementById(`admin-new-pin`);
+      const msg = document.getElementById(`admin-pin-msg`);
+      const newPin = inp ? inp.value.trim() : ``;
+      if (newPin.length < 4) {
+        if (msg) {
+          msg.className = `inline-msg inline-msg--err is-shown`;
+          msg.textContent = `Informe um código com pelo menos 4 caracteres.`;
+        }
+        return;
+      }
+      appState.adminConfig.pin = newPin;
+      if (inp) inp.value = ``;
+      if (msg) {
+        msg.className = `inline-msg inline-msg--ok is-shown`;
+        msg.textContent = `Código de acesso SMS atualizado com sucesso.`;
+      }
+      persistState();
+    }
+
+    function renderAdminDashboard() {
+      const minScore = Number(appState.adminConfig.minPassingScore) || 70;
+      const sliderEl = document.getElementById(`admin-min-score-slider`);
+      const numEl = document.getElementById(`admin-min-score-number`);
+      if (sliderEl) sliderEl.value = String(minScore);
+      if (numEl) numEl.value = String(minScore);
+
+      const records = appState.history || [];
+      const approvedCount = records.filter((r) => r.statusCode === `approved`).length;
+      const reviewCount = records.filter((r) => r.statusCode === `review`).length;
+      const graded = records.filter((r) => r.finalScore !== null && r.finalScore !== undefined);
+      const avgScore = graded.length > 0
+        ? Math.round(graded.reduce((acc, r) => acc + r.finalScore, 0) / graded.length)
+        : 0;
+
+      const kpiGrid = document.getElementById(`admin-kpi-grid`);
+      if (kpiGrid) {
+        kpiGrid.innerHTML = `
+          <div class="report-kpi">
+            <span class="label-mono">PARTICIPANTES REGISTRADOS</span>
+            <div class="report-kpi-val">${records.length}</div>
+          </div>
+          <div class="report-kpi" style="border-left-color:var(--positive);">
+            <span class="label-mono">APROVADOS (≥ ${minScore}%)</span>
+            <div class="report-kpi-val" style="color:var(--positive);">${approvedCount}</div>
+          </div>
+          <div class="report-kpi" style="border-left-color:var(--warning);">
+            <span class="label-mono">EM REFORÇO</span>
+            <div class="report-kpi-val" style="color:var(--warning);">${reviewCount}</div>
+          </div>
+          <div class="report-kpi">
+            <span class="label-mono">MÉDIA DA AVALIAÇÃO</span>
+            <div class="report-kpi-val">${graded.length > 0 ? `${avgScore}%` : `—`}</div>
+          </div>
+        `;
+      }
+
+      const searchEl = document.getElementById(`admin-search`);
+      const filterEl = document.getElementById(`admin-filter-status`);
+      const q = searchEl ? searchEl.value.trim().toLowerCase() : ``;
+      const statusFilter = filterEl ? filterEl.value : `all`;
+
+      const filtered = records.filter((r) => {
+        const matchSearch = !q ||
+          (r.fullName || ``).toLowerCase().includes(q) ||
+          (r.role || ``).toLowerCase().includes(q) ||
+          (r.unit || ``).toLowerCase().includes(q) ||
+          (r.department || ``).toLowerCase().includes(q);
+        const matchStatus = statusFilter === `all` || r.statusCode === statusFilter;
+        return matchSearch && matchStatus;
+      });
+
+      const tbody = document.getElementById(`admin-history-tbody`);
+      const emptyBox = document.getElementById(`admin-empty-state`);
+      if (tbody) {
+        if (filtered.length === 0) {
+          tbody.innerHTML = ``;
+          if (emptyBox) emptyBox.style.display = `block`;
+        } else {
+          if (emptyBox) emptyBox.style.display = `none`;
+          tbody.innerHTML = filtered.map((r) => {
+            const realIdx = records.indexOf(r);
+            const tagCls = r.statusCode === `approved` ? `mono-tag--green` : (r.statusCode === `review` ? `mono-tag--orange` : ``);
+            return `
+              <tr>
+                <td><strong>${escapeHtml(r.fullName)}</strong></td>
+                <td>${escapeHtml(r.role)}<br><span style="font-size:0.8rem; color:var(--on-surface-variant);">${escapeHtml(r.department)}</span></td>
+                <td>${escapeHtml(r.unit)}</td>
+                <td style="font-family:var(--font-label);">${escapeHtml(r.date)}</td>
+                <td style="font-family:var(--font-label);">${r.pct}%</td>
+                <td style="font-family:var(--font-label);">${r.hits} / ${r.misses}</td>
+                <td style="font-family:var(--font-label);">${r.finalScore !== null && r.finalScore !== undefined ? `${r.finalScore}%` : `—`}</td>
+                <td><span class="mono-tag ${tagCls}">${escapeHtml(r.statusLabel)}</span></td>
+                <td>
+                  <div style="display:flex; gap:var(--space-xs);">
+                    <button type="button" class="btn btn--secondary btn--sm" onclick="inspectAdminRecord(${realIdx})">Detalhes</button>
+                    <button type="button" class="btn btn--ghost btn--sm" onclick="deleteAdminRecord(${realIdx}, this)">Excluir</button>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join(``);
+        }
+      }
+    }
+
+    function inspectAdminRecord(idx) {
+      const drawer = document.getElementById(`admin-detail-drawer`);
+      const r = appState.history[idx];
+      if (!drawer || !r) return;
+      drawer.style.display = `block`;
+      drawer.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm);">
+          <span class="label-mono">DETALHE DO PARTICIPANTE · ${escapeHtml(r.fullName)}</span>
+          <button type="button" class="btn btn--ghost btn--sm" onclick="closeAdminDetail()">Fechar</button>
+        </div>
+        <p style="margin:var(--space-xs) 0;"><strong>Pontos Fortes:</strong> ${r.strengths && r.strengths.length ? escapeHtml(r.strengths.join(`, `)) : `Não mapeados`}</p>
+        <p style="margin:var(--space-xs) 0;"><strong>Pontos de Reforço:</strong> ${r.reinforce && r.reinforce.length ? escapeHtml(r.reinforce.join(`, `)) : `Nenhum`}</p>
+        <p style="margin:0;"><strong>Atitude de Segurança Declarada:</strong> ${escapeHtml(r.personalAttitude || `Não registrada`)}</p>
+      `;
+    }
+
+    function closeAdminDetail() {
+      const drawer = document.getElementById(`admin-detail-drawer`);
+      if (drawer) drawer.style.display = `none`;
+    }
+
+    function deleteAdminRecord(idx, btn) {
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Confirmar`;
+        return;
+      }
+      appState.history.splice(idx, 1);
+      closeAdminDetail();
+      renderAdminDashboard();
+      persistState();
+    }
+
+    function clearAdminHistory(btn) {
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Confirmar limpeza total do histórico`;
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.textContent = `Limpar todo o histórico`;
+      appState.history = [];
+      closeAdminDetail();
+      renderAdminDashboard();
+      persistState();
+    }
+
+    function exportAllHistoryCsv() {
+      const headers = [
+        `Nome Completo`, `Cargo`, `Departamento`, `Unidade`, `Data`,
+        `Conclusao (%)`, `Acertos`, `Erros`, `Nota Final (%)`, `Status`,
+        `Pontos Fortes`, `Pontos de Reforco`, `Atitude de Seguranca`
+      ];
+      const rows = (appState.history || []).map((r) => [
+        r.fullName, r.role, r.department, r.unit, r.date,
+        r.pct, r.hits, r.misses,
+        r.finalScore !== null && r.finalScore !== undefined ? r.finalScore : `Pendente`,
+        r.statusLabel,
+        (r.strengths || []).join(`; `),
+        (r.reinforce || []).join(`; `),
+        r.personalAttitude || ``
+      ]);
+      const csv = [headers, ...rows].map((row) => row.map(csvCell).join(`;`)).join(`\n`) + `\n`;
+      downloadCsvContent(csv, `historico_sms_pensalab_fatores_humanos.csv`);
+    }
+
+    /* ============================================================
+       UTILITIES & INITIALIZATION
+       ============================================================ */
+
+    function escapeHtml(str) {
+      return String(str === null || str === undefined ? `` : str)
+        .replace(/&/g, `&amp;`)
+        .replace(/</g, `&lt;`)
+        .replace(/>/g, `&gt;`)
+        .replace(/"/g, `&quot;`)
+        .replace(/'/g, `&#39;`);
+    }
+
+    async function initApp() {
+      await loadState();
+      renderWelcomeView();
+      updateProgressStrip();
+      switchView(appState.currentView || `welcome`);
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
