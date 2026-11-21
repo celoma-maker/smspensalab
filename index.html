@@ -1003,7 +1003,7 @@
     <div class="progress-strip-inner">
       <div class="participant-summary">
         <span class="mono-tag" id="strip-participant-name">Participante não identificado</span>
-        <span class="mono-tag mono-tag--orange" id="strip-sync-status">Salvo localmente</span>
+        <span class="mono-tag mono-tag--orange" id="strip-sync-status">Progresso neste dispositivo</span>
       </div>
       <div class="progress-bar-wrap">
         <div class="progress-bar-meta">
@@ -1064,8 +1064,8 @@
           <p class="prose-limit">Capacitação corporativa interativa de SMS da Pensalab baseada nos treinamentos conduzidos por <strong>Marcelo Alves – SMS Pensalab</strong>. Em quase todo acidente existe uma pessoa envolvida, mas quase nunca a causa é apenas a pessoa.</p>
 
           <div class="card--low card--accent-orange" style="margin-top:var(--space-md);">
-            <span class="label-mono" style="color:var(--on-warning-container);">AVISO SOBRE ARMAZENAMENTO LOCAL</span>
-            <p style="margin:0; font-size:0.875rem;">Seu progresso, respostas e notas são salvos localmente no dispositivo/sessão para evitar perda durante o treinamento. <strong>O armazenamento local não substitui um banco de dados corporativo centralizado</strong> — ao concluir, exporte seu relatório em PDF ou CSV e envie ao SMS.</p>
+            <span class="label-mono" style="color:var(--on-warning-container);">SOBRE O SALVAMENTO</span>
+            <p style="margin:0; font-size:0.875rem;">Durante a trilha, o progresso parcial fica salvo neste dispositivo. Ao registrar a conclusão, o resultado é enviado ao banco corporativo centralizado do Supabase e poderá ser consultado pelo Painel SMS em outro navegador.</p>
           </div>
 
           <h3 class="subhead-title" style="margin-top:var(--space-lg);">Jornada em 10 Módulos</h3>
@@ -1184,19 +1184,21 @@
 
     <!-- ==================== VIEW 4: PAINEL ADMINISTRATIVO SMS ==================== -->
     <section id="view-admin" class="view-panel" aria-label="Painel Administrativo SMS">
-      <!-- Auth Gate -->
+      <!-- Auth Gate: Supabase Auth -->
       <div id="admin-lock-screen" class="card card--accent-navy" style="max-width:520px; margin:var(--space-xl) auto;">
         <span class="label-mono">ÁREA RESTRITA · GESTÃO SMS</span>
         <h2 class="section-title">Painel Administrativo SMS Pensalab</h2>
-        <p style="color:var(--on-surface-variant);">Informe o código de acesso SMS para consultar participantes, resultados, histórico de treinamentos e configurar a nota mínima de aprovação.</p>
+        <p style="color:var(--on-surface-variant);">Entre com o e-mail e a senha do usuário administrador cadastrado no Supabase.</p>
         <div class="form-field" style="margin-top:var(--space-md);">
-          <label class="field-label" for="admin-pin-input">Código de acesso SMS</label>
-          <input type="password" id="admin-pin-input" class="field-input" placeholder="Digite o código SMS">
-          <span style="font-size:0.8125rem; color:var(--on-surface-variant);">Código padrão de facilitação SMS: <strong style="font-family:var(--font-label);">SMS2026</strong></span>
+          <label class="field-label" for="admin-email-input">E-mail do administrador</label>
+          <input type="email" id="admin-email-input" class="field-input" placeholder="seu.email@pensalab.com.br" autocomplete="username" required>
+        </div>
+        <div class="form-field" style="margin-top:var(--space-md);">
+          <label class="field-label" for="admin-password-input">Senha</label>
+          <input type="password" id="admin-password-input" class="field-input" placeholder="Senha do Supabase" autocomplete="current-password" required>
         </div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); margin-top:var(--space-md);">
-          <button type="button" class="btn btn--navy" onclick="unlockAdminPanel()">Acessar Painel SMS</button>
-          <button type="button" class="btn btn--ghost" onclick="fillDemoAdminPin()">Preencher código padrão</button>
+          <button type="button" class="btn btn--navy" onclick="unlockAdminPanel()">Entrar no Painel SMS</button>
         </div>
         <div class="inline-msg" id="admin-lock-msg"></div>
       </div>
@@ -1235,21 +1237,12 @@
             <div class="inline-msg inline-msg--ok is-shown" id="admin-score-msg" style="margin-top:var(--space-md);">Nota mínima atual configurada: 70%</div>
           </div>
 
-          <!-- Change PIN & Quick Actions -->
+          <!-- Secure session information -->
           <div class="card">
             <span class="label-mono">SEGURANÇA E MANUTENÇÃO</span>
-            <h3 class="subhead-title">Código de Acesso e Registros</h3>
-            <div class="form-field" style="margin-top:var(--space-sm);">
-              <label class="field-label" for="admin-new-pin">Alterar código de acesso SMS</label>
-              <div style="display:flex; gap:var(--space-sm); align-items:end;">
-                <input type="text" id="admin-new-pin" class="field-input" placeholder="Novo código (mín. 4 caracteres)">
-                <button type="button" class="btn btn--secondary" onclick="updateAdminPin()">Atualizar</button>
-              </div>
-            </div>
-            <div class="inline-msg" id="admin-pin-msg"></div>
-            <div style="margin-top:var(--space-md); padding-top:var(--space-md); border-top:var(--rule); display:flex; flex-wrap:wrap; gap:var(--space-sm);">
-              <button type="button" class="btn btn--ghost btn--sm" onclick="clearAdminHistory(this)">Limpar todo o histórico</button>
-            </div>
+            <h3 class="subhead-title">Sessão administrativa</h3>
+            <p style="font-size:0.875rem; color:var(--on-surface-variant);">O acesso ao histórico é validado pelo Supabase Auth e pelas políticas de segurança do banco de dados. Para encerrar o acesso, utilize o botão “Bloquear Painel”.</p>
+            <div class="inline-msg inline-msg--ok is-shown" id="admin-auth-status">Sessão administrativa autenticada.</div>
           </div>
         </div>
 
@@ -1257,7 +1250,7 @@
         <div class="card">
           <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:var(--space-md); margin-bottom:var(--space-md);">
             <div>
-              <span class="label-mono">REGISTROS SALVOS LOCALMENTE</span>
+              <span class="label-mono">REGISTROS CENTRALIZADOS NO SUPABASE</span>
               <h3 class="subhead-title" style="margin:0;">Histórico de Participantes e Resultados</h3>
             </div>
             <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); align-items:end;">
@@ -1289,7 +1282,7 @@
                   <th>Acertos / Erros</th>
                   <th>Nota Final</th>
                   <th>Status</th>
-                  <th>Ações</th>
+                  <th>Detalhes</th>
                 </tr>
               </thead>
               <tbody id="admin-history-tbody"></tbody>
@@ -1307,7 +1300,17 @@
 
   <api-shim></api-shim>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    // Configuração pública do Supabase. A chave publishable pode ficar no site.
+    // Substitua o texto sb_publishable_Mb1dMR3WkLxTytb3sIA_PA_Tv6NV5hF pelo valor do painel Supabase.
+    const SUPABASE_URL = `https://yhvvgyxfssoxlsgdeoik.supabase.co`;
+    const SUPABASE_PUBLISHABLE_KEY = `sb_publishable_Mb1dMR3WkLxTytb3sIA_PA_Tv6NV5hF`;
+    const SUPABASE_FUNCTION_URL = `${SUPABASE_URL}/functions/v1/salvar-treinamento`;
+    const supabaseClient = window.supabase?.createClient
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+      : null;
+
     /* ============================================================
        DATA: 10 MODULES + INTERACTIVE EXERCISES + 10-QUESTION FINAL EXAM
        ============================================================ */
@@ -1980,8 +1983,7 @@
       personalAttitude: ``,
       completedAt: null,
       adminConfig: {
-        minPassingScore: 70,
-        pin: `SMS2026`
+        minPassingScore: 70
       },
       history: []               /* array of completed/saved participant records */
     };
@@ -2024,7 +2026,7 @@
 
       if (syncEl) {
         if (localSaved || apiSaved) {
-          syncEl.textContent = localSaved ? `Salvo neste navegador` : `Sincronizado`;
+          syncEl.textContent = localSaved ? `Progresso neste dispositivo` : `Salvo`;
           syncEl.className = `mono-tag mono-tag--green`;
         } else {
           syncEl.textContent = `Falha ao salvar`;
@@ -2270,7 +2272,7 @@
       } else if (viewName === `report`) {
         renderReportView();
       } else if (viewName === `admin`) {
-        if (uiTransient.adminUnlocked) renderAdminDashboard();
+        if (uiTransient.adminUnlocked) loadAdminHistory().catch((err) => console.error(`Falha ao atualizar histórico:`, err));
       }
       persistState();
     }
@@ -2378,7 +2380,7 @@
     function startNewParticipantFlow() {
       /* Preserve history and adminConfig, reset current participant progress */
       if (appState.registered && appState.participant.fullName) {
-        saveCurrentToAdminHistory(false);
+        void saveCurrentToAdminHistory(false);
       }
       appState.participant = getDefaultParticipant();
       appState.registered = false;
@@ -3223,7 +3225,7 @@
       persistState();
     }
 
-    function submitFinalExam() {
+    async function submitFinalExam() {
       const total = FINAL_EXAM_QUESTIONS.length;
       const answered = Object.keys(appState.finalExamAnswers).length;
       const msgEl = document.getElementById(`final-exam-msg`);
@@ -3245,7 +3247,7 @@
       appState.completedAt = new Date().toISOString();
       if (!appState.completedModules.includes(10)) appState.completedModules.push(10);
 
-      saveCurrentToAdminHistory(false);
+      await saveCurrentToAdminHistory(false);
       updateProgressStrip();
       renderModuleRail();
       renderActiveModule();
@@ -3539,21 +3541,20 @@
       }
     }
 
-    function saveCurrentToAdminHistory(showFeedback) {
+    async function saveCurrentToAdminHistory(showFeedback) {
       const msg = document.getElementById(`report-action-msg`);
       if (!appState.participant.fullName) {
         if (showFeedback && msg) {
           msg.className = `inline-msg inline-msg--warn is-shown`;
           msg.textContent = `Preencha a identificação do participante antes de registrar no histórico SMS.`;
         }
-        return;
+        return false;
       }
 
       const stats = computeStats();
       const p = appState.participant;
       const { strengths, reinforce } = analyzeStrengthsAndReinforcement();
       const recordKey = `${p.fullName.trim().toLowerCase()}|${p.date}`;
-
       const entry = {
         key: recordKey,
         fullName: p.fullName,
@@ -3570,17 +3571,60 @@
         strengths,
         reinforce,
         personalAttitude: appState.personalAttitude || ``,
+        completedAt: appState.completedAt,
         updatedAt: new Date().toISOString()
       };
 
-      const existingIdx = appState.history.findIndex((h) => h.key === recordKey);
-      if (existingIdx >= 0) appState.history[existingIdx] = entry;
-      else appState.history.unshift(entry);
+      if (!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.startsWith(`COLE_`)) {
+        if (showFeedback && msg) {
+          msg.className = `inline-msg inline-msg--err is-shown`;
+          msg.textContent = `A configuração do Supabase ainda não foi concluída. O resultado não foi enviado ao histórico central.`;
+        }
+        return false;
+      }
 
-      persistState();
       if (showFeedback && msg) {
-        msg.className = `inline-msg inline-msg--ok is-shown`;
-        msg.textContent = `Registro de ${p.fullName} salvo no histórico do Painel Administrativo SMS.`;
+        msg.className = `inline-msg is-shown`;
+        msg.textContent = `Enviando resultado ao histórico central...`;
+      }
+
+      try {
+        const response = await fetch(SUPABASE_FUNCTION_URL, {
+          method: `POST`,
+          headers: {
+            apikey: SUPABASE_PUBLISHABLE_KEY,
+            "Content-Type": `application/json`
+          },
+          body: JSON.stringify({
+            participant_name: p.fullName,
+            participant_role: p.role,
+            department: p.department,
+            unit: p.unit,
+            training_date: p.date,
+            result: entry
+          })
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.error || `Falha HTTP ${response.status}`);
+        }
+        entry.id = payload.id;
+        const existingIdx = appState.history.findIndex((h) => h.key === recordKey);
+        if (existingIdx >= 0) appState.history[existingIdx] = entry;
+        else appState.history.unshift(entry);
+        await persistState();
+        if (showFeedback && msg) {
+          msg.className = `inline-msg inline-msg--ok is-shown`;
+          msg.textContent = `Resultado de ${p.fullName} enviado ao histórico central do SMS.`;
+        }
+        return true;
+      } catch (err) {
+        console.error(`Erro ao enviar resultado ao Supabase:`, err);
+        if (showFeedback && msg) {
+          msg.className = `inline-msg inline-msg--err is-shown`;
+          msg.textContent = `Não foi possível enviar ao histórico central. Verifique a conexão e tente novamente. O progresso parcial continua neste dispositivo.`;
+        }
+        return false;
       }
     }
 
@@ -3588,40 +3632,88 @@
        ADMIN PANEL SMS
        ============================================================ */
 
-    function fillDemoAdminPin() {
-      const inp = document.getElementById(`admin-pin-input`);
-      if (inp) inp.value = appState.adminConfig.pin || `SMS2026`;
-    }
-
-    function unlockAdminPanel() {
-      const inp = document.getElementById(`admin-pin-input`);
-      const msg = document.getElementById(`admin-lock-msg`);
-      const entered = inp ? inp.value.trim() : ``;
-      const expected = appState.adminConfig.pin || `SMS2026`;
-
-      if (entered !== expected) {
-        if (msg) {
-          msg.className = `inline-msg inline-msg--err is-shown`;
-          msg.textContent = `Código inválido. Verifique com o SMS Pensalab (padrão de facilitação: SMS2026).`;
-        }
-        return;
-      }
-
-      uiTransient.adminUnlocked = true;
-      if (msg) msg.className = `inline-msg`;
-      const lockEl = document.getElementById(`admin-lock-screen`);
-      const dashEl = document.getElementById(`admin-dashboard`);
-      if (lockEl) lockEl.style.display = `none`;
-      if (dashEl) dashEl.style.display = `block`;
+    async function loadAdminHistory() {
+      if (!supabaseClient) throw new Error(`Cliente Supabase indisponível.`);
+      const { data, error } = await supabaseClient
+        .from(`training_records`)
+        .select(`id, participant_name, participant_role, department, unit, training_date, result, created_at`)
+        .order(`created_at`, { ascending: false });
+      if (error) throw error;
+      appState.history = (data || []).map((row) => {
+        const saved = row.result && typeof row.result === `object` ? row.result : {};
+        return {
+          ...saved,
+          id: row.id,
+          fullName: saved.fullName || row.participant_name,
+          role: saved.role || row.participant_role || ``,
+          department: saved.department || row.department || ``,
+          unit: saved.unit || row.unit || ``,
+          date: saved.date || row.training_date || ``,
+          pct: Number(saved.pct) || 0,
+          hits: Number(saved.hits) || 0,
+          misses: Number(saved.misses) || 0,
+          statusCode: saved.statusCode || `pending`,
+          statusLabel: saved.statusLabel || `Em Andamento`,
+          strengths: Array.isArray(saved.strengths) ? saved.strengths : [],
+          reinforce: Array.isArray(saved.reinforce) ? saved.reinforce : []
+        };
+      });
       renderAdminDashboard();
     }
 
-    function lockAdminPanel() {
+    async function unlockAdminPanel() {
+      const email = document.getElementById(`admin-email-input`)?.value.trim() || ``;
+      const password = document.getElementById(`admin-password-input`)?.value || ``;
+      const msg = document.getElementById(`admin-lock-msg`);
+      if (!supabaseClient || SUPABASE_PUBLISHABLE_KEY.startsWith(`COLE_`)) {
+        if (msg) {
+          msg.className = `inline-msg inline-msg--err is-shown`;
+          msg.textContent = `Configure primeiro a chave publishable do Supabase no arquivo do site.`;
+        }
+        return;
+      }
+      if (!email || !password) {
+        if (msg) {
+          msg.className = `inline-msg inline-msg--warn is-shown`;
+          msg.textContent = `Informe o e-mail e a senha do administrador.`;
+        }
+        return;
+      }
+      if (msg) {
+        msg.className = `inline-msg is-shown`;
+        msg.textContent = `Validando acesso...`;
+      }
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        if (msg) {
+          msg.className = `inline-msg inline-msg--err is-shown`;
+          msg.textContent = `Não foi possível entrar. Confira o e-mail e a senha do usuário administrador.`;
+        }
+        return;
+      }
+      uiTransient.adminUnlocked = true;
+      document.getElementById(`admin-lock-screen`).style.display = `none`;
+      document.getElementById(`admin-dashboard`).style.display = `block`;
+      try {
+        await loadAdminHistory();
+      } catch (err) {
+        console.error(`Falha ao carregar histórico central:`, err);
+        if (msg) {
+          msg.className = `inline-msg inline-msg--err is-shown`;
+          msg.textContent = `Login realizado, mas não foi possível consultar o histórico. Verifique a política de acesso do administrador.`;
+        }
+      }
+    }
+
+    async function lockAdminPanel() {
+      if (supabaseClient) await supabaseClient.auth.signOut();
       uiTransient.adminUnlocked = false;
       const lockEl = document.getElementById(`admin-lock-screen`);
       const dashEl = document.getElementById(`admin-dashboard`);
-      const inp = document.getElementById(`admin-pin-input`);
-      if (inp) inp.value = ``;
+      const email = document.getElementById(`admin-email-input`);
+      const password = document.getElementById(`admin-password-input`);
+      if (email) email.value = ``;
+      if (password) password.value = ``;
       if (lockEl) lockEl.style.display = `block`;
       if (dashEl) dashEl.style.display = `none`;
     }
@@ -3657,26 +3749,6 @@
       if (msg) msg.textContent = `Nota mínima atual configurada: ${newMin}% (critérios atualizados)`;
       updateProgressStrip();
       renderAdminDashboard();
-      persistState();
-    }
-
-    function updateAdminPin() {
-      const inp = document.getElementById(`admin-new-pin`);
-      const msg = document.getElementById(`admin-pin-msg`);
-      const newPin = inp ? inp.value.trim() : ``;
-      if (newPin.length < 4) {
-        if (msg) {
-          msg.className = `inline-msg inline-msg--err is-shown`;
-          msg.textContent = `Informe um código com pelo menos 4 caracteres.`;
-        }
-        return;
-      }
-      appState.adminConfig.pin = newPin;
-      if (inp) inp.value = ``;
-      if (msg) {
-        msg.className = `inline-msg inline-msg--ok is-shown`;
-        msg.textContent = `Código de acesso SMS atualizado com sucesso.`;
-      }
       persistState();
     }
 
@@ -3756,7 +3828,6 @@
                 <td>
                   <div style="display:flex; gap:var(--space-xs);">
                     <button type="button" class="btn btn--secondary btn--sm" onclick="inspectAdminRecord(${realIdx})">Detalhes</button>
-                    <button type="button" class="btn btn--ghost btn--sm" onclick="deleteAdminRecord(${realIdx}, this)">Excluir</button>
                   </div>
                 </td>
               </tr>
@@ -3785,32 +3856,6 @@
     function closeAdminDetail() {
       const drawer = document.getElementById(`admin-detail-drawer`);
       if (drawer) drawer.style.display = `none`;
-    }
-
-    function deleteAdminRecord(idx, btn) {
-      if (btn.dataset.armed !== `true`) {
-        btn.dataset.armed = `true`;
-        btn.textContent = `Confirmar`;
-        return;
-      }
-      appState.history.splice(idx, 1);
-      closeAdminDetail();
-      renderAdminDashboard();
-      persistState();
-    }
-
-    function clearAdminHistory(btn) {
-      if (btn.dataset.armed !== `true`) {
-        btn.dataset.armed = `true`;
-        btn.textContent = `Confirmar limpeza total do histórico`;
-        return;
-      }
-      btn.dataset.armed = `false`;
-      btn.textContent = `Limpar todo o histórico`;
-      appState.history = [];
-      closeAdminDetail();
-      renderAdminDashboard();
-      persistState();
     }
 
     function exportAllHistoryCsv() {
@@ -3847,6 +3892,17 @@
 
     async function initApp() {
       await loadState();
+      if (supabaseClient && !SUPABASE_PUBLISHABLE_KEY.startsWith(`COLE_`)) {
+        const { data } = await supabaseClient.auth.getSession();
+        if (data?.session) {
+          uiTransient.adminUnlocked = true;
+          const lockEl = document.getElementById(`admin-lock-screen`);
+          const dashEl = document.getElementById(`admin-dashboard`);
+          if (lockEl) lockEl.style.display = `none`;
+          if (dashEl) dashEl.style.display = `block`;
+          loadAdminHistory().catch((err) => console.error(`Falha ao restaurar sessão administrativa:`, err));
+        }
+      }
       renderWelcomeView();
       updateProgressStrip();
       switchView(appState.currentView || `welcome`);
