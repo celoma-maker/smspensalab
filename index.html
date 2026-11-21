@@ -2346,7 +2346,12 @@
 
     function renderWelcomeView() {
       const mascotSlot = document.getElementById(`welcome-mascot-slot`);
-     if (mascotSlot) mascotSlot.innerHTML = `<img src="mascote-pensalab.png" alt="Guardião SMS Pensalab" style="width:190px;height:210px;object-fit:contain;display:block;margin:auto;">`;
+    if (mascotSlot) {
+  mascotSlot.style.width = "160px";
+  mascotSlot.style.height = "180px";
+  mascotSlot.style.flex = "0 0 160px";
+  mascotSlot.innerHTML = `<img src="mascote-pensalab.png" alt="Guardião SMS Pensalab" style="width:155px;height:175px;object-fit:contain;display:block;margin:auto;">`;
+}
 
       const roadmapEl = document.getElementById(`welcome-roadmap-list`);
       if (roadmapEl) {
