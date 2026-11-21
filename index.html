@@ -3288,11 +3288,34 @@
       appState.completedAt = new Date().toISOString();
       if (!appState.completedModules.includes(10)) appState.completedModules.push(10);
 
-      await saveCurrentToAdminHistory(false);
-      updateProgressStrip();
-      renderModuleRail();
-      renderActiveModule();
-      persistState();
+     const finalStats = computeStats();
+let savedToHistory = false;
+
+if (finalStats.statusCode === `approved`) {
+  savedToHistory = await saveCurrentToAdminHistory(false);
+}
+
+updateProgressStrip();
+renderModuleRail();
+renderActiveModule();
+
+const finalMsg = document.getElementById(`final-exam-msg`);
+
+if (finalMsg) {
+  finalMsg.className = savedToHistory
+    ? `inline-msg inline-msg--ok is-shown`
+    : `inline-msg inline-msg--warn is-shown`;
+
+  if (finalStats.statusCode === `approved`) {
+    finalMsg.textContent = savedToHistory
+      ? `Parabéns! Aprovado e registrado automaticamente no Histórico SMS Pensalab.`
+      : `Aprovado, mas não foi possível registrar no histórico central. Tente novamente.`;
+  } else {
+    finalMsg.textContent = `Avaliação concluída. Nota abaixo do mínimo. O resultado não foi enviado ao histórico de aprovados.`;
+  }
+}
+
+persistState();
     }
 
     function resetFinalExam(btn) {
