@@ -885,6 +885,116 @@
     }
 
     .hero-content, .hero-visual { position: relative; z-index: 2; }
+
+    /* ========== PODCAST ========== */
+    .podcast-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 1.4rem;
+      align-items: center;
+      padding: clamp(1rem, .9rem + .8vw, 1.5rem);
+      margin-bottom: var(--space-lg);
+      background:
+        radial-gradient(420px 200px at 100% 0%, rgb(0 180 216 / .12), transparent 70%),
+        linear-gradient(120deg, #ffffff 0%, #f3f8ff 100%);
+      border: var(--rule);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-1);
+    }
+    .podcast-card--compact { grid-template-columns: 110px minmax(0, 1fr); margin-bottom: 0; }
+    .podcast-cover { position: relative; }
+    .podcast-cover svg { width: 100%; height: auto; display: block; border-radius: 22px; box-shadow: 0 18px 34px -16px rgb(11 37 69 / .6); }
+    .podcast-waves { opacity: .35; transition: opacity var(--dur-short); }
+    .podcast-card.is-playing .podcast-waves { opacity: 1; animation: pulseWaves 1.4s ease-in-out infinite; }
+    .podcast-eq {
+      position: absolute; right: 8px; bottom: 8px;
+      display: flex; align-items: flex-end; gap: 3px; height: 20px;
+      padding: 4px 6px; border-radius: 8px; background: rgb(6 18 36 / .55);
+      opacity: 0; transition: opacity var(--dur-short);
+    }
+    .podcast-eq i { width: 3px; height: 30%; border-radius: 2px; background: #7fe3f5; }
+    .podcast-card.is-playing .podcast-eq { opacity: 1; }
+    .podcast-card.is-playing .podcast-eq i { animation: eq 0.9s ease-in-out infinite; }
+    .podcast-eq i:nth-child(2) { animation-delay: -.3s !important; }
+    .podcast-eq i:nth-child(3) { animation-delay: -.6s !important; }
+    .podcast-eq i:nth-child(4) { animation-delay: -.15s !important; }
+    .podcast-eq i:nth-child(5) { animation-delay: -.45s !important; }
+    .podcast-desc { margin: 0 0 .9rem 0; color: var(--on-surface-variant); font-size: .93rem; max-width: 70ch; }
+    .podcast-player { display: flex; align-items: center; gap: .9rem; }
+    .podcast-play {
+      width: 56px; height: 56px; flex-shrink: 0;
+      display: grid; place-items: center;
+      border: 0; border-radius: 50%;
+      background: var(--grad-warning); color: #fff;
+      box-shadow: var(--glow-warning);
+      cursor: pointer;
+      transition: transform var(--dur-micro) var(--ease-out), filter var(--dur-micro);
+    }
+    .podcast-play:hover { transform: scale(1.06); filter: brightness(1.05); }
+    .podcast-play svg { margin-left: 2px; }
+    .podcast-card.is-playing .podcast-play svg, #podcast-mini.is-playing .podcast-play svg { margin-left: 0; }
+    .podcast-track { flex: 1; min-width: 0; }
+    input.podcast-seek {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 8px; min-height: 0; margin: 8px 0 4px;
+      border-radius: 99px; cursor: pointer;
+      background: linear-gradient(90deg, var(--primary) 0, var(--accent) var(--p, 0%), var(--surface-container-high) var(--p, 0%));
+    }
+    .podcast-seek::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+      background: #fff; border: 4px solid var(--primary); box-shadow: 0 2px 8px rgb(11 37 69 / .3);
+    }
+    .podcast-seek::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 4px solid var(--primary); }
+    .podcast-times { display: flex; justify-content: space-between; font-family: var(--font-label); font-size: .72rem; color: var(--on-surface-variant); }
+    .podcast-speed {
+      min-width: 54px; min-height: 40px; padding: 0 .6rem;
+      font-family: var(--font-label); font-weight: 700; font-size: .8rem;
+      color: var(--primary); background: #fff;
+      border: 1.5px solid #c9dbf7; border-radius: 10px; cursor: pointer;
+    }
+    .podcast-speed:hover { background: var(--primary-container); }
+    .podcast-missing { display: none; margin: .7rem 0 0; padding: .55rem .8rem; border-radius: 10px; font-size: .84rem; font-weight: 600; background: var(--warning-container); color: var(--on-warning-container); }
+    .podcast-card.is-missing .podcast-missing { display: block; }
+    .podcast-card.is-missing .podcast-player { opacity: .45; pointer-events: none; }
+
+    #podcast-mini {
+      position: fixed; right: 20px; bottom: 20px; z-index: 60;
+      display: flex; align-items: center; gap: 12px;
+      max-width: min(380px, calc(100vw - 40px));
+      padding: 8px 10px 8px 8px;
+      background: rgb(11 37 69 / .92);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      color: #fff;
+      border: 1px solid rgb(255 255 255 / .14);
+      border-radius: 999px;
+      box-shadow: 0 20px 40px -14px rgb(0 0 0 / .55);
+      transform: translateY(140%); opacity: 0; pointer-events: none;
+      transition: transform var(--dur-long) var(--ease-out), opacity var(--dur-short);
+    }
+    #podcast-mini.is-shown { transform: none; opacity: 1; pointer-events: auto; }
+    #podcast-mini .podcast-play { width: 44px; height: 44px; }
+    #podcast-mini .podcast-play svg { width: 18px; height: 18px; }
+    .podcast-mini-text { min-width: 0; line-height: 1.25; }
+    .podcast-mini-text strong { display: block; font-size: .82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .podcast-mini-text span { font-family: var(--font-label); font-size: .7rem; color: #7fe3f5; }
+    .podcast-mini-close {
+      width: 32px; height: 32px; flex-shrink: 0; border: 0; border-radius: 50%;
+      background: rgb(255 255 255 / .1); color: #fff; cursor: pointer; font-size: 1rem; line-height: 1;
+    }
+    .podcast-mini-close:hover { background: rgb(255 255 255 / .2); }
+
+    @keyframes eq { 0%, 100% { height: 25%; } 50% { height: 100%; } }
+    @keyframes pulseWaves { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+
+    @media (max-width: 640px) {
+      .podcast-card, .podcast-card--compact { grid-template-columns: 84px minmax(0, 1fr); gap: .9rem; }
+      .podcast-desc { display: none; }
+      .podcast-player { flex-wrap: wrap; gap: .6rem; }
+      .podcast-play { width: 48px; height: 48px; }
+      #podcast-mini { right: 12px; left: 12px; bottom: 12px; max-width: none; }
+    }
+    @media print { .podcast-card, #podcast-mini, #podcast-audio { display: none !important; } }
   </style>
 </head>
 <body>
@@ -1074,6 +1184,8 @@
           </div>
         </div>
       </div>
+
+      <div id="welcome-podcast-slot"></div>
 
       <div class="welcome-grid">
         <!-- Left Column: Mascot & Program Overview -->
@@ -1348,6 +1460,17 @@
     </section>
 
   </main>
+
+  <!-- Podcast: um único elemento de áudio para todo o curso -->
+  <audio id="podcast-audio" preload="metadata" src="podcast-fatores-humanos.m4a"></audio>
+  <div id="podcast-mini" class="no-print" role="region" aria-label="Podcast em reprodução">
+    <button type="button" class="podcast-play" onclick="togglePodcast()" data-podcast-play aria-label="Reproduzir podcast"></button>
+    <div class="podcast-mini-text">
+      <strong>Podcast · Fatores Humanos</strong>
+      <span><span data-podcast-cur>0:00</span> / <span data-podcast-dur>14:46</span></span>
+    </div>
+    <button type="button" class="podcast-mini-close" onclick="closePodcastMini()" aria-label="Fechar mini player">✕</button>
+  </div>
 
   <api-shim></api-shim>
 
@@ -2361,6 +2484,9 @@
   mascotSlot.innerHTML = `<img src="mascote-pensalab.png" alt="Guardião SMS Pensalab" onerror="if(window.renderMascotSvg){this.parentElement.innerHTML=renderMascotSvg('guide')}else{this.dataset.fallback='guide'}">`;
 }
 
+      const podcastSlot = document.getElementById(`welcome-podcast-slot`);
+      if (podcastSlot) podcastSlot.innerHTML = renderPodcastCard(false);
+
       const roadmapEl = document.getElementById(`welcome-roadmap-list`);
       if (roadmapEl) {
         roadmapEl.innerHTML = MODULES.map((m) => `
@@ -2395,6 +2521,7 @@
           resumeBanner.style.display = `none`;
         }
       }
+      syncPodcastUI();
     }
 
     function handleParticipantSubmit(event) {
@@ -2638,6 +2765,7 @@
       `;
 
       canvas.innerHTML = html;
+      syncPodcastUI();
     }
 
     /* ============================================================
@@ -2870,9 +2998,194 @@
       setTimeout(() => layer.remove(), 4800);
     }
 
+    /* ============================================================
+       PODCAST DO TREINAMENTO (player único, reaproveitado em várias telas)
+       ============================================================ */
+
+    const PODCAST = {
+      src: `podcast-fatores-humanos.m4a`,
+      title: `Fatores Humanos na Segurança do Trabalho`,
+      fallbackDuration: 886
+    };
+    const PODCAST_POS_KEY = `pensalab_podcast_pos_v1`;
+    const PODCAST_SPEEDS = [1, 1.25, 1.5, 0.75];
+    let podcastMiniDismissed = false;
+    let podcastMissing = false;
+
+    const ICON_PLAY = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>`;
+    const ICON_PAUSE = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="6" y="5" width="4.5" height="14" rx="1.5" fill="currentColor"/><rect x="13.5" y="5" width="4.5" height="14" rx="1.5" fill="currentColor"/></svg>`;
+
+    function fmtTime(sec) {
+      const s = Math.max(0, Math.floor(Number(sec) || 0));
+      return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, `0`)}`;
+    }
+
+    function getPodcastAudio() {
+      return document.getElementById(`podcast-audio`);
+    }
+
+    function renderPodcastCover(k) {
+      return `
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="pc-bg-${k}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b2545"/><stop offset="1" stop-color="#1565d8"/></linearGradient>
+            <linearGradient id="pc-mic-${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb703"/><stop offset="1" stop-color="#ff7a1a"/></linearGradient>
+          </defs>
+          <rect width="120" height="120" rx="26" fill="url(#pc-bg-${k})"/>
+          <circle cx="96" cy="18" r="34" fill="#fff" opacity=".07"/>
+          <g class="podcast-waves" stroke="#7fe3f5" stroke-width="3" fill="none" stroke-linecap="round">
+            <path d="M30 44 q-8 14 0 28"/><path d="M22 38 q-13 20 0 40" opacity=".6"/>
+            <path d="M90 44 q8 14 0 28"/><path d="M98 38 q13 20 0 40" opacity=".6"/>
+          </g>
+          <rect x="47" y="26" width="26" height="44" rx="13" fill="url(#pc-mic-${k})"/>
+          <g stroke="#fff" stroke-opacity=".5" stroke-width="2"><line x1="52" y1="38" x2="68" y2="38"/><line x1="52" y1="46" x2="68" y2="46"/><line x1="52" y1="54" x2="68" y2="54"/></g>
+          <path d="M40 58 q0 22 20 22 q20 0 20 -22" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <line x1="60" y1="80" x2="60" y2="94" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+          <line x1="48" y1="96" x2="72" y2="96" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+        </svg>`;
+    }
+
+    function renderPodcastCard(compact) {
+      return `
+        <div class="podcast-card ${compact ? `podcast-card--compact` : ``}" data-podcast-card>
+          <div class="podcast-cover">${renderPodcastCover(compact ? `c` : `w`)}
+            <div class="podcast-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="podcast-body">
+            <span class="label-mono">${compact ? `PODCAST · OUÇA ANTES DE COMEÇAR` : `PODCAST OFICIAL DO TREINAMENTO`}</span>
+            <h3 class="subhead-title">${PODCAST.title}</h3>
+            <p class="podcast-desc">${compact
+              ? `Um bate-papo de cerca de 15 minutos que apresenta os conceitos da trilha. Ouça no seu ritmo — o áudio continua tocando enquanto você navega pelos módulos.`
+              : `Episódio de áudio com os principais conceitos de Fatores Humanos aplicados à rotina da Pensalab. Ideal para ouvir no deslocamento, na base ou antes de iniciar a trilha.`}</p>
+            <div class="podcast-player">
+              <button type="button" class="podcast-play" onclick="togglePodcast()" data-podcast-play aria-label="Reproduzir podcast">${ICON_PLAY}</button>
+              <div class="podcast-track">
+                <input type="range" class="podcast-seek" min="0" max="1000" step="1" value="0" oninput="seekPodcast(this.value)" aria-label="Posição do podcast" data-podcast-seek>
+                <div class="podcast-times"><span data-podcast-cur>0:00</span><span data-podcast-dur>${fmtTime(PODCAST.fallbackDuration)}</span></div>
+              </div>
+              <button type="button" class="podcast-speed" onclick="cyclePodcastSpeed()" data-podcast-speed aria-label="Velocidade de reprodução">1×</button>
+            </div>
+            <p class="podcast-missing" data-podcast-missing>Áudio não encontrado. Envie o arquivo <code>${PODCAST.src}</code> para a mesma pasta do <code>index.html</code> no GitHub.</p>
+          </div>
+        </div>`;
+    }
+
+    function syncPodcastUI() {
+      const a = getPodcastAudio();
+      if (!a) return;
+      const dur = Number.isFinite(a.duration) && a.duration > 0 ? a.duration : PODCAST.fallbackDuration;
+      const ratio = dur ? a.currentTime / dur : 0;
+      const playing = !a.paused && !a.ended;
+
+      document.querySelectorAll(`[data-podcast-cur]`).forEach((el) => { el.textContent = fmtTime(a.currentTime); });
+      document.querySelectorAll(`[data-podcast-dur]`).forEach((el) => { el.textContent = fmtTime(dur); });
+      document.querySelectorAll(`[data-podcast-seek]`).forEach((el) => {
+        if (document.activeElement !== el) el.value = String(Math.round(ratio * 1000));
+        el.style.setProperty(`--p`, `${(ratio * 100).toFixed(2)}%`);
+      });
+      document.querySelectorAll(`[data-podcast-play]`).forEach((el) => {
+        el.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
+        el.setAttribute(`aria-label`, playing ? `Pausar podcast` : `Reproduzir podcast`);
+      });
+      document.querySelectorAll(`[data-podcast-speed]`).forEach((el) => {
+        el.textContent = `${String(a.playbackRate).replace(`.`, `,`)}×`;
+      });
+      document.querySelectorAll(`[data-podcast-card]`).forEach((el) => {
+        el.classList.toggle(`is-playing`, playing);
+        el.classList.toggle(`is-missing`, podcastMissing);
+      });
+
+      const mini = document.getElementById(`podcast-mini`);
+      if (mini) {
+        const show = !podcastMiniDismissed && a.currentTime > 0 && !a.ended;
+        mini.classList.toggle(`is-shown`, show);
+        mini.classList.toggle(`is-playing`, playing);
+      }
+    }
+
+    function togglePodcast() {
+      const a = getPodcastAudio();
+      if (!a || podcastMissing) { syncPodcastUI(); return; }
+      podcastMiniDismissed = false;
+      if (a.paused || a.ended) {
+        a.play().catch((err) => console.error(`Não foi possível reproduzir o podcast:`, err));
+      } else {
+        a.pause();
+      }
+    }
+
+    function seekPodcast(val) {
+      const a = getPodcastAudio();
+      if (!a) return;
+      const dur = Number.isFinite(a.duration) && a.duration > 0 ? a.duration : PODCAST.fallbackDuration;
+      a.currentTime = (Number(val) / 1000) * dur;
+      syncPodcastUI();
+    }
+
+    function cyclePodcastSpeed() {
+      const a = getPodcastAudio();
+      if (!a) return;
+      const idx = PODCAST_SPEEDS.indexOf(a.playbackRate);
+      a.playbackRate = PODCAST_SPEEDS[(idx + 1) % PODCAST_SPEEDS.length];
+      syncPodcastUI();
+    }
+
+    function closePodcastMini() {
+      const a = getPodcastAudio();
+      if (a) a.pause();
+      podcastMiniDismissed = true;
+      syncPodcastUI();
+    }
+
+    function initPodcast() {
+      const a = getPodcastAudio();
+      if (!a) return;
+      let lastSaved = 0;
+
+      a.addEventListener(`loadedmetadata`, () => {
+        try {
+          const saved = Number(window.localStorage.getItem(PODCAST_POS_KEY));
+          if (saved > 5 && saved < a.duration - 5) a.currentTime = saved;
+        } catch (err) { /* armazenamento indisponível */ }
+        syncPodcastUI();
+      });
+      a.addEventListener(`timeupdate`, () => {
+        syncPodcastUI();
+        if (Math.abs(a.currentTime - lastSaved) > 5) {
+          lastSaved = a.currentTime;
+          try { window.localStorage.setItem(PODCAST_POS_KEY, String(Math.floor(a.currentTime))); } catch (err) { /* ignora */ }
+        }
+      });
+      a.addEventListener(`play`, syncPodcastUI);
+      a.addEventListener(`pause`, syncPodcastUI);
+      a.addEventListener(`ratechange`, syncPodcastUI);
+      a.addEventListener(`ended`, () => {
+        try { window.localStorage.removeItem(PODCAST_POS_KEY); } catch (err) { /* ignora */ }
+        syncPodcastUI();
+      });
+      a.addEventListener(`error`, () => {
+        podcastMissing = true;
+        syncPodcastUI();
+      });
+
+      if (`mediaSession` in navigator && window.MediaMetadata) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: PODCAST.title,
+          artist: `SMS Pensalab · Marcelo Alves`,
+          album: `Fatores Humanos – Nós Somos a Solução`
+        });
+        navigator.mediaSession.setActionHandler(`play`, () => a.play());
+        navigator.mediaSession.setActionHandler(`pause`, () => a.pause());
+        navigator.mediaSession.setActionHandler(`seekbackward`, () => { a.currentTime = Math.max(0, a.currentTime - 15); });
+        navigator.mediaSession.setActionHandler(`seekforward`, () => { a.currentTime = Math.min(a.duration || 0, a.currentTime + 15); });
+      }
+      syncPodcastUI();
+    }
+
     function renderModule1Content() {
       const b = BRADLEY_STAGES[uiTransient.bradleyIdx] || BRADLEY_STAGES[0];
       return `
+        ${renderPodcastCard(true)}
         <div class="card">
           <span class="label-mono">POR QUE FALAR DE FATORES HUMANOS?</span>
           <h3 class="subhead-title">Fatores Humanos × Interações do Trabalho</h3>
@@ -4409,6 +4722,7 @@ async function toggleArchivedParticipants() {
         }
       }
       document.querySelectorAll(`img[data-fallback]`).forEach((img) => { img.parentElement.innerHTML = renderMascotSvg(img.dataset.fallback); });
+      initPodcast();
       renderWelcomeView();
       updateProgressStrip();
       switchView(appState.currentView || `welcome`);
